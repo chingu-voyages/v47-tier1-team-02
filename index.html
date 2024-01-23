@@ -9,8 +9,32 @@
 </head>
 
 <body>
+    <button onclick="openTaskForm()">Add new task</button>
 
-    
+    <div id="task-window">
+        <div id="task-form">
+            <form>
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" required>
+                <br>
+                <label for="activity">Activity:</label>
+                <input type="text" id="activity" name="activity" required>
+                <br>
+                <label for="task-name">Task Name:</label>
+                <input type="text" id="task-name" name="task-name" required>
+                <br>
+                <label for="task-desc">Task description:</label>
+                <input type="text" id="task-desc" name="task-desc" required>
+                <br>
+                <label for="days">Day:</label>
+                <input type="text" id="days" name="days" required>
+                <br>
+                <button type="submit">Submit</button>
+                <button onclick="closeTaskForm()">Close Form</button>
+            </form>
+        </div>
+    </div>
+
     <script src="main.js"></script>
 
 </body>
