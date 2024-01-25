@@ -92,11 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
               // Division for individual task name and checkbox
               taskElement.classList.add('task-element');
-
+              const id = `${fDate}-${task.taskName}-checkbox`;
               taskElement.innerHTML = `
-                  <label class="checkbox-label" for="${fDate}-${task.taskName}-checkbox"> ${task.taskName} </label>
-                  <input type="checkbox" id="${fDate}-${task.taskName}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${fDate}-${task.taskName}-checkbox')">
+                  <label class="checkbox-label" for="${id}"> ${task.taskName} </label>
+                  <input type="checkbox" id="${id}" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
               `;
+              if (date in task.completion) {
+                document.getElementById(id).checked = true;
+              }
               taskList.appendChild(taskElement);
             }
           });
@@ -121,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Prevents other checkboxes from updating when a checkbox belonging to
     same day is updated.
 */
+// eslint-disable-next-line no-unused-vars
 function checkboxStore(id) {
   const date = id.slice(0, 10);
   const name = id.slice(11, -9);
