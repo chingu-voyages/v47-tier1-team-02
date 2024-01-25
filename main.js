@@ -94,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
               taskElement.classList.add('task-element');
 
               taskElement.innerHTML = `
-                  <label class="checkbox-label" for="${date}-${task.taskName}-checkbox"> ${task.taskName} </label>
-                  <input type="checkbox" id="${date}-${task.taskName}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore(${date}-${task.taskName}-checkbox)">
+                  <label class="checkbox-label" for="${fDate}-${task.taskName}-checkbox"> ${task.taskName} </label>
+                  <input type="checkbox" id="${fDate}-${task.taskName}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${fDate}-${task.taskName}-checkbox')">
               `;
               taskList.appendChild(taskElement);
             }
@@ -111,8 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/*  When the checkbox is clicked, identify the checkbox using it's id
+    which is in the format <date-taskName-checkbox>.
+    Match the task name of the checkbox to the one in json
+    if checkbox ticked -> add the date of checkbox to json
+    if checkbox unticked -> remote date from json
+
+    Date stored in json will identify which checkboxes needs to be ticked
+    Prevents other checkboxes from updating when a checkbox belonging to
+    same day is updated.
+*/
 function checkboxStore(id) {
-  const date = id.slice(0,10);
+  const date = id.slice(0, 10);
   const name = id.slice(11, -9);
 
   jsonString.forEach((category) => {
@@ -122,15 +132,12 @@ function checkboxStore(id) {
           const index = task.completion.indexOf(date);
           if (index !== -1) {
             task.completion.splice(index, 1);
-          }
-          else {
+          } else {
             task.completion.push(date);
           }
         }
-        // const newTask = { ...task };
-        // newTask.completion = !(newTask.completion);
       });
     });
   });
-  console.log(jsonString);
+  // console.log(jsonString);
 }
