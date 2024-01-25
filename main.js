@@ -34,5 +34,5 @@ taskForm.addEventListener('submit', (e) => {
       },
     ],
   };
-  console.log(newTask);
+  console.log(JSON.stringify(newTask));
 });
