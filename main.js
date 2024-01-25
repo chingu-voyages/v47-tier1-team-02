@@ -1,5 +1,5 @@
 // Ensure use of Airbnb Javascript style guide.
-
+const tasksJson = [];
 function openTaskForm() {
   document.getElementById('task-window').style.display = 'flex';
 }
@@ -10,9 +10,7 @@ function closeTaskForm() {
 
 const taskForm = document.getElementById('task-form');
 
-taskForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
+function createJson() {
   const category = document.getElementById('category').value;
   const activity = document.getElementById('activity').value;
   const taskName = document.getElementById('task-name').value;
@@ -26,7 +24,7 @@ taskForm.addEventListener('submit', (e) => {
         activityName: activity,
         Tasks: [
           {
-            taskName: taskName,
+            taskName,
             taskDescription: taskDesc,
             days: [days],
           },
@@ -34,5 +32,7 @@ taskForm.addEventListener('submit', (e) => {
       },
     ],
   };
-  console.log(JSON.stringify(newTask));
-});
+  tasksJson.push(newTask);
+  console.log(JSON.stringify(tasksJson));
+  taskForm.reset();
+}
