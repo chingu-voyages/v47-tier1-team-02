@@ -1,6 +1,18 @@
 // Ensure use of Airbnb Javascript style guide.
 
+function dateFormat(date) {
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const yyyy = date.getFullYear();
+  return `${dd}/${mm}/${yyyy}`;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  const date = new Date();
+  const dayNum = date.getDay();
+
+  date.setDate(date.getDate() - dayNum);
+
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   const daysContainer = document.getElementById('mobile-table');
@@ -13,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     dayHeader.classList.add('day-header');
     dayHeader.innerHTML = `
             <button type="button">+</button>
-            <span class="day-name">${day}</span>
+            <span class="day-name">${day} (${dateFormat(date)})</span>
         `;
-
+    date.setDate(date.getDate() + 1);
     const taskList = document.createElement('div');
     taskList.classList.add('task-list');
 
@@ -34,43 +46,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     daysContainer.appendChild(dayDiv);
   });
-});
-
-// Ensure use of Airbnb Javascript style guide.
-
-function openTaskForm() {
-  document.getElementById('task-window').style.display = 'flex';
-}
-
-function closeTaskForm() {
-  document.getElementById('task-window').style.display = 'none';
-}
-
-const taskForm = document.getElementById('task-form');
-
-taskForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const category = document.getElementById('category').value;
-  const activity = document.getElementById('activity').value;
-  const taskName = document.getElementById('task-name').value;
-  const taskDesc = document.getElementById('task-desc').value;
-  const days = document.getElementById('days').value;
-
-  const newTask = {
-    categoryName: category,
-    activityTypes: [
-      {
-        activityName: activity,
-        Tasks: [
-          {
-            taskName,
-            taskDescription: taskDesc,
-            days: [days],
-          },
-        ],
-      },
-    ],
-  };
-  console.log(newTask);
 });
