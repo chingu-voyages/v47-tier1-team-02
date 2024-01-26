@@ -51,7 +51,19 @@ function dateFormat(date) {
   return `${dd}/${mm}/${yyyy}`;
 }
 
+function setMonthName(date) {
+  const months = [
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December',
+  ];
+
+  const monthIndex = date.getMonth();
+  document.getElementById('month-name').innerHTML = `${months[monthIndex]}`;
+}
+
 function loadMatrix(date) {
+  setMonthName(date);
   const dayNum = date.getDay();
 
   // Set date to the last Sunday to build day elements from the top
