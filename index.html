@@ -9,8 +9,33 @@
 </head>
 
 <body>
+    <div id="month">
+        <button type="button" id="prev-month" class="month-button" onclick="prevMonth()"> &lt; </button>
 
-    
+        <div class="dropdown">
+            <button type="button" id="month-name" class="month-button" onclick="changeMonth()">January</button>
+            <div class="dropdown-content" id="months-dropdown">
+                <a href="#" onclick="goToMonth(0)">January</a>
+                <a href="#" onclick="goToMonth(1)">February</a>
+                <a href="#" onclick="goToMonth(2)">March</a>
+                <a href="#" onclick="goToMonth(3)">April</a>
+                <a href="#" onclick="goToMonth(4)">May</a>
+                <a href="#" onclick="goToMonth(5)">June</a>
+                <a href="#" onclick="goToMonth(6)">July</a>
+                <a href="#" onclick="goToMonth(7)">August</a>
+                <a href="#" onclick="goToMonth(8)">September</a>
+                <a href="#" onclick="goToMonth(9)">October</a>
+                <a href="#" onclick="goToMonth(10)">November</a>
+                <a href="#" onclick="goToMonth(11)">December</a>
+            </div>
+        </div>
+
+        <button type="button" id="next-month" class="month-button" onclick="nextMonth()"> &gt; </button>
+    </div>
+
+    <div id="mobile-table" class="mobile-table">
+    </div>
+
     <script src="main.js"></script>
 
 </body>
