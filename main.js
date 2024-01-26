@@ -208,6 +208,7 @@ function nextMonth() {
   loadMatrix(date);
 }
 
+// Click to display dropdown
 // eslint-disable-next-line no-unused-vars
 function changeMonth() {
   const dropdown = document.getElementById('months-dropdown');
@@ -218,6 +219,7 @@ function changeMonth() {
   }
 }
 
+// Select month and load matrix
 // eslint-disable-next-line no-unused-vars
 function goToMonth(month) {
   document.getElementById('months-dropdown').style.display = 'none';
