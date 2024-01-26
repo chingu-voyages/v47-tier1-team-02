@@ -163,24 +163,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // eslint-disable-next-line no-unused-vars
 function checkboxStore(id) {
-  const date = id.slice(0, 10);
-  const name = id.slice(11, -9);
+  const boxDate = id.slice(0, 10);
+  const boxName = id.slice(11, -9);
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
       activityType.Tasks.forEach((task) => {
-        if (task.taskName === name) {
-          const index = task.completion.indexOf(date);
+        if (task.taskName === boxName) {
+          const index = task.completion.indexOf(boxDate);
           if (index !== -1) {
             task.completion.splice(index, 1);
           } else {
-            task.completion.push(date);
+            task.completion.push(boxDate);
           }
         }
       });
     });
   });
-  localStorage.setItem('taksJson', JSON.stringify(jsonObj));
+  localStorage.setItem('tasksJson', JSON.stringify(jsonObj));
   // console.log(jsonObj);
 }
 
@@ -192,6 +192,7 @@ function deleteChild() {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 function prevMonth() {
   deleteChild();
   // Set the date to the previous week and load matrix
@@ -199,9 +200,28 @@ function prevMonth() {
   loadMatrix(date);
 }
 
+// eslint-disable-next-line no-unused-vars
 function nextMonth() {
   deleteChild();
   // Set the date to the next week and load matrix
   date.setDate(date.getDate() + 8);
+  loadMatrix(date);
+}
+
+// eslint-disable-next-line no-unused-vars
+function changeMonth() {
+  const dropdown = document.getElementById('months-dropdown');
+  if (dropdown.style.display === 'block') {
+    dropdown.style.display = 'none';
+  } else {
+    dropdown.style.display = 'block';
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+function goToMonth(month) {
+  document.getElementById('months-dropdown').style.display = 'none';
+  deleteChild();
+  date.setMonth(month);
   loadMatrix(date);
 }

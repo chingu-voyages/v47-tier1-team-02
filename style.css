@@ -9,6 +9,31 @@
     margin: 0rem 0.2rem;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    overflow-y: auto;
+    max-height: 110px;
+    width: 150px;
+}
+
+.dropdown-content a {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: black;
+    background-color: rgb(215, 210, 210);
+}
+
+.dropdown-content a:hover{
+    background-color: aliceblue;
+}
+
 .mobile-table {
     display: flex;
     flex-direction: column;
