@@ -13,7 +13,7 @@ const jsonString = [
             days: [
               'Tuesday',
             ],
-            completion: [],
+            completion: ['23/01/2024'],
           },
         ],
       },
@@ -81,8 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Division for task name and checkbox
     taskList.classList.add('task-list');
 
-    /* Find each task's day in json and if it is same as the day of element under construction.
-    If it is, add the task name under the constructed header. */
+    /*
+      Find each task's day in json and check if it is same as the day of element under construction.
+      If it is, add the task name under the constructed header.
+    */
+    const boxToTick = [];
     jsonString.forEach((category) => {
       category.activityTypes.forEach((activityType) => {
         activityType.Tasks.forEach((task) => {
@@ -97,10 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
                   <label class="checkbox-label" for="${id}"> ${task.taskName} </label>
                   <input type="checkbox" id="${id}" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
               `;
-              if (date in task.completion) {
-                document.getElementById(id).checked = true;
-              }
               taskList.appendChild(taskElement);
+
+              // Get id of checkboxes to be ticked
+              if (task.completion.includes(fDate)) {
+                boxToTick.push(id);
+              }
             }
           });
         });
@@ -111,6 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
     dayDiv.appendChild(taskList);
 
     daysContainer.appendChild(dayDiv);
+
+    // Tick all checkboxes that have a completion date in json.
+    boxToTick.forEach((boxId) => {
+      document.getElementById(`${boxId}`).checked = true;
+    });
   });
 });
 
