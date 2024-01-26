@@ -1,36 +1,38 @@
 // Follows Airbnb JavaScript style guide
 
-const intro = document.getElementById('intro')
-const introForm = document.getElementById('intro-form')
-const welcomePage = document.getElementById('welcome-page')
-const introFormInput = document.getElementById('introForm-input')
-const userName = localStorage.getItem('name');
+const intro = document.getElementById('intro');
+const introForm = document.getElementById('intro-form');
+const welcomePage = document.getElementById('welcome-page');
+const introFormInput = document.getElementById('introForm-input');
+const matrix = document.getElementById('matrix');
 
+matrix.style.display = 'none';
+
+// const userName = localStorage.getItem('name');
 
 document.addEventListener('click', (e) => {
-    if (e.target.id === 'start-btn'){
-        welcomePage.style.display = 'none'
-        introForm.style.display = 'block'
-    }
-    else if (e.target.id ==='decline-btn'){
-        introForm.style.display = 'none'
-        welcomePage.style.display = 'block'
-        introFormInput.value = "";
-    }
-})
+  if (e.target.id === 'start-btn') {
+    welcomePage.style.display = 'none';
+    introForm.style.display = 'block';
+  } else if (e.target.id === 'decline-btn') {
+    introForm.style.display = 'none';
+    welcomePage.style.display = 'block';
+    introFormInput.value = '';
+  }
+});
 
+introForm.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-introForm.addEventListener('submit', (e) =>{
-    e.preventDefault()
+  const introFormData = new FormData(introForm);
+  const inputValue = introFormData.get('user');
 
-    const introFormData = new FormData(introForm)
-    const inputValue = introFormData.get('user')
+  localStorage.setItem('name', inputValue);
 
-    localStorage.setItem("name", inputValue);
-    
-    introFormInput.value = "";
-    intro.style.display = "none"
-})
+  introFormInput.value = '';
+  intro.style.display = 'none';
+  matrix.style.display = 'block';
+});
 
 const jsonObj = [
   {
