@@ -51,8 +51,7 @@ function dateFormat(date) {
   return `${dd}/${mm}/${yyyy}`;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const date = new Date();
+function loadMatrix(date) {
   const dayNum = date.getDay();
 
   // Set date to the last Sunday to build day elements from the top
@@ -131,6 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById(`${boxId}`).checked = true;
     });
   });
+}
+
+const date = new Date();
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadMatrix(date);
 });
 
 /*  When the checkbox is clicked, identify the checkbox using it's id
@@ -165,4 +170,26 @@ function checkboxStore(id) {
   });
   localStorage.setItem('taksJson', JSON.stringify(jsonObj));
   // console.log(jsonObj);
+}
+
+// Clear the matrix table when changing week/month
+function deleteChild() {
+  const table = document.getElementById('mobile-table');
+  while (table.firstChild) {
+    table.removeChild(table.lastChild);
+  }
+}
+
+function prevMonth() {
+  deleteChild();
+  // Set the date to the previous week and load matrix
+  date.setDate(date.getDate() - 8);
+  loadMatrix(date);
+}
+
+function nextMonth() {
+  deleteChild();
+  // Set the date to the next week and load matrix
+  date.setDate(date.getDate() + 8);
+  loadMatrix(date);
 }
