@@ -1,6 +1,12 @@
-.form-button {
+#month {
     display: flex;
     justify-content: center;
+    padding-top: 1rem;
+}
+
+.month-button{
+    font-size: 30px;
+    margin: 0rem 0.2rem;
 }
 
 .mobile-table {
