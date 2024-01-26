@@ -195,16 +195,21 @@ function deleteChild() {
 // eslint-disable-next-line no-unused-vars
 function prevMonth() {
   deleteChild();
-  // Set the date to the previous week and load matrix
+  /*
+    Set the date to the previous week and load matrix
+    Creating the matrix puts the date on next Sunday
+    so decrement 8 to get to previous week
+  */
   date.setDate(date.getDate() - 8);
+
   loadMatrix(date);
 }
 
 // eslint-disable-next-line no-unused-vars
 function nextMonth() {
   deleteChild();
-  // Set the date to the next week and load matrix
-  date.setDate(date.getDate() + 8);
+  // Don't have to increment date as creating matrix puts date on next week
+
   loadMatrix(date);
 }
 
