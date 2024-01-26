@@ -5,12 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ontrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <section class="intro" id="intro">
+        <div class="welcome-page" id="welcome-page">
+            <div class="title">
+            <img class="title-img" src="images/check.png">
+            <h2><a href="index.html">n Track</a></h2>
+            </div>
+            <h1>Welcome</h1>
+            <img class="logo" src="images/logo.png">
+            <h2><span>On Track</span></h2>
+            
+            <div class="description">
+                <h3>The task manager you've been waiting for to help take your productivity to the next level and beyond.</h3>
+            </div>
+            <div class="intro-btn">
+                <button class="start-btn" id="start-btn" type="submit">let's start</button>
+            </div>  
+        </div>
+        <form class="intro-form" id="intro-form" action="#">
+            <img class="logo form-img" src="images/logo.png">
 
-    
+            <h2 class="form-title">First we want to know a few things about you</h2>
+			<input 
+                type="text" 
+                name="user" 
+                placeholder="Name" 
+                id="introForm-input" 
+                maxlength="12"
+                minlength="3"
+            required/>
+            <h2 class="form-choice">Do you want template?</h2>
+
+			<div class="form-choice-btns" id="form-choice-btns">
+			<button type="submit" class="choice-btn">Yes</button>
+			<button class="choice-btn" id="decline-btn" type="reset">No</button>
+			</div>
+        </form>
+    </section>
+
     <script src="main.js"></script>
 
 </body>
