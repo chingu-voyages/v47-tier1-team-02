@@ -1,19 +1,19 @@
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-family: "Inter", sans-serif;
-    color: #000000;
 }
 
 
 /* intro layout */
 
 .intro {
-    width: 430px;
+    width: 100%;
     letter-spacing: 2px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
 }
 
 
