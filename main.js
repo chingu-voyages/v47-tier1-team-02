@@ -1,6 +1,6 @@
 // Follows Airbnb Javascript style guide.
 
-const jsonString = [
+const jsonObj = [
   {
     categoryName: 'Routine activities',
     activityTypes: [
@@ -11,9 +11,14 @@ const jsonString = [
             taskName: 'Ontrack',
             taskDescription: 'Create json data handling',
             days: [
-              'Tuesday',
+              '25/01/2024',
+              '23/01/2024',
+              '22/01/2024',
             ],
-            completion: ['23/01/2024'],
+            completion: [
+              '23/01/2024',
+              '22/01/2024',
+            ],
           },
         ],
       },
@@ -50,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const date = new Date();
   const dayNum = date.getDay();
 
+  // Set date to the last Sunday to build day elements from the top
   date.setDate(date.getDate() - dayNum);
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -86,16 +92,19 @@ document.addEventListener('DOMContentLoaded', () => {
       If it is, add the task name under the constructed header.
     */
     const boxToTick = [];
-    jsonString.forEach((category) => {
+    jsonObj.forEach((category) => {
       category.activityTypes.forEach((activityType) => {
         activityType.Tasks.forEach((task) => {
           task.days.forEach((dayN) => {
-            if (dayN === day) {
+            if (dayN === day || dayN === fDate) {
               const taskElement = document.createElement('div');
 
               // Division for individual task name and checkbox
               taskElement.classList.add('task-element');
+
+              // Checkbox ID has the date and name of task to prevent duplication
               const id = `${fDate}-${task.taskName}-checkbox`;
+
               taskElement.innerHTML = `
                   <label class="checkbox-label" for="${id}"> ${task.taskName} </label>
                   <input type="checkbox" id="${id}" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
@@ -134,12 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
     Prevents other checkboxes from updating when a checkbox belonging to
     same day is updated.
 */
+
 // eslint-disable-next-line no-unused-vars
 function checkboxStore(id) {
   const date = id.slice(0, 10);
   const name = id.slice(11, -9);
 
-  jsonString.forEach((category) => {
+  jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
       activityType.Tasks.forEach((task) => {
         if (task.taskName === name) {
@@ -153,5 +163,6 @@ function checkboxStore(id) {
       });
     });
   });
-  // console.log(jsonString);
+  localStorage.setItem('taksJson', JSON.stringify(jsonObj));
+  // console.log(jsonObj);
 }
