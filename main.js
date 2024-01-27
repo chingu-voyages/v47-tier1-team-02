@@ -5,9 +5,10 @@ const introForm = document.getElementById('intro-form');
 const welcomePage = document.getElementById('welcome-page');
 const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
+const categoryPage = document.getElementById('add-task-page');
 
 intro.style.display = 'none';
-matrix.style.display = 'block';
+matrix.style.display = 'none';
 
 // const userName = localStorage.getItem('name');
 
@@ -269,6 +270,33 @@ function goToMonth(month) {
   loadMatrix(date);
 }
 
-function addTaskPage(){
+// eslint-disable-next-line no-unused-vars
+function addTaskPage() {
+  matrix.style.display = 'none';
+  categoryPage.style.display = 'block';
+}
 
+// eslint-disable-next-line no-unused-vars
+function closeCategoryPage() {
+  categoryPage.style.display = 'none';
+  matrix.style.display = 'block';
+}
+
+// eslint-disable-next-line no-unused-vars
+function addCategory() {
+  const entry = document.getElementById('category-entry');
+  entry.innerHTML += `
+    <input type="text" id='category-submit' value="Category name"> 
+    <button onclick=submitCategoryName()>Add</button>
+  `;
+}
+
+// eslint-disable-next-line no-unused-vars
+function submitCategoryName() {
+  const category = document.getElementById('category-submit').value;
+
+  const categoryJSON = { categoryName: category };
+  jsonObj.push(categoryJSON);
+
+  console.log(jsonObj);
 }

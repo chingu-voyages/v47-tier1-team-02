@@ -213,3 +213,17 @@ body {
     border-bottom: solid;
     border-width: 0.1rem;
 }
+
+/* Category page section */
+
+#back-to-matrix{
+    margin: 1rem;
+}
+
+#activity{
+    margin: 1rem 3rem;
+}
+
+#tasks{
+    margin: 1rem 6rem;
+}

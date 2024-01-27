@@ -45,11 +45,11 @@
         </form>
     </section>
 
-    <div>
-        <button input="button" onclick="addTaskPage()">Add task</button>
-    </div>
-
     <section id="matrix">
+        <div>
+            <button input="button" onclick="addTaskPage()">Add task</button>
+        </div>
+
         <div id="month">
             <button type="button" id="prev-month" class="month-button" onclick="prevMonth()"> &lt; </button>
 
@@ -79,7 +79,31 @@
     </section>
 
     <section id="add-task-page">
-        
+        <button id="back-to-matrix" onclick="closeCategoryPage()">Go back</button>
+
+        <div id="category-entry">
+            <button id="add-category" onclick="addCategory()">Add category</button>
+        </div>
+
+        <div id="category">
+            <div id="category-name">
+                <button input="button" onclick="openCategory()">&gt;</button>
+                <span id="category-text">Category</span>
+                <button input="button" onclick="addActivity()"> + </button>
+            </div>
+            <div id="activity">
+                <div id="activity-name">
+                    <button input="button" onclick="openCategory()">&gt;</button>
+                    <span id="activity-text">Activity</span>
+                    <button input="button" onclick="addTask()"> + </button>
+                </div>
+                <div id="tasks">
+                    <div id="task-name">
+                        <span id="task-text">Task</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <script src="main.js"></script>
