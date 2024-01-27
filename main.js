@@ -6,7 +6,8 @@ const welcomePage = document.getElementById('welcome-page');
 const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
 
-matrix.style.display = 'none';
+intro.style.display = 'none';
+matrix.style.display = 'block';
 
 // const userName = localStorage.getItem('name');
 
@@ -16,7 +17,8 @@ document.addEventListener('click', (e) => {
     introForm.style.display = 'block';
   } else if (e.target.id === 'decline-btn') {
     introForm.style.display = 'none';
-    welcomePage.style.display = 'block';
+    // welcomePage.style.display = 'block';
+    matrix.style.display = 'block';
     introFormInput.value = '';
   }
 });
@@ -265,4 +267,8 @@ function goToMonth(month) {
   deleteChild();
   date.setMonth(month);
   loadMatrix(date);
+}
+
+function addTaskPage(){
+
 }
