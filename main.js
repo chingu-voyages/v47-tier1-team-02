@@ -16,8 +16,9 @@ document.addEventListener('click', (e) => {
     introForm.style.display = 'block';
   } else if (e.target.id === 'decline-btn') {
     introForm.style.display = 'none';
-    welcomePage.style.display = 'block';
+    welcomePage.style.display = 'none';
     introFormInput.value = '';
+    matrix.style.display = 'block';
   }
 });
 
