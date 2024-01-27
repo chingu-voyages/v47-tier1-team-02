@@ -37,49 +37,51 @@ introForm.addEventListener('submit', (e) => {
   matrix.style.display = 'block';
 });
 
-const jsonObj = [
-  {
-    categoryName: 'Routine activities',
-    activityTypes: [
-      {
-        activityName: 'Projects',
-        Tasks: [
-          {
-            taskName: 'Ontrack',
-            taskDescription: 'Create json data handling',
-            days: [
-              '25/01/2024',
-              '23/01/2024',
-              '22/01/2024',
-            ],
-            completion: [
-              '23/01/2024',
-              '22/01/2024',
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    categoryName: 'Studying',
-    activityTypes: [
-      {
-        activityName: 'Node js course',
-        Tasks: [
-          {
-            taskName: 'Read bookmarked article',
-            taskDescription: 'Go through all articles in bookmark',
-            days: [
-              'Monday',
-            ],
-            completion: [],
-          },
-        ],
-      },
-    ],
-  },
-];
+// const jsonObj = [
+//   {
+//     categoryName: 'Routine activities',
+//     activityTypes: [
+//       {
+//         activityName: 'Projects',
+//         Tasks: [
+//           {
+//             taskName: 'Ontrack',
+//             taskDescription: 'Create json data handling',
+//             days: [
+//               '25/01/2024',
+//               '23/01/2024',
+//               '22/01/2024',
+//             ],
+//             completion: [
+//               '23/01/2024',
+//               '22/01/2024',
+//             ],
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     categoryName: 'Studying',
+//     activityTypes: [
+//       {
+//         activityName: 'Node js course',
+//         Tasks: [
+//           {
+//             taskName: 'Read bookmarked article',
+//             taskDescription: 'Go through all articles in bookmark',
+//             days: [
+//               'Monday',
+//             ],
+//             completion: [],
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];
+
+const jsonObj = [];
 
 function dateFormat(date) {
   const dd = String(date.getDate()).padStart(2, '0');
@@ -305,17 +307,22 @@ function submitCategoryName() {
 }
 
 // eslint-disable-next-line no-unused-vars
-function addActivity(category) {
+function addActivity(categoryId) {
   const entry = document.getElementById('category-entry');
   entry.innerHTML = `
     <input type="text" id='activity-submit' value="activity name"> 
-    <button onclick=submitActivityName('${category}')>Add</button>
+    <button onclick=submitActivityName('${categoryId}')>Add</button>
   `;
 }
 
 // eslint-disable-next-line no-unused-vars
-function submitActivityName(category) {
-  const index = jsonObj.findIndex((cat) => cat.categoryName === category);
+function submitActivityName(categoryId) {
+  // use categoryID instead of category-text
+  let catText = document.getElementById('category-text').textContent;
+
+  // when the category page is ready the below line is to be removed
+  catText = 'Category name';
+  const index = jsonObj.findIndex((cat) => cat.categoryName === catText);
   const activity = document.getElementById('activity-submit').value;
 
   const activityjson = {
@@ -325,5 +332,57 @@ function submitActivityName(category) {
 
   jsonObj[index].activityTypes.push(activityjson);
 
+  const entry = document.getElementById('category-entry');
+  entry.innerHTML = '';
+
   // console.log(jsonObj);
+}
+
+// eslint-disable-next-line no-unused-vars
+function addTask(id) {
+  // using category-entry entry box is temporary
+  const entry = document.getElementById('category-entry');
+  entry.innerHTML = `
+    <input type="text" id='task-submit' value="task name"> 
+    <input type="text" id='description-submit' value="description"> 
+    <input type="text" id='date-submit' value="due dates"> 
+    <button onclick=submitTaskName('${id}')>Add</button>
+  `;
+}
+
+// eslint-disable-next-line no-unused-vars
+function submitTaskName(id) {
+  let actText = document.getElementById('activity-text').textContent;
+
+  // when the category page is ready the below line is to be removed
+  actText = 'activity name';
+
+  const task = document.getElementById('task-submit').value;
+  const description = document.getElementById('description-submit').value;
+  const dueDate = document.getElementById('date-submit').value;
+
+  const dueDates = dueDate.split(', ');
+  console.log(dueDates);
+
+  const tasksJson = {
+    taskName: task,
+    taskDescription: description,
+    days: [],
+    completion: [],
+  };
+
+  console.log(tasksJson.days);
+  tasksJson.days = tasksJson.days.concat(dueDates);
+
+  jsonObj.forEach((cat) => {
+    cat.activityTypes.forEach((activity) => {
+      if (activity.activityName === actText) {
+        activity.Tasks.push(tasksJson);
+      }
+    });
+  });
+
+  const entry = document.getElementById('category-entry');
+  entry.innerHTML = '';
+  console.log(JSON.stringify(jsonObj));
 }
