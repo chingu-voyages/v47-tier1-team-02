@@ -80,16 +80,20 @@
 
     <section id="add-task-page">
         <button id="back-to-matrix" onclick="closeCategoryPage()">Go back</button>
-
+        
+        <div id="add-category-button">
+            <button id="add-category-button" onclick="addCategory()">Add category</button>
+        </div>
+        
         <div id="category-entry">
-            <button id="add-category" onclick="addCategory()">Add category</button>
+            
         </div>
 
         <div id="category">
             <div id="category-name">
                 <button input="button" onclick="openCategory()">&gt;</button>
                 <span id="category-text">Category</span>
-                <button input="button" onclick="addActivity()"> + </button>
+                <button input="button" onclick="addActivity('category')"> + </button>
             </div>
             <div id="activity">
                 <div id="activity-name">

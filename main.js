@@ -285,7 +285,7 @@ function closeCategoryPage() {
 // eslint-disable-next-line no-unused-vars
 function addCategory() {
   const entry = document.getElementById('category-entry');
-  entry.innerHTML += `
+  entry.innerHTML = `
     <input type="text" id='category-submit' value="Category name"> 
     <button onclick=submitCategoryName()>Add</button>
   `;
@@ -295,8 +295,35 @@ function addCategory() {
 function submitCategoryName() {
   const category = document.getElementById('category-submit').value;
 
-  const categoryJSON = { categoryName: category };
+  const categoryJSON = { categoryName: category, activityTypes: [] };
   jsonObj.push(categoryJSON);
 
-  console.log(jsonObj);
+  const entry = document.getElementById('category-entry');
+  entry.innerHTML = '';
+
+  // console.log(jsonObj);
+}
+
+// eslint-disable-next-line no-unused-vars
+function addActivity(category) {
+  const entry = document.getElementById('category-entry');
+  entry.innerHTML = `
+    <input type="text" id='activity-submit' value="activity name"> 
+    <button onclick=submitActivityName('${category}')>Add</button>
+  `;
+}
+
+// eslint-disable-next-line no-unused-vars
+function submitActivityName(category) {
+  const index = jsonObj.findIndex((cat) => cat.categoryName === category);
+  const activity = document.getElementById('activity-submit').value;
+
+  const activityjson = {
+    activityName: activity,
+    Tasks: [],
+  };
+
+  jsonObj[index].activityTypes.push(activityjson);
+
+  // console.log(jsonObj);
 }
