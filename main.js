@@ -267,3 +267,20 @@ function goToMonth(month) {
   date.setMonth(month);
   loadMatrix(date);
 }
+
+// eslint-disable-next-line no-unused-vars
+function exportJSON() {
+  const jsonString = JSON.stringify(jsonObj);
+
+  const blob = new Blob([jsonString], { type: 'application/json' });
+
+  const downloadLink = document.createElement('a');
+  downloadLink.href = window.URL.createObjectURL(blob);
+  downloadLink.download = 'data.json';
+
+  document.body.appendChild(downloadLink);
+
+  downloadLink.click();
+
+  document.body.removeChild(downloadLink);
+}
