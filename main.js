@@ -362,7 +362,7 @@ function submitTaskName(id) {
   const dueDate = document.getElementById('date-submit').value;
 
   const dueDates = dueDate.split(', ');
-  console.log(dueDates);
+  // console.log(dueDates);
 
   const tasksJson = {
     taskName: task,
@@ -371,7 +371,7 @@ function submitTaskName(id) {
     completion: [],
   };
 
-  console.log(tasksJson.days);
+  // console.log(tasksJson.days);
   tasksJson.days = tasksJson.days.concat(dueDates);
 
   jsonObj.forEach((cat) => {
@@ -384,5 +384,5 @@ function submitTaskName(id) {
 
   const entry = document.getElementById('category-entry');
   entry.innerHTML = '';
-  console.log(JSON.stringify(jsonObj));
+  // console.log(JSON.stringify(jsonObj));
 }
