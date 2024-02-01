@@ -166,9 +166,56 @@ function openDetail(id) {
   document.body.appendChild(overlayDesc);
 }
 
-function editDesc(id, name) {
-  console.log(id);
-  console.log(name);
+// eslint-disable-next-line no-unused-vars
+function editDesc(id, element) {
+  let boxId = id;
+  let textBox = '';
+
+  switch (element) {
+    case 'name':
+      boxId = `${id}-name`;
+      textBox = document.getElementById(boxId);
+      break;
+
+    case 'deadline':
+      boxId = `${id}-deadline`;
+      textBox = document.getElementById(boxId);
+      break;
+
+    case 'category':
+      boxId = `${id}-category`;
+      textBox = document.getElementById(boxId);
+      break;
+
+    case 'activity':
+      boxId = `${id}-activity`;
+      textBox = document.getElementById(boxId);
+      break;
+
+    case 'description':
+      boxId = `${id}-description`;
+      textBox = document.getElementById(boxId);
+      break;
+
+    default:
+      textBox = '';
+  }
+
+  const entryBox = document.createElement('input');
+  entryBox.type = 'text';
+  entryBox.value = textBox.textContent;
+
+  textBox.parentNode.replaceChild(entryBox, textBox);
+
+  // document.addEventListener('click', (e) => {
+  //   e.preventDefault();
+  //   textBox = document.createElement('span');
+  //   textBox.setAttribute('id', boxId);
+
+  //   textBox.textContent = entryBox.value;
+
+  //   entryBox.parentNode.replaceChild(textBox, entryBox);
+  // });
 }
 
 // eslint-disable-next-line no-unused-vars
