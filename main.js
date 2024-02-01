@@ -147,7 +147,7 @@ function openDetail(id) {
     <div id="back-n-day">
       <img src="images/back.png" id="back-img" onclick="backFromDesc()">
 
-      <span id="desc-day">(${taskDate})</span>
+      <span id="desc-day">${day} (${taskDate})</span>
     </div>
 
     <div id="task-desc">
