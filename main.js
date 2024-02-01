@@ -147,19 +147,19 @@ function openDetail(id) {
 
     <div id="task-desc">
       <div id="${id}-name-desc" class="desc-item">Task name : 
-          <span id="${id}-name" onclick="editName()">${taskName}</span>
+          <span id="${id}-name" onclick="editName('${id}')">${taskName}</span>
       </div>
       <div id="${id}-deadline-desc" class="desc-item">Deadline : 
-          <span id="${id}-deadline" onclick="editDeadline()">${taskDate}</span>
+          <span id="${id}-deadline" onclick="editDeadline('${id}')">${taskDate}</span>
       </div>
       <div id="${id}-category-desc" class="desc-item">Category : 
-          <span id="${id}-category" onclick="editCat()">${taskCat}</span>
+          <span id="${id}-category" onclick="editCat('${id}')">${taskCat}</span>
       </div>
       <div id="${id}-activity-desc" class="desc-item">Activity : 
-          <span id="${id}-activity" onclick="editAct()">${taskAct}</span>
+          <span id="${id}-activity" onclick="editAct('${id}')">${taskAct}</span>
       </div>
       <div id="${id}-detail-desc" class="desc-item">Description : 
-          <span id="${id}-description" onclick="editDesc()">${taskDesc}</span>
+          <span id="${id}-description" onclick="editDesc('${id}')">${taskDesc}</span>
       </div>
     </div>
   `;
