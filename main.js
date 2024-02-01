@@ -202,20 +202,23 @@ function editDesc(id, element) {
   }
 
   const entryBox = document.createElement('input');
+  entryBox.setAttribute('id', 'edit-entry');
   entryBox.type = 'text';
   entryBox.value = textBox.textContent;
 
   textBox.parentNode.replaceChild(entryBox, textBox);
 
-  // document.addEventListener('click', (e) => {
-  //   e.preventDefault();
-  //   textBox = document.createElement('span');
-  //   textBox.setAttribute('id', boxId);
+  entryBox.addEventListener('blur', () => {
+    textBox = document.createElement('span');
+    textBox.setAttribute('id', boxId);
+    textBox.onclick = editDesc.bind(null, id, element);
 
-  //   textBox.textContent = entryBox.value;
+    textBox.textContent = entryBox.value;
 
-  //   entryBox.parentNode.replaceChild(textBox, entryBox);
-  // });
+    entryBox.parentNode.replaceChild(textBox, entryBox);
+  });
+
+  entryBox.focus();
 }
 
 // eslint-disable-next-line no-unused-vars
