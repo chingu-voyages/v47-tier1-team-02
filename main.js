@@ -98,7 +98,7 @@ function setMonthName(date) {
 }
 
 function giveDay(iDate) {
-  const dateComponents = iDate.split('/'); // Split the string into components
+  const dateComponents = iDate.split('/');
 
   const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
 
@@ -113,9 +113,11 @@ function giveDay(iDate) {
 
 // eslint-disable-next-line no-unused-vars
 function openDetail(id) {
+  // id format - taskDate-taskName
   const taskDate = id.slice(0, 10);
   const taskName = id.slice(11);
 
+  // To check for due date with day as well
   const day = giveDay(taskDate);
 
   let taskCat = ''; let taskAct = ''; let taskDesc = '';
@@ -124,6 +126,7 @@ function openDetail(id) {
     category.activityTypes.forEach((activityType) => {
       activityType.Tasks.forEach((task) => {
         if (task.taskName === taskName) {
+          // Prevents same task name mismatch
           if (task.days.includes(taskDate) || task.days.includes(day)) {
             taskDesc = task.taskDescription;
             taskCat = category.categoryName;
@@ -135,9 +138,11 @@ function openDetail(id) {
   });
 
   const overlayDesc = document.createElement('div');
+  // Class overlays on top of all elements
   overlayDesc.classList.add('overlay');
   overlayDesc.setAttribute('id', 'detailed-desc');
 
+  // On clicking any of the attributes in the description, give id (name and date) to edit function
   overlayDesc.innerHTML = `
     <div id="back-n-day">
       <img src="images/back.png" id="back-img" onclick="backFromDesc()">
@@ -171,6 +176,7 @@ function editDesc(id, element) {
   let boxId = id;
   let textBox = '';
 
+  // Find the element that was clicked on
   switch (element) {
     case 'name':
       boxId = `${id}-name`;
@@ -201,6 +207,7 @@ function editDesc(id, element) {
       textBox = '';
   }
 
+  // Entry box to replace the text
   const entryBox = document.createElement('input');
   entryBox.setAttribute('id', 'edit-entry');
   entryBox.type = 'text';
@@ -208,6 +215,7 @@ function editDesc(id, element) {
 
   textBox.parentNode.replaceChild(entryBox, textBox);
 
+  // On clicking away from the box, change entry box to text
   entryBox.addEventListener('blur', () => {
     textBox = document.createElement('span');
     textBox.setAttribute('id', boxId);
