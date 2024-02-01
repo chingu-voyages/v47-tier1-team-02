@@ -97,6 +97,81 @@ function setMonthName(date) {
   document.getElementById('month-name').innerHTML = `${months[monthIndex]}`;
 }
 
+function giveDay(iDate) {
+  const dateComponents = iDate.split('/'); // Split the string into components
+
+  const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
+
+  // Create a Date object
+  const d = new Date(formattedDate);
+  const dayIndex = d.getDay();
+
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  return daysOfWeek[dayIndex];
+}
+
+// eslint-disable-next-line no-unused-vars
+function openDetail(id) {
+  const taskDate = id.slice(0, 10);
+  const taskName = id.slice(11);
+
+  const day = giveDay(taskDate);
+
+  let taskCat = ''; let taskAct = ''; let taskDesc = '';
+
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activityType) => {
+      activityType.Tasks.forEach((task) => {
+        if (task.taskName === taskName) {
+          if (task.days.includes(taskDate) || task.days.includes(day)) {
+            taskDesc = task.taskDescription;
+            taskCat = category.categoryName;
+            taskAct = activityType.activityName;
+          }
+        }
+      });
+    });
+  });
+
+  const overlayDesc = document.createElement('div');
+  overlayDesc.classList.add('overlay');
+  overlayDesc.setAttribute('id', 'detailed-desc');
+
+  overlayDesc.innerHTML = `
+    <div id="back-n-day">
+      <img src="images/back.png" id="back-img" onclick="backFromDesc()">
+
+      <span id="desc-day">(${taskDate})</span>
+    </div>
+
+    <div id="task-desc">
+      <div id="${id}-name-desc" class="desc-item">Task name : 
+          <span id="${id}-name" onclick="editName()">${taskName}</span>
+      </div>
+      <div id="${id}-deadline-desc" class="desc-item">Deadline : 
+          <span id="${id}-deadline" onclick="editDeadline()">${taskDate}</span>
+      </div>
+      <div id="${id}-category-desc" class="desc-item">Category : 
+          <span id="${id}-category" onclick="editCat()">${taskCat}</span>
+      </div>
+      <div id="${id}-activity-desc" class="desc-item">Activity : 
+          <span id="${id}-activity" onclick="editAct()">${taskAct}</span>
+      </div>
+      <div id="${id}-detail-desc" class="desc-item">Description : 
+          <span id="${id}-description" onclick="editDesc()">${taskDesc}</span>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlayDesc);
+}
+
+// eslint-disable-next-line no-unused-vars
+function backFromDesc() {
+  const descWin = document.getElementById('detailed-desc');
+  descWin.remove();
+}
+
 function loadMatrix(date) {
   setMonthName(date);
   const dayNum = date.getDay();
@@ -143,23 +218,25 @@ function loadMatrix(date) {
         activityType.Tasks.forEach((task) => {
           task.days.forEach((dayN) => {
             if (dayN === day || dayN === fDate) {
+              const id = `${fDate}-${task.taskName}`;
+
               const taskElement = document.createElement('div');
 
               // Division for individual task name and checkbox
               taskElement.classList.add('task-element');
+              taskElement.onclick = openDetail.bind(null, id);
 
               // Checkbox ID has the date and name of task to prevent duplication
-              const id = `${fDate}-${task.taskName}-checkbox`;
 
               taskElement.innerHTML = `
-                  <label class="checkbox-label" for="${id}"> ${task.taskName} </label>
-                  <input type="checkbox" id="${id}" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+                  <label class="checkbox-label" for="${id} id="${id}-task"> ${task.taskName} </label>
+                  <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
               `;
               taskList.appendChild(taskElement);
 
               // Get id of checkboxes to be ticked
               if (task.completion.includes(fDate)) {
-                boxToTick.push(id);
+                boxToTick.push(`${id}-checkbox`);
               }
             }
           });
