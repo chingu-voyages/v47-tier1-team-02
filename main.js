@@ -147,23 +147,28 @@ function openDetail(id) {
 
     <div id="task-desc">
       <div id="${id}-name-desc" class="desc-item">Task name : 
-          <span id="${id}-name" onclick="editName('${id}')">${taskName}</span>
+          <span id="${id}-name" onclick="editDesc('${id}', 'name')">${taskName}</span>
       </div>
       <div id="${id}-deadline-desc" class="desc-item">Deadline : 
-          <span id="${id}-deadline" onclick="editDeadline('${id}')">${taskDate}</span>
+          <span id="${id}-deadline" onclick="editDesc('${id}', 'deadline')">${taskDate}</span>
       </div>
       <div id="${id}-category-desc" class="desc-item">Category : 
-          <span id="${id}-category" onclick="editCat('${id}')">${taskCat}</span>
+          <span id="${id}-category" onclick="editDesc('${id}', 'category')">${taskCat}</span>
       </div>
       <div id="${id}-activity-desc" class="desc-item">Activity : 
-          <span id="${id}-activity" onclick="editAct('${id}')">${taskAct}</span>
+          <span id="${id}-activity" onclick="editDesc('${id}', 'activity')">${taskAct}</span>
       </div>
       <div id="${id}-detail-desc" class="desc-item">Description : 
-          <span id="${id}-description" onclick="editDesc('${id}')">${taskDesc}</span>
+          <span id="${id}-description" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
       </div>
     </div>
   `;
   document.body.appendChild(overlayDesc);
+}
+
+function editDesc(id, name) {
+  console.log(id);
+  console.log(name);
 }
 
 // eslint-disable-next-line no-unused-vars
