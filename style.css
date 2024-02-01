@@ -15,3 +15,22 @@
     margin-left: 20px;
     margin-top: 10px;
 }
+
+
+.activity-input {
+    margin-bottom: 10px;
+}
+
+.new-activity-name {
+    margin-right: 5px;
+}
+
+.task-input {
+    margin-bottom: 10px;
+}
+
+.new-task-name,
+.new-task-desc,
+.new-task-date {
+    margin-right: 5px;
+}

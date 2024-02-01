@@ -1,5 +1,6 @@
 // Ensure use of Airbnb Javascript style guide.
 
+// 1. Adding the category
 let categoryIdCounter = 1; 
 
 function addCategory() {
@@ -40,9 +41,6 @@ function submitCategoryName() {
 }
 
 
-
-
-
 function toggleCategory(categoryId) {
     console.log(`Toggle category ID: ${categoryId}`);
 
@@ -50,7 +48,7 @@ function toggleCategory(categoryId) {
 
 
 
-
+// 2. Adding the activity
 function addActivity(categoryId) {
     const categoryDiv = document.getElementById(`category-${categoryId}`);
     const existingInput = categoryDiv.querySelector('.activity-input');
@@ -105,15 +103,70 @@ function submitActivityName(categoryId) {
 }
 
 
-
-
-
-
 function toggleActivity(activityId) {
     console.log(`Toggle activity ID: ${activityId}`);
 }
 
+
+
+// 3. Adding the task
 function addTask(activityId) {
-    console.log(`Add task to activity ID: ${activityId}`);
+    const activityDiv = document.getElementById(`activity-${activityId}`);
+    const existingInput = activityDiv.querySelector('.task-input');
+    if (existingInput) {
+        return;
+    }
+
+    // Create input fields for new task
+    const taskInputHtml = `
+        <div class="task-input">
+            <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
+            <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
+            <input type="text" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates" onfocus="(this.type='date')">
+            <button onclick="submitTaskName('${activityId}')">Add</button>
+        </div>
+    `;
+    
+    // Insert the input fields into the activity div
+    activityDiv.insertAdjacentHTML('beforeend', taskInputHtml);
+}
+
+function submitTaskName(activityId) {
+    const taskNameInput = document.getElementById(`new-task-name-${activityId}`);
+    const taskDescInput = document.getElementById(`new-task-desc-${activityId}`);
+    const taskDateInput = document.getElementById(`new-task-date-${activityId}`);
+    const taskName = taskNameInput.value;
+    const taskDesc = taskDescInput.value;
+    const taskDate = taskDateInput.value;
+
+    if (taskName.trim() === '' || taskDesc.trim() === '' || taskDate.trim() === '') {
+        alert('Task name, description, and due date cannot be empty');
+        return;
+    }
+
+    const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
+    // Calculate new task ID based on existing tasks
+    const existingTasks = tasksContainer.getElementsByClassName('task');
+    const taskNumber = existingTasks.length + 1;
+    const categoryId = activityId.split('-')[0];
+    const taskId = `${activityId}-${taskNumber}`;
+
+    // Create new task div
+    const newTaskDiv = document.createElement('div');
+    newTaskDiv.id = `task-${taskId}`;
+    newTaskDiv.classList.add('task');
+
+    // HTML for new task
+    newTaskDiv.innerHTML = `
+        <span id="task-name-${taskId}">${taskName}</span>
+        <span id="task-desc-${taskId}">${taskDesc}</span>
+        <span id="task-date-${taskId}">${taskDate}</span>
+    `;
+
+    // Add new task to the container
+    tasksContainer.appendChild(newTaskDiv);
+
+    // Remove the input fields after adding the task
+    taskNameInput.parentElement.remove();
 }
 
