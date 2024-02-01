@@ -1,0 +1,17 @@
+#category-page {
+    background: #f0f8ff;
+    padding: 20px;
+}
+
+#add-category-button {
+    background: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.category, .activity, .task {
+    margin-left: 20px;
+    margin-top: 10px;
+}
