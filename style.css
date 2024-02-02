@@ -260,5 +260,9 @@ body {
 }
 
 .desc-item {
-    margin-top: 1rem;
+    margin: 1rem;
+}
+
+.desc-element:hover {
+    background-color: rgba(0, 255, 208, 0.692);
 }

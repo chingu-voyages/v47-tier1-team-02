@@ -152,20 +152,24 @@ function openDetail(id) {
 
     <div id="task-desc">
       <div id="${id}-name-desc" class="desc-item">Task name : 
-          <span id="${id}-name" onclick="editDesc('${id}', 'name')">${taskName}</span>
+          <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')">${taskName}</span>
       </div>
       <div id="${id}-deadline-desc" class="desc-item">Deadline : 
-          <span id="${id}-deadline" onclick="editDesc('${id}', 'deadline')">${taskDate}</span>
+          <span id="${id}-deadline" class="desc-element" onclick="editDesc('${id}', 'deadline')">${taskDate}</span>
       </div>
       <div id="${id}-category-desc" class="desc-item">Category : 
-          <span id="${id}-category" onclick="editDesc('${id}', 'category')">${taskCat}</span>
+          <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')">${taskCat}</span>
       </div>
       <div id="${id}-activity-desc" class="desc-item">Activity : 
-          <span id="${id}-activity" onclick="editDesc('${id}', 'activity')">${taskAct}</span>
+          <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')">${taskAct}</span>
       </div>
       <div id="${id}-detail-desc" class="desc-item">Description : 
-          <span id="${id}-description" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
+          <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
       </div>
+
+      <div id="save-button-div">
+        <button onclick="saveDesc('${id}')">Save</button>
+      <div>
     </div>
   `;
   document.body.appendChild(overlayDesc);
@@ -227,6 +231,25 @@ function editDesc(id, element) {
   });
 
   entryBox.focus();
+}
+
+function saveDesc(id) {
+  const taskDate = id.slice(0, 10);
+  const taskName = id.slice(11);
+
+  const nameId = `${id}-name`;
+  const deadlineId = `${id}-deadline`;
+  const categoryId = `${id}-category`;
+  const activityId = `${id}-activity`;
+  const descId = `${id}-description`;
+
+  const updatedName = document.getElementById(nameId).textContent;
+  const updateddeadline = document.getElementById(deadlineId).textContent;
+  const updatedcategory = document.getElementById(categoryId).textContent;
+  const updatedactivity = document.getElementById(activityId).textContent;
+  const updateddesc = document.getElementById(descId).textContent;
+
+  console.log(updatedName);
 }
 
 // eslint-disable-next-line no-unused-vars
