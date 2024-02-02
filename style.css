@@ -89,6 +89,33 @@
 }
 
 
+/* Search bar */
+.search-container {
+    margin: 20px;
+    text-align: center;
+}
 
+.search-icon-container {
+    position: relative;
+    display: inline-block;
+}
 
+.search-input-desktop, .search-input-mobile {
+    padding: 8px;
+    padding-left: 30px; 
+    margin-left: 4px;
+    width: 50vw; 
+    border: 1px solid #000;
+    border-radius: 50px;
+}
+
+.search-icon-desktop, .search-icon-mobile {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px;
+    cursor: pointer;
+}
 
