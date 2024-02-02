@@ -1,5 +1,5 @@
 :root {
-    --primary-color-dark:#222;
+    --primary-color-dark:#000;
     --secondary-color-dark: #777; 
     --primary-color-light: #fff;
     --secondary-color-light:#a7fcff;
@@ -11,7 +11,7 @@
     box-sizing: border-box;
   }
 
-/* Navigation menu */
+/* Header and navigation menu */
 .header {
     position: fixed;
     top: 0;
@@ -52,32 +52,40 @@
     display: flex;
 }
 
+.nav-menu ul {
+    width: 40%;
+    padding: 0;
+    background-color: var(--primary-color-light);
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 50px;
+    margin-top: 0;
+}
+
 .nav-menu-list li {
     width: 100%;
-    text-align: center;
+    text-align: left;
     margin: 0;
-    padding: 1.25rem 0;
+    padding: 1rem;
+    list-style: none;
 }
+
+.nav-menu-list li:nth-child(2) {
+    border-top: 1px solid var(--primary-color-dark);
+    border-bottom: 1px solid var(--primary-color-dark);
+  }
 
 .nav-menu-list li a {
     color: var(--primary-color-dark);
     border: none;
     font-size: 1.4rem;
-    padding: 0.75rem 1.55rem;
     text-decoration: none;
     text-transform: capitalize;
     transition: all 0.3s ease 0s;
 }
 
 .nav-menu-list li a:hover, .nav-menu-list li a:focus, .nav-menu-list li a:active {
-    background: var(--secondary-color-dark);
-    color: var(--primary-color-light);
-}
-
-.nav-menu ul {
-    width: 100%;
-    padding: 0;
-    background-color: var(--secondary-color-light);
+    background: none;
+    color: var(--secondary-color-dark);
 }
 
 .nav-menu {
@@ -91,8 +99,7 @@
 
 /* Search bar */
 .search-container {
-    margin: 20px;
-    text-align: center;
+    display: none;
 }
 
 .search-icon-container {
@@ -104,10 +111,19 @@
     padding: 8px;
     padding-left: 30px; 
     margin-left: 4px;
-    width: 50vw; 
-    border: 1px solid #000;
     border-radius: 50px;
 }
+
+.search-input-desktop {
+    border: 1px solid #000;
+    width: 50vw; 
+}
+
+.search-input-mobile {
+    border: none;
+}
+
+.search-input-mobile:focus-visible {outline: 0;}
 
 .search-icon-desktop, .search-icon-mobile {
     position: absolute;
@@ -118,4 +134,18 @@
     height: 20px;
     cursor: pointer;
 }
+
+/* Media Queries */
+@media(min-width: 768px){
+    .nav-search-container {display: none;}
+    .nav-menu-list li:nth-child(2) {
+        border-top: none;
+      }
+    .search-container {
+        display: block;
+        margin: 20px;
+        text-align: center;
+    }
+}
+
 
