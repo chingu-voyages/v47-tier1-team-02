@@ -35,6 +35,7 @@ introForm.addEventListener('submit', (e) => {
   matrix.style.display = 'block';
 });
 
+const date = new Date();
 const jsonObj = [
   {
     categoryName: 'Routine activities',
@@ -80,21 +81,21 @@ const jsonObj = [
   },
 ];
 
-function dateFormat(date) {
-  const dd = String(date.getDate()).padStart(2, '0');
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const yyyy = date.getFullYear();
+function dateFormat(fDate) {
+  const dd = String(fDate.getDate()).padStart(2, '0');
+  const mm = String(fDate.getMonth() + 1).padStart(2, '0');
+  const yyyy = fDate.getFullYear();
   return `${dd}/${mm}/${yyyy}`;
 }
 
-function setMonthName(date) {
+function setMonthName(mDate) {
   const months = [
     'January', 'February', 'March', 'April',
     'May', 'June', 'July', 'August',
     'September', 'October', 'November', 'December',
   ];
 
-  const monthIndex = date.getMonth();
+  const monthIndex = mDate.getMonth();
   document.getElementById('month-name').innerHTML = `${months[monthIndex]}`;
 }
 
@@ -169,7 +170,7 @@ function openDetail(id) {
           <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
       </div>
 
-      <div id="save-button-div">
+      <div id="save-button-div" class="desc-item">
         <button onclick="saveDesc('${id}')">Save</button>
       <div>
     </div>
@@ -236,6 +237,97 @@ function editDesc(id, element) {
 }
 
 // eslint-disable-next-line no-unused-vars
+function backFromDesc() {
+  const descWin = document.getElementById('detailed-desc');
+  descWin.remove();
+}
+
+function loadMatrix(matDate) {
+  setMonthName(matDate);
+  const dayNum = matDate.getDay();
+
+  // Set date to the last Sunday to build day elements from the top
+  matDate.setDate(matDate.getDate() - dayNum);
+
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  const daysContainer = document.getElementById('mobile-table');
+  daysContainer.innerHTML = '';
+
+  daysOfWeek.forEach((day) => {
+    const dayDiv = document.createElement('div');
+
+    // Division for all components of the day
+    dayDiv.classList.add('days');
+
+    const dayHeader = document.createElement('div');
+
+    // Division for day name, date and add task button
+    dayHeader.classList.add('day-header');
+
+    const fDate = dateFormat(matDate);
+
+    dayHeader.innerHTML = `
+            <button type="button">+</button>
+            <span class="day-name">${day} (${fDate})</span>
+        `;
+
+    matDate.setDate(matDate.getDate() + 1);
+
+    const taskList = document.createElement('div');
+
+    // Division for task name and checkbox
+    taskList.classList.add('task-list');
+
+    /*
+      Find each task's day in json and check if it is same as the day of element under construction.
+      If it is, add the task name under the constructed header.
+    */
+    const boxToTick = [];
+    jsonObj.forEach((category) => {
+      category.activityTypes.forEach((activityType) => {
+        activityType.Tasks.forEach((task) => {
+          task.days.forEach((dayN) => {
+            if (dayN === day || dayN === fDate) {
+              const id = `${fDate}-${task.taskName}`;
+
+              const taskElement = document.createElement('div');
+
+              // Division for individual task name and checkbox
+              taskElement.classList.add('task-element');
+              taskElement.onclick = openDetail.bind(null, id);
+
+              // Checkbox ID has the date and name of task to prevent duplication
+
+              taskElement.innerHTML = `
+                  <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${task.taskName} </label>
+                  <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+              `;
+              taskList.appendChild(taskElement);
+
+              // Get id of checkboxes to be ticked
+              if (task.completion.includes(fDate)) {
+                boxToTick.push(`${id}-checkbox`);
+              }
+            }
+          });
+        });
+      });
+    });
+
+    dayDiv.appendChild(dayHeader);
+    dayDiv.appendChild(taskList);
+
+    daysContainer.appendChild(dayDiv);
+
+    // Tick all checkboxes that have a completion date in json.
+    boxToTick.forEach((boxId) => {
+      document.getElementById(`${boxId}`).checked = true;
+    });
+  });
+}
+
+// eslint-disable-next-line no-unused-vars
 function saveDesc(id) {
   const taskDate = id.slice(0, 10);
   const taskName = id.slice(11);
@@ -275,99 +367,15 @@ function saveDesc(id) {
       });
     });
   });
+  // Place matrix on the task that was cliked on
+  const dateComponents = taskDate.split('/');
+
+  const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
+  const d = new Date(formattedDate);
+
+  loadMatrix(d);
+  console.log(jsonObj);
 }
-
-// eslint-disable-next-line no-unused-vars
-function backFromDesc() {
-  const descWin = document.getElementById('detailed-desc');
-  descWin.remove();
-}
-
-function loadMatrix(date) {
-  setMonthName(date);
-  const dayNum = date.getDay();
-
-  // Set date to the last Sunday to build day elements from the top
-  date.setDate(date.getDate() - dayNum);
-
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-  const daysContainer = document.getElementById('mobile-table');
-
-  daysOfWeek.forEach((day) => {
-    const dayDiv = document.createElement('div');
-
-    // Division for all components of the day
-    dayDiv.classList.add('days');
-
-    const dayHeader = document.createElement('div');
-
-    // Division for day name, date and add task button
-    dayHeader.classList.add('day-header');
-
-    const fDate = dateFormat(date);
-
-    dayHeader.innerHTML = `
-            <button type="button">+</button>
-            <span class="day-name">${day} (${fDate})</span>
-        `;
-
-    date.setDate(date.getDate() + 1);
-
-    const taskList = document.createElement('div');
-
-    // Division for task name and checkbox
-    taskList.classList.add('task-list');
-
-    /*
-      Find each task's day in json and check if it is same as the day of element under construction.
-      If it is, add the task name under the constructed header.
-    */
-    const boxToTick = [];
-    jsonObj.forEach((category) => {
-      category.activityTypes.forEach((activityType) => {
-        activityType.Tasks.forEach((task) => {
-          task.days.forEach((dayN) => {
-            if (dayN === day || dayN === fDate) {
-              const id = `${fDate}-${task.taskName}`;
-
-              const taskElement = document.createElement('div');
-
-              // Division for individual task name and checkbox
-              taskElement.classList.add('task-element');
-              taskElement.onclick = openDetail.bind(null, id);
-
-              // Checkbox ID has the date and name of task to prevent duplication
-
-              taskElement.innerHTML = `
-                  <label class="checkbox-label" for="${id} id="${id}-task"> ${task.taskName} </label>
-                  <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
-              `;
-              taskList.appendChild(taskElement);
-
-              // Get id of checkboxes to be ticked
-              if (task.completion.includes(fDate)) {
-                boxToTick.push(`${id}-checkbox`);
-              }
-            }
-          });
-        });
-      });
-    });
-
-    dayDiv.appendChild(dayHeader);
-    dayDiv.appendChild(taskList);
-
-    daysContainer.appendChild(dayDiv);
-
-    // Tick all checkboxes that have a completion date in json.
-    boxToTick.forEach((boxId) => {
-      document.getElementById(`${boxId}`).checked = true;
-    });
-  });
-}
-
-const date = new Date();
 
 document.addEventListener('DOMContentLoaded', () => {
   loadMatrix(date);
