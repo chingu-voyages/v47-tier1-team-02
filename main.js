@@ -235,11 +235,13 @@ function editDesc(id, element) {
   entryBox.focus();
 }
 
+// eslint-disable-next-line no-unused-vars
 function saveDesc(id) {
   const taskDate = id.slice(0, 10);
   const taskName = id.slice(11);
   const day = giveDay(taskDate);
 
+  // Get all id of the respective element spans (they're to be clicked on and edited)
   const nameId = `${id}-name`;
   const deadlineId = `${id}-deadline`;
   const categoryId = `${id}-category`;
@@ -252,6 +254,7 @@ function saveDesc(id) {
   const updatedactivity = document.getElementById(activityId).textContent;
   const updateddesc = document.getElementById(descId).textContent;
 
+  // Get days as a list of days/dates
   const daysList = updateddeadline.split(',');
 
   jsonObj.forEach((category) => {
