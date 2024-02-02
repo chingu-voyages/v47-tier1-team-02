@@ -236,6 +236,7 @@ function editDesc(id, element) {
 function saveDesc(id) {
   const taskDate = id.slice(0, 10);
   const taskName = id.slice(11);
+  const day = giveDay(taskDate);
 
   const nameId = `${id}-name`;
   const deadlineId = `${id}-deadline`;
@@ -249,7 +250,25 @@ function saveDesc(id) {
   const updatedactivity = document.getElementById(activityId).textContent;
   const updateddesc = document.getElementById(descId).textContent;
 
-  console.log(updatedName);
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activityType) => {
+      activityType.Tasks.forEach((task) => {
+        if (task.taskName === taskName) {
+          // Prevents same task name mismatch
+          if (task.days.includes(taskDate) || task.days.includes(day)) {
+            /* eslint-disable no-param-reassign */
+            task.taskName = updatedName;
+            task.days = updateddeadline;
+            task.taskDescription = updateddesc;
+            category.categoryName = updatedcategory;
+            activityType.activityName = updatedactivity;
+            /* eslint-enable no-param-reassign */
+          }
+        }
+      });
+    });
+  });
+  console.log(jsonObj);
 }
 
 // eslint-disable-next-line no-unused-vars
