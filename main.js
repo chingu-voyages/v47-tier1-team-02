@@ -5,8 +5,8 @@ const introForm = document.getElementById('intro-form');
 const welcomePage = document.getElementById('welcome-page');
 const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
-
-matrix.style.display = 'none';
+intro.style.display = 'none';
+matrix.style.display = 'block';
 
 // const userName = localStorage.getItem('name');
 
@@ -145,7 +145,19 @@ function openDetail(id) {
   overlayDesc.classList.add('overlay');
   overlayDesc.setAttribute('id', 'detailed-desc');
 
+  // Days go as separate widgets to the task description window with button to remove them
+  let htmlAdd = '';
+  taskDays.forEach((taskDay) => {
+    htmlAdd += `
+        <div id="${id}-deadline-${taskDay}-div" class="day-widget">
+          <span id="${id}-deadline-${taskDay}" class="desc-element" onclick="editDesc('${id}-${taskDay}', 'deadline')">${taskDay}</span>
+          <button id="${id}-deadline-${taskDay}-button" onclick="deleteDate('${id}-deadline-${taskDay}-div')">x</button>
+        </div>
+    `;
+  });
+
   // On clicking any of the attributes in the description, give id (name and date) to edit function
+  // --> to self - try removing ${id} from desc item
   overlayDesc.innerHTML = `
     <div id="back-n-day">
       <img src="images/back.png" id="back-img" onclick="backFromDesc()">
@@ -155,16 +167,21 @@ function openDetail(id) {
 
     <div id="task-desc">
       <div id="${id}-name-desc" class="desc-item">Task name : 
-          <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')">${taskName}</span>
+        <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')"> ${taskName}</span>
       </div>
       <div id="${id}-deadline-desc" class="desc-item">Deadline : 
-          <span id="${id}-deadline" class="desc-element" onclick="editDesc('${id}', 'deadline')">${taskDays}</span>
+        <div id="task-days" class="task-days">
+          ${htmlAdd}
+        </div>
+        <div id="add-day">
+          <button id="add-day-button" onclick="addDay('${id}')"> + </button>
+        </div>
       </div>
       <div id="${id}-category-desc" class="desc-item">Category : 
-          <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')">${taskCat}</span>
+          <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')"> ${taskCat}</span>
       </div>
       <div id="${id}-activity-desc" class="desc-item">Activity : 
-          <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')">${taskAct}</span>
+          <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')"> ${taskAct}</span>
       </div>
       <div id="${id}-detail-desc" class="desc-item">Description : 
           <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
@@ -176,6 +193,51 @@ function openDetail(id) {
     </div>
   `;
   document.body.appendChild(overlayDesc);
+}
+
+// eslint-disable-next-line no-unused-vars
+function addDay(id) {
+  const addDayDiv = document.getElementById('add-day');
+  addDayDiv.innerHTML = `
+    <input id="day-entry" class="DateInput" type="number" placeholder="DD" min=1 max=30>
+    <input id="month-entry" class="DateInput" type="number" placeholder="MM" min=1 max=12>
+    <input id="year-entry" class="DateYearInput" type="number" placeholder="YYYY" min=1000 max=5000>
+    <button id="add-day-submit" onclick="addDaySubmit('${id}')">Add</button>
+  `;
+}
+
+// eslint-disable-next-line no-unused-vars
+function addDaySubmit(id) {
+  const addDayDiv = document.getElementById('add-day');
+  const day = document.getElementById('day-entry').value;
+  const month = document.getElementById('month-entry').value;
+  const year = document.getElementById('year-entry').value;
+
+  const dateObj = new Date(year, month, day);
+  const addedDate = dateFormat(dateObj);
+
+  const deadlineDiv = document.getElementById('task-days');
+  const dayDiv = document.createElement('div');
+  dayDiv.setAttribute('id', `${id}-deadline-${addedDate}-div`);
+  dayDiv.classList.add('day-widget');
+
+  dayDiv.innerHTML = `
+    <span id="${id}-deadline-${addedDate}" class="desc-element fetch-text" onclick="editDesc('${id}-${addedDate}', 'deadline')">${addedDate}</span>
+    <button id="${id}-deadline-${addedDate}-button" onclick="deleteDate('${id}-deadline-${addedDate}-div')">x</button>
+  `;
+  addDayDiv.innerHTML = '';
+
+  deadlineDiv.appendChild(dayDiv);
+
+  dayDiv.insertAdjacentHTML('afterend', `
+    <button id="add-day-button" onclick="addDay('${id}')"> + </button>  
+  `);
+}
+
+// eslint-disable-next-line no-unused-vars
+function deleteDate(id) {
+  const dateWidget = document.getElementById(id);
+  dateWidget.remove();
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -335,19 +397,21 @@ function saveDesc(id) {
 
   // Get all id of the respective element spans (they're to be clicked on and edited)
   const nameId = `${id}-name`;
-  const deadlineId = `${id}-deadline`;
+
   const categoryId = `${id}-category`;
   const activityId = `${id}-activity`;
   const descId = `${id}-description`;
 
   const updatedName = document.getElementById(nameId).textContent;
-  const updateddeadline = document.getElementById(deadlineId).textContent;
   const updatedcategory = document.getElementById(categoryId).textContent;
   const updatedactivity = document.getElementById(activityId).textContent;
   const updateddesc = document.getElementById(descId).textContent;
 
+  let deadlineId = null;
+  let checkExist = null;
+
   // Get days as a list of days/dates
-  const daysList = updateddeadline.split(',');
+  // const daysList = updateddeadline.split(',');
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
@@ -357,11 +421,23 @@ function saveDesc(id) {
           if (task.days.includes(taskDate) || task.days.includes(day)) {
             /* eslint-disable no-param-reassign */
             task.taskName = updatedName;
-            task.days = daysList;
+            // task.days = daysList;
             task.taskDescription = updateddesc;
             category.categoryName = updatedcategory;
             activityType.activityName = updatedactivity;
             /* eslint-enable no-param-reassign */
+
+            /*
+                If task date does not exist in document, remove it from json. Element with id in the
+                given format will not exist if it has previously been removed by clicking x
+            */
+            task.days.forEach((taskDay) => {
+              deadlineId = `${id}-deadline-${taskDay}`;
+              checkExist = document.getElementById(deadlineId);
+              if (checkExist === null) {
+                task.days.splice(task.days.indexOf(taskDay), 1);
+              }
+            });
           }
         }
       });
