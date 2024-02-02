@@ -70,6 +70,7 @@ const jsonObj = [
             taskDescription: 'Go through all articles in bookmark',
             days: [
               'Monday',
+              '02/02/2024',
             ],
             completion: [],
           },
@@ -120,7 +121,7 @@ function openDetail(id) {
   // To check for due date with day as well
   const day = giveDay(taskDate);
 
-  let taskCat = ''; let taskAct = ''; let taskDesc = '';
+  let taskCat = ''; let taskAct = ''; let taskDesc = ''; let taskDays = '';
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
@@ -131,6 +132,7 @@ function openDetail(id) {
             taskDesc = task.taskDescription;
             taskCat = category.categoryName;
             taskAct = activityType.activityName;
+            taskDays = task.days;
           }
         }
       });
@@ -155,7 +157,7 @@ function openDetail(id) {
           <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')">${taskName}</span>
       </div>
       <div id="${id}-deadline-desc" class="desc-item">Deadline : 
-          <span id="${id}-deadline" class="desc-element" onclick="editDesc('${id}', 'deadline')">${taskDate}</span>
+          <span id="${id}-deadline" class="desc-element" onclick="editDesc('${id}', 'deadline')">${taskDays}</span>
       </div>
       <div id="${id}-category-desc" class="desc-item">Category : 
           <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')">${taskCat}</span>
@@ -250,6 +252,8 @@ function saveDesc(id) {
   const updatedactivity = document.getElementById(activityId).textContent;
   const updateddesc = document.getElementById(descId).textContent;
 
+  const daysList = updateddeadline.split(',');
+
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
       activityType.Tasks.forEach((task) => {
@@ -258,7 +262,7 @@ function saveDesc(id) {
           if (task.days.includes(taskDate) || task.days.includes(day)) {
             /* eslint-disable no-param-reassign */
             task.taskName = updatedName;
-            task.days = updateddeadline;
+            task.days = daysList;
             task.taskDescription = updateddesc;
             category.categoryName = updatedcategory;
             activityType.activityName = updatedactivity;
@@ -268,7 +272,6 @@ function saveDesc(id) {
       });
     });
   });
-  console.log(jsonObj);
 }
 
 // eslint-disable-next-line no-unused-vars
