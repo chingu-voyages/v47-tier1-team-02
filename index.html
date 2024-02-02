@@ -36,10 +36,11 @@
             <h2 class="form-title">First we want to know a few things about you</h2>
             <input type="text" name="user" placeholder="Name" id="introForm-input" maxlength="12" minlength="3"
                 required />
-            <h2 class="form-choice">Do you want template?</h2>
+            <h2 class="form-choice">Do you want to use a template?</h2>
 
             <div class="form-choice-btns" id="form-choice-btns">
-                <button type="submit" class="choice-btn">Yes</button>
+                <input type="file" id="import-data" name="importData" class="choice-field" hidden>
+                <label for="import-data" class="intro-file-upload">Enter Exported Data</label>
                 <button class="choice-btn" id="decline-btn" type="reset">No</button>
             </div>
         </form>

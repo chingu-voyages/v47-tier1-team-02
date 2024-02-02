@@ -267,3 +267,11 @@ function goToMonth(month) {
   date.setMonth(month);
   loadMatrix(date);
 }
+
+// Intro file upload - Change the file name after selecting a file
+document.getElementById('import-data').addEventListener('change', function() {
+  const fileName = this.files[0].name;
+  const nextSibling = this.nextElementSibling;
+  nextSibling.innerText = fileName;
+});
+

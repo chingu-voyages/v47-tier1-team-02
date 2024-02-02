@@ -142,6 +142,14 @@ body {
     margin: 1em 2em;
 }
 
+.intro-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #000000;
+    border-radius: 4px;
+}
+
 /*___________________*/
 
 #month {
