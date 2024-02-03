@@ -81,6 +81,7 @@ const jsonObj = [
   },
 ];
 
+// Convert date object to DD/MM/YYYY string format
 function dateFormat(fDate) {
   const dd = String(fDate.getDate()).padStart(2, '0');
   const mm = String(fDate.getMonth() + 1).padStart(2, '0');
@@ -88,6 +89,7 @@ function dateFormat(fDate) {
   return `${dd}/${mm}/${yyyy}`;
 }
 
+// Update the name of month in dropdown box whenever week change results in month change
 function setMonthName(mDate) {
   const months = [
     'January', 'February', 'March', 'April',
@@ -96,15 +98,16 @@ function setMonthName(mDate) {
   ];
 
   const monthIndex = mDate.getMonth();
+  // Drop down box
   document.getElementById('month-name').innerHTML = `${months[monthIndex]}`;
 }
 
+// Return day of DD/MM/YYYY
 function giveDay(iDate) {
   const dateComponents = iDate.split('/');
 
   const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
 
-  // Create a Date object
   const d = new Date(formattedDate);
   const dayIndex = d.getDay();
 
@@ -113,10 +116,11 @@ function giveDay(iDate) {
   return daysOfWeek[dayIndex];
 }
 
+// To open task description page when task element is clicked on
 // eslint-disable-next-line no-unused-vars
 function openDetail(id) {
   if (document.getElementById('detailed-desc') == null) {
-    // id format - taskDate-taskName
+    // id format -> taskDate-taskName
     const taskDate = id.slice(0, 10);
     const taskName = id.slice(11);
 
@@ -158,7 +162,6 @@ function openDetail(id) {
     });
 
     // On clicking any of the attributes in the description, give id (name and date) to editDesc
-    // --> to self - try removing ${id} from desc item
     overlayDesc.innerHTML = `
       <div id="back-n-day">
         <img src="images/back.png" id="back-img" onclick="backFromDesc()">
@@ -167,10 +170,10 @@ function openDetail(id) {
       </div>
 
       <div id="task-desc">
-        <div id="${id}-name-desc" class="desc-item">Task name : 
+        <div id="name-desc" class="desc-item">Task name : 
           <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')"> ${taskName}</span>
         </div>
-        <div id="${id}-deadline-desc" class="desc-item">Deadline : 
+        <div id="deadline-desc" class="desc-item">Deadline : 
           <div id="task-days" class="task-days">
             ${htmlAdd}
           </div>
@@ -178,13 +181,13 @@ function openDetail(id) {
             <button id="add-day-button" onclick="addDay('${id}')"> + </button>
           </div>
         </div>
-        <div id="${id}-category-desc" class="desc-item">Category : 
+        <div id="category-desc" class="desc-item">Category : 
             <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')"> ${taskCat}</span>
         </div>
-        <div id="${id}-activity-desc" class="desc-item">Activity : 
+        <div id="activity-desc" class="desc-item">Activity : 
             <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')"> ${taskAct}</span>
         </div>
-        <div id="${id}-detail-desc" class="desc-item">Description : 
+        <div id="detail-desc" class="desc-item">Description : 
             <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
         </div>
 
@@ -193,11 +196,11 @@ function openDetail(id) {
         <div>
       </div>
     `;
-    // document.body.appendChild(overlayDesc);
     document.getElementById('matrix').appendChild(overlayDesc);
   }
 }
 
+// Open entry box for date when + is clicked on
 // eslint-disable-next-line no-unused-vars
 function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
@@ -208,6 +211,7 @@ function addDay(id) {
   `;
 }
 
+// Remove entry box and add button when cancel is clicked on
 // eslint-disable-next-line no-unused-vars
 function addDayCancel(id) {
   const addDayDiv = document.getElementById('add-day');
@@ -216,6 +220,7 @@ function addDayCancel(id) {
   `;
 }
 
+// Create widget for newly created date and it's removal button
 // eslint-disable-next-line no-unused-vars
 function addDaySubmit(id) {
   const addDayDiv = document.getElementById('add-day');
@@ -239,6 +244,7 @@ function addDaySubmit(id) {
     <button id="${id}-deadline-${addedDate}-button" onclick="deleteDate('${id}-deadline-${addedDate}-div')">x</button>
   `;
 
+  // Delete entry boxes and refresh + button
   addDayDiv.innerHTML = `
     <button id="add-day-button" onclick="addDay('${id}')"> + </button>  
   `;
@@ -246,12 +252,14 @@ function addDaySubmit(id) {
   deadlineDiv.appendChild(dayDiv);
 }
 
+// Remove date widget when it's removal button (x) is clicked on
 // eslint-disable-next-line no-unused-vars
 function deleteDate(id) {
   const dateWidget = document.getElementById(id);
   dateWidget.remove();
 }
 
+// Click on task description items to edit them using entry boxes and date inputs
 // eslint-disable-next-line no-unused-vars
 function editDesc(id, element) {
   let boxId = id;
@@ -311,13 +319,15 @@ function editDesc(id, element) {
   entryBox.focus();
 }
 
+// Set onclick functions to each task element
 function setListen() {
   document.querySelectorAll('.task-element').forEach((element) => {
-    const id = element.id.replace('-ele', ''); // Extracting the id without the '-ele' suffix
+    const id = element.id.replace('-ele', '');
     element.addEventListener('click', () => openDetail(id));
   });
 }
 
+// Delete overlay element when back button is pressed
 // eslint-disable-next-line no-unused-vars
 function backFromDesc() {
   const descWin = document.getElementById('detailed-desc');
@@ -464,7 +474,7 @@ function saveDesc(id) {
   const d = new Date(formattedDate);
 
   loadMatrix(d);
-  console.log(jsonObj);
+  // console.log(jsonObj);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
