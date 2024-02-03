@@ -202,21 +202,31 @@ function openDetail(id) {
 function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
   addDayDiv.innerHTML = `
-    <input id="day-entry" class="DateInput" type="number" placeholder="DD" min=1 max=30>
-    <input id="month-entry" class="DateInput" type="number" placeholder="MM" min=1 max=12>
-    <input id="year-entry" class="DateYearInput" type="number" placeholder="YYYY" min=1000 max=5000>
+    <input id="date-entry" type="date">
     <button id="add-day-submit" onclick="addDaySubmit('${id}')">Add</button>
+    <button id="add-day-submit" onclick="addDayCancel('${id}')">Cancel</button>
+  `;
+}
+
+// eslint-disable-next-line no-unused-vars
+function addDayCancel(id) {
+  const addDayDiv = document.getElementById('add-day');
+  addDayDiv.innerHTML = `
+    <button id="add-day-button" onclick="addDay('${id}')"> + </button>  
   `;
 }
 
 // eslint-disable-next-line no-unused-vars
 function addDaySubmit(id) {
   const addDayDiv = document.getElementById('add-day');
-  const day = document.getElementById('day-entry').value;
-  const month = document.getElementById('month-entry').value;
-  const year = document.getElementById('year-entry').value;
 
-  const dateObj = new Date(year, month, day);
+  const inputDate = document.getElementById('date-entry').value;
+
+  const dateComp = inputDate.slice(8);
+  const monthComp = inputDate.slice(5, 7);
+  const yearComp = inputDate.slice(0, 4);
+
+  const dateObj = new Date(yearComp, monthComp, dateComp);
   const addedDate = dateFormat(dateObj);
 
   const deadlineDiv = document.getElementById('task-days');
@@ -228,13 +238,12 @@ function addDaySubmit(id) {
     <span id="${id}-deadline-${addedDate}" class="desc-element fetch-text" onclick="editDesc('${id}-${addedDate}', 'deadline')">${addedDate}</span>
     <button id="${id}-deadline-${addedDate}-button" onclick="deleteDate('${id}-deadline-${addedDate}-div')">x</button>
   `;
-  addDayDiv.innerHTML = '';
+
+  addDayDiv.innerHTML = `
+    <button id="add-day-button" onclick="addDay('${id}')"> + </button>  
+  `;
 
   deadlineDiv.appendChild(dayDiv);
-
-  dayDiv.insertAdjacentHTML('afterend', `
-    <button id="add-day-button" onclick="addDay('${id}')"> + </button>  
-  `);
 }
 
 // eslint-disable-next-line no-unused-vars

@@ -273,8 +273,9 @@ body {
 }
 
 .day-widget {
-    border-bottom: 0.5px solid;
-    margin: 0rem 0.5rem;
+    border-bottom: 0.5px solid; 
+    margin: 0.3rem 0.5rem;
+    text-align: center;
 }
 
 .DateInput {
@@ -287,4 +288,6 @@ body {
 
 .task-days {
     display: flex;
+    flex-direction: column;
+    margin: 0rem 2rem;
 }
