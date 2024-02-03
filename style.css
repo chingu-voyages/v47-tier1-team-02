@@ -304,3 +304,7 @@ body {
     flex-direction: column;
     margin: 0rem 2rem;
 }
+
+.add-day-element {
+    margin-top: 0.5rem;
+}

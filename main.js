@@ -5,8 +5,7 @@ const introForm = document.getElementById('intro-form');
 const welcomePage = document.getElementById('welcome-page');
 const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
-intro.style.display = 'none';
-matrix.style.display = 'block';
+matrix.style.display = 'none';
 
 // const userName = localStorage.getItem('name');
 
@@ -207,10 +206,10 @@ function openDetail(id) {
 function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
   addDayDiv.innerHTML = `
-    <input id="date-entry" type="date">
-    <button id="add-day-submit" onclick="addDaySubmit('${id}')">Add</button>
-    <button id="add-day-cancel" onclick="addDayCancel('${id}')">Cancel</button>
-    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')">Add day</button>
+    <input id="date-entry" type="date" class="add-day-element">
+    <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
+    <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
+    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')" class="add-day-element">Add day</button>
   `;
 }
 
@@ -219,7 +218,7 @@ function addDay(id) {
 function showDayDropDown(id) {
   const addDayDiv = document.getElementById('add-day');
   addDayDiv.innerHTML = `
-    <select id="day-dropdown">
+    <select id="day-dropdown" class="add-day-element">
         <option value="Sunday">Sunday</option>
         <option value="Monday">Monday</option>
         <option value="Tuesday">Tuesday</option>
@@ -228,8 +227,8 @@ function showDayDropDown(id) {
         <option value="Friday">Friday</option>
         <option value="Saturday">Saturday</option>
     </select>
-    <button id="add-day-submit" onclick="addDaySubmit('${id}')">Add</button>
-    <button id="add-day-cancel" onclick="addDayCancel('${id}')">Cancel</button>
+    <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
+    <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
   `;
 }
 
