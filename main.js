@@ -115,84 +115,87 @@ function giveDay(iDate) {
 
 // eslint-disable-next-line no-unused-vars
 function openDetail(id) {
-  // id format - taskDate-taskName
-  const taskDate = id.slice(0, 10);
-  const taskName = id.slice(11);
+  if (document.getElementById('detailed-desc') == null) {
+    // id format - taskDate-taskName
+    const taskDate = id.slice(0, 10);
+    const taskName = id.slice(11);
 
-  // To check for due date with day as well
-  const day = giveDay(taskDate);
+    // To check for due date with day as well
+    const day = giveDay(taskDate);
 
-  let taskCat = ''; let taskAct = ''; let taskDesc = ''; let taskDays = '';
+    let taskCat = ''; let taskAct = ''; let taskDesc = ''; let taskDays = '';
 
-  jsonObj.forEach((category) => {
-    category.activityTypes.forEach((activityType) => {
-      activityType.Tasks.forEach((task) => {
-        if (task.taskName === taskName) {
-          // Prevents same task name mismatch
-          if (task.days.includes(taskDate) || task.days.includes(day)) {
-            taskDesc = task.taskDescription;
-            taskCat = category.categoryName;
-            taskAct = activityType.activityName;
-            taskDays = task.days;
+    jsonObj.forEach((category) => {
+      category.activityTypes.forEach((activityType) => {
+        activityType.Tasks.forEach((task) => {
+          if (task.taskName === taskName) {
+            // Prevents same task name mismatch
+            if (task.days.includes(taskDate) || task.days.includes(day)) {
+              taskDesc = task.taskDescription;
+              taskCat = category.categoryName;
+              taskAct = activityType.activityName;
+              taskDays = task.days;
+            }
           }
-        }
+        });
       });
     });
-  });
 
-  const overlayDesc = document.createElement('div');
-  // Class overlays on top of all elements
-  overlayDesc.classList.add('overlay');
-  overlayDesc.setAttribute('id', 'detailed-desc');
+    const overlayDesc = document.createElement('div');
+    // Class overlays on top of all elements
+    overlayDesc.classList.add('overlay');
+    overlayDesc.setAttribute('id', 'detailed-desc');
 
-  // Days go as separate widgets to the task description window with button to remove them
-  let htmlAdd = '';
-  taskDays.forEach((taskDay) => {
-    htmlAdd += `
-        <div id="${id}-deadline-${taskDay}-div" class="day-widget">
-          <span id="${id}-deadline-${taskDay}" class="desc-element" onclick="editDesc('${id}-${taskDay}', 'deadline')">${taskDay}</span>
-          <button id="${id}-deadline-${taskDay}-button" onclick="deleteDate('${id}-deadline-${taskDay}-div')">x</button>
+    // Days go as separate widgets to the task description window with button to remove them
+    let htmlAdd = '';
+    taskDays.forEach((taskDay) => {
+      htmlAdd += `
+          <div id="${id}-deadline-${taskDay}-div" class="day-widget">
+            <span id="${id}-deadline-${taskDay}" class="desc-element" onclick="editDesc('${id}-${taskDay}', 'deadline')">${taskDay}</span>
+            <button id="${id}-deadline-${taskDay}-button" onclick="deleteDate('${id}-deadline-${taskDay}-div')">x</button>
+          </div>
+      `;
+    });
+
+    // On clicking any of the attributes in the description, give id (name and date) to editDesc
+    // --> to self - try removing ${id} from desc item
+    overlayDesc.innerHTML = `
+      <div id="back-n-day">
+        <img src="images/back.png" id="back-img" onclick="backFromDesc()">
+
+        <span id="desc-day">${day} (${taskDate})</span>
+      </div>
+
+      <div id="task-desc">
+        <div id="${id}-name-desc" class="desc-item">Task name : 
+          <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')"> ${taskName}</span>
         </div>
+        <div id="${id}-deadline-desc" class="desc-item">Deadline : 
+          <div id="task-days" class="task-days">
+            ${htmlAdd}
+          </div>
+          <div id="add-day">
+            <button id="add-day-button" onclick="addDay('${id}')"> + </button>
+          </div>
+        </div>
+        <div id="${id}-category-desc" class="desc-item">Category : 
+            <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')"> ${taskCat}</span>
+        </div>
+        <div id="${id}-activity-desc" class="desc-item">Activity : 
+            <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')"> ${taskAct}</span>
+        </div>
+        <div id="${id}-detail-desc" class="desc-item">Description : 
+            <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
+        </div>
+
+        <div id="save-button-div" class="desc-item">
+          <button onclick="saveDesc('${id}')">Save</button>
+        <div>
+      </div>
     `;
-  });
-
-  // On clicking any of the attributes in the description, give id (name and date) to edit function
-  // --> to self - try removing ${id} from desc item
-  overlayDesc.innerHTML = `
-    <div id="back-n-day">
-      <img src="images/back.png" id="back-img" onclick="backFromDesc()">
-
-      <span id="desc-day">${day} (${taskDate})</span>
-    </div>
-
-    <div id="task-desc">
-      <div id="${id}-name-desc" class="desc-item">Task name : 
-        <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')"> ${taskName}</span>
-      </div>
-      <div id="${id}-deadline-desc" class="desc-item">Deadline : 
-        <div id="task-days" class="task-days">
-          ${htmlAdd}
-        </div>
-        <div id="add-day">
-          <button id="add-day-button" onclick="addDay('${id}')"> + </button>
-        </div>
-      </div>
-      <div id="${id}-category-desc" class="desc-item">Category : 
-          <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')"> ${taskCat}</span>
-      </div>
-      <div id="${id}-activity-desc" class="desc-item">Activity : 
-          <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')"> ${taskAct}</span>
-      </div>
-      <div id="${id}-detail-desc" class="desc-item">Description : 
-          <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
-      </div>
-
-      <div id="save-button-div" class="desc-item">
-        <button onclick="saveDesc('${id}')">Save</button>
-      <div>
-    </div>
-  `;
-  document.body.appendChild(overlayDesc);
+    // document.body.appendChild(overlayDesc);
+    document.getElementById('matrix').appendChild(overlayDesc);
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -243,7 +246,7 @@ function deleteDate(id) {
 // eslint-disable-next-line no-unused-vars
 function editDesc(id, element) {
   let boxId = id;
-  let textBox = '';
+  let textBox = null;
 
   // Find the element that was clicked on
   switch (element) {
@@ -274,11 +277,12 @@ function editDesc(id, element) {
 
     default:
       textBox = '';
+      break;
   }
 
   // Entry box to replace the text
   const entryBox = document.createElement('input');
-  entryBox.setAttribute('id', 'edit-entry');
+  entryBox.setAttribute('id', `edit-entry-${element}`);
   entryBox.type = 'text';
   entryBox.value = textBox.textContent;
 
@@ -296,6 +300,13 @@ function editDesc(id, element) {
   });
 
   entryBox.focus();
+}
+
+function setListen() {
+  document.querySelectorAll('.task-element').forEach((element) => {
+    const id = element.id.replace('-ele', ''); // Extracting the id without the '-ele' suffix
+    element.addEventListener('click', () => openDetail(id));
+  });
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -353,19 +364,12 @@ function loadMatrix(matDate) {
             if (dayN === day || dayN === fDate) {
               const id = `${fDate}-${task.taskName}`;
 
-              const taskElement = document.createElement('div');
-
-              // Division for individual task name and checkbox
-              taskElement.classList.add('task-element');
-              taskElement.onclick = openDetail.bind(null, id);
-
-              // Checkbox ID has the date and name of task to prevent duplication
-
-              taskElement.innerHTML = `
+              taskList.innerHTML = `
+                <div id="${id}-ele" class="task-element">
                   <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${task.taskName} </label>
                   <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+                </div>
               `;
-              taskList.appendChild(taskElement);
 
               // Get id of checkboxes to be ticked
               if (task.completion.includes(fDate)) {
@@ -387,6 +391,7 @@ function loadMatrix(matDate) {
       document.getElementById(`${boxId}`).checked = true;
     });
   });
+  setListen();
 }
 
 // eslint-disable-next-line no-unused-vars
