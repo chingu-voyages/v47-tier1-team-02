@@ -172,6 +172,9 @@ function submitTaskName(activityId) {
     // Add new task to the container
     tasksContainer.appendChild(newTaskDiv);
 
+    // Get the tasks added to the category page to the local storage
+    getTasksToChecklist(taskName, taskDate, taskId)
+
     // Remove the input fields after adding the task
     taskNameInput.parentElement.remove();
 }
