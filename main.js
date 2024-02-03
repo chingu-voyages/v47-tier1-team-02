@@ -122,9 +122,8 @@ function openDetail(id) {
   if (document.getElementById('detailed-desc') == null) {
     // id format -> taskDate-taskName
     const taskDate = id.slice(0, 10);
-    console.log(taskDate);
+
     const taskName = id.slice(11);
-    console.log(taskName);
 
     // To check for due date with day as well
     const day = giveDay(taskDate);
@@ -154,11 +153,11 @@ function openDetail(id) {
 
     // Days go as separate widgets to the task description window with button to remove them
     let htmlAdd = '';
-    console.log(taskDays);
+
     taskDays.forEach((taskDay) => {
       htmlAdd += `
           <div id="${id}-deadline-${taskDay}-div" class="day-widget">
-            <span id="${id}-deadline-${taskDay}" class="desc-element date-widget" onclick="editDesc('${id}-${taskDay}', 'deadline')">${taskDay}</span>
+            <span id="${id}-deadline-${taskDay}" class="desc-element date-widget">${taskDay}</span>
             <button id="${id}-deadline-${taskDay}-button" onclick="deleteDate('${id}-deadline-${taskDay}-div')">x</button>
           </div>
       `;
@@ -209,19 +208,28 @@ function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
   addDayDiv.innerHTML = `
     <input id="date-entry" type="date">
-    
+    <button id="add-day-submit" onclick="addDaySubmit('${id}')">Add</button>
+    <button id="add-day-cancel" onclick="addDayCancel('${id}')">Cancel</button>
+    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')">Add day</button>
+  `;
+}
+
+// Show drop down menu when Add day button is clicked
+// eslint-disable-next-line no-unused-vars
+function showDayDropDown(id) {
+  const addDayDiv = document.getElementById('add-day');
+  addDayDiv.innerHTML = `
     <select id="day-dropdown">
-      <option value="NA">NA</option>
-      <option value="Sunday">Sunday</option>
-      <option value="Monday">Monday</option>
-      <option value="Tuesday">Tuesday</option>
-      <option value="Wednesday">Wednesday</option>
-      <option value="Thursday">Thursday</option>
-      <option value="Friday">Friday</option>
-      <option value="Saturday">Saturday</option>
+        <option value="Sunday">Sunday</option>
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+        <option value="Friday">Friday</option>
+        <option value="Saturday">Saturday</option>
     </select>
     <button id="add-day-submit" onclick="addDaySubmit('${id}')">Add</button>
-    <button id="add-day-submit" onclick="addDayCancel('${id}')">Cancel</button>
+    <button id="add-day-cancel" onclick="addDayCancel('${id}')">Cancel</button>
   `;
 }
 
@@ -239,21 +247,28 @@ function addDayCancel(id) {
 function addDaySubmit(id) {
   const addDayDiv = document.getElementById('add-day');
 
-  const inputDate = document.getElementById('date-entry').value;
-  const inputDay = document.getElementById('day-dropdown').value;
+  const inputDateEntry = document.getElementById('date-entry');
+  const inputDayEntry = document.getElementById('day-dropdown');
+
+  // const inputDate = inputDateEntry.value;
+  // const inputDayEntry inputDayEntry.value;
 
   let addedDate = null;
 
-  if (inputDate !== '') {
+  // Date entry box will not exist is day is added (vice versa)
+  if (inputDateEntry) {
+    const inputDate = inputDateEntry.value;
     const dateComp = inputDate.slice(8);
-    const monthComp = inputDate.slice(5, 7);
+    const monthComp = inputDate.slice(5, 7) - 1;
     const yearComp = inputDate.slice(0, 4);
 
     const dateObj = new Date(yearComp, monthComp, dateComp);
     addedDate = dateFormat(dateObj);
-  } else if (inputDay !== 'NA') {
+  } else if (inputDayEntry) {
+    const inputDay = inputDayEntry.value;
     addedDate = inputDay;
   } else {
+    // Don't accept if field is empty.
     return;
   }
 
@@ -263,7 +278,7 @@ function addDaySubmit(id) {
   dayDiv.classList.add('day-widget');
 
   dayDiv.innerHTML = `
-    <span id="${id}-deadline-${addedDate}" class="desc-element date-widget" onclick="editDesc('${id}-${addedDate}', 'deadline')">${addedDate}</span>
+    <span id="${id}-deadline-${addedDate}" class="desc-element date-widget">${addedDate}</span>
     <button id="${id}-deadline-${addedDate}-button" onclick="deleteDate('${id}-deadline-${addedDate}-div')">x</button>
   `;
 
