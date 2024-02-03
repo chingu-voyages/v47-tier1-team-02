@@ -137,11 +137,17 @@ function submitTaskName(activityId) {
     const taskDateInput = document.getElementById(`new-task-date-${activityId}`);
     const taskName = taskNameInput.value;
     const taskDesc = taskDescInput.value;
-    const taskDate = taskDateInput.value;
+    let taskDate = taskDateInput.value;
 
     if (taskName.trim() === '' || taskDesc.trim() === '' || taskDate.trim() === '') {
         alert('Task name, description, and due date cannot be empty');
         return;
+    }
+
+    // Convert date from yyyy-mm-dd to dd/mm/yyyy format
+    if (taskDate) {
+        const dateParts = taskDate.split('-'); 
+        taskDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`; 
     }
 
     const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
@@ -169,4 +175,5 @@ function submitTaskName(activityId) {
     // Remove the input fields after adding the task
     taskNameInput.parentElement.remove();
 }
+
 
