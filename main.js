@@ -499,7 +499,7 @@ function saveDesc(id) {
   const d = new Date(formattedDate);
 
   loadMatrix(d);
-  console.log(jsonObj);
+
   document.getElementById('detailed-desc').remove();
 }
 
