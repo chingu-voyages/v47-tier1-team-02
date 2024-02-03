@@ -122,7 +122,9 @@ function openDetail(id) {
   if (document.getElementById('detailed-desc') == null) {
     // id format -> taskDate-taskName
     const taskDate = id.slice(0, 10);
+    console.log(taskDate);
     const taskName = id.slice(11);
+    console.log(taskName);
 
     // To check for due date with day as well
     const day = giveDay(taskDate);
@@ -152,10 +154,11 @@ function openDetail(id) {
 
     // Days go as separate widgets to the task description window with button to remove them
     let htmlAdd = '';
+    console.log(taskDays);
     taskDays.forEach((taskDay) => {
       htmlAdd += `
           <div id="${id}-deadline-${taskDay}-div" class="day-widget">
-            <span id="${id}-deadline-${taskDay}" class="desc-element" onclick="editDesc('${id}-${taskDay}', 'deadline')">${taskDay}</span>
+            <span id="${id}-deadline-${taskDay}" class="desc-element date-widget" onclick="editDesc('${id}-${taskDay}', 'deadline')">${taskDay}</span>
             <button id="${id}-deadline-${taskDay}-button" onclick="deleteDate('${id}-deadline-${taskDay}-div')">x</button>
           </div>
       `;
@@ -192,7 +195,7 @@ function openDetail(id) {
         </div>
 
         <div id="save-button-div" class="desc-item">
-          <button onclick="saveDesc('${id}')">Save</button>
+          <button id=save-button onclick="saveDesc('${id}')">Save</button>
         <div>
       </div>
     `;
@@ -206,6 +209,17 @@ function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
   addDayDiv.innerHTML = `
     <input id="date-entry" type="date">
+    
+    <select id="day-dropdown">
+      <option value="NA">NA</option>
+      <option value="Sunday">Sunday</option>
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+    </select>
     <button id="add-day-submit" onclick="addDaySubmit('${id}')">Add</button>
     <button id="add-day-submit" onclick="addDayCancel('${id}')">Cancel</button>
   `;
@@ -226,13 +240,22 @@ function addDaySubmit(id) {
   const addDayDiv = document.getElementById('add-day');
 
   const inputDate = document.getElementById('date-entry').value;
+  const inputDay = document.getElementById('day-dropdown').value;
 
-  const dateComp = inputDate.slice(8);
-  const monthComp = inputDate.slice(5, 7);
-  const yearComp = inputDate.slice(0, 4);
+  let addedDate = null;
 
-  const dateObj = new Date(yearComp, monthComp, dateComp);
-  const addedDate = dateFormat(dateObj);
+  if (inputDate !== '') {
+    const dateComp = inputDate.slice(8);
+    const monthComp = inputDate.slice(5, 7);
+    const yearComp = inputDate.slice(0, 4);
+
+    const dateObj = new Date(yearComp, monthComp, dateComp);
+    addedDate = dateFormat(dateObj);
+  } else if (inputDay !== 'NA') {
+    addedDate = inputDay;
+  } else {
+    return;
+  }
 
   const deadlineDiv = document.getElementById('task-days');
   const dayDiv = document.createElement('div');
@@ -240,7 +263,7 @@ function addDaySubmit(id) {
   dayDiv.classList.add('day-widget');
 
   dayDiv.innerHTML = `
-    <span id="${id}-deadline-${addedDate}" class="desc-element fetch-text" onclick="editDesc('${id}-${addedDate}', 'deadline')">${addedDate}</span>
+    <span id="${id}-deadline-${addedDate}" class="desc-element date-widget" onclick="editDesc('${id}-${addedDate}', 'deadline')">${addedDate}</span>
     <button id="${id}-deadline-${addedDate}-button" onclick="deleteDate('${id}-deadline-${addedDate}-div')">x</button>
   `;
 
@@ -421,7 +444,6 @@ function saveDesc(id) {
 
   // Get all id of the respective element spans (they're to be clicked on and edited)
   const nameId = `${id}-name`;
-
   const categoryId = `${id}-category`;
   const activityId = `${id}-activity`;
   const descId = `${id}-description`;
@@ -431,11 +453,11 @@ function saveDesc(id) {
   const updatedactivity = document.getElementById(activityId).textContent;
   const updateddesc = document.getElementById(descId).textContent;
 
-  let deadlineId = null;
-  let checkExist = null;
-
-  // Get days as a list of days/dates
-  // const daysList = updateddeadline.split(',');
+  const datesList = [];
+  const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
+  dateWidgets.forEach((element) => {
+    datesList.push(document.getElementById(element.id).textContent);
+  });
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
@@ -445,23 +467,11 @@ function saveDesc(id) {
           if (task.days.includes(taskDate) || task.days.includes(day)) {
             /* eslint-disable no-param-reassign */
             task.taskName = updatedName;
-            // task.days = daysList;
+            task.days = datesList;
             task.taskDescription = updateddesc;
             category.categoryName = updatedcategory;
             activityType.activityName = updatedactivity;
             /* eslint-enable no-param-reassign */
-
-            /*
-                If task date does not exist in document, remove it from json. Element with id in the
-                given format will not exist if it has previously been removed by clicking x
-            */
-            task.days.forEach((taskDay) => {
-              deadlineId = `${id}-deadline-${taskDay}`;
-              checkExist = document.getElementById(deadlineId);
-              if (checkExist === null) {
-                task.days.splice(task.days.indexOf(taskDay), 1);
-              }
-            });
           }
         }
       });
@@ -474,7 +484,8 @@ function saveDesc(id) {
   const d = new Date(formattedDate);
 
   loadMatrix(d);
-  // console.log(jsonObj);
+  console.log(jsonObj);
+  document.getElementById('detailed-desc').remove();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
