@@ -308,3 +308,8 @@ body {
 .add-day-element {
     margin-top: 0.5rem;
 }
+
+#button-div {
+    display: flex;
+    justify-content: space-around;
+}

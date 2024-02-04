@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // Follows Airbnb JavaScript style guide
 
 const intro = document.getElementById('intro');
@@ -192,8 +193,9 @@ function openDetail(id) {
             <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
         </div>
 
-        <div id="save-button-div" class="desc-item">
-          <button id=save-button onclick="saveDesc('${id}')">Save</button>
+        <div id="button-div" class="desc-item">
+          <button id="save-button" onclick="saveDesc('${id}')">Save</button>
+          <button id="delete-button" onclick="DeleteTask('${id}')">Delete Task</button>
         <div>
       </div>
     `;
@@ -451,6 +453,19 @@ function loadMatrix(matDate) {
 }
 
 // eslint-disable-next-line no-unused-vars
+function DeleteTask(id) {
+  const taskName = id.slice(11);
+
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activityType) => {
+      activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
+    });
+  });
+  loadMatrix(date);
+  document.getElementById('detailed-desc').remove();
+}
+
+// eslint-disable-next-line no-unused-vars
 function saveDesc(id) {
   const taskDate = id.slice(0, 10);
   const taskName = id.slice(11);
@@ -498,7 +513,6 @@ function saveDesc(id) {
   const d = new Date(formattedDate);
 
   loadMatrix(d);
-
   document.getElementById('detailed-desc').remove();
 }
 
