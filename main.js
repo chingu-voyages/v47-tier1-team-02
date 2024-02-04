@@ -801,6 +801,7 @@ function openCategoryPage() {
   checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
+  header.style.display = 'none';
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -932,6 +933,7 @@ function backFromChecklist() {
 function openChecklist() {
   categoryPage.style.display = 'none';
   matrix.style.display = 'none';
+  header.style.display = 'none';
   checklistPage.style.display = 'block';
   checklistPage.innerHTML = `
     <img src="images/back.png" id="back-img-checklist" onclick="backFromChecklist()">
