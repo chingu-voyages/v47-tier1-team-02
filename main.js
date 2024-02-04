@@ -807,6 +807,7 @@ function openCategoryPage() {
 // eslint-disable-next-line no-unused-vars
 function backFromCategory() {
   categoryPage.style.display = 'none';
+  header.style.display = 'block';
   loadMatrix(date);
   matrix.style.display = 'block';
 }
@@ -927,6 +928,7 @@ function backFromChecklist() {
   checklistPage.innerHTML = '';
   checklistPage.style.display = 'none';
   loadMatrix(date);
+  header.style.display = 'block';
   matrix.style.display = 'block';
 }
 

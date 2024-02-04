@@ -419,6 +419,10 @@ p {
     padding: 0 0.2em;
 }
 
+#back-img-checklist {
+    height: 50px;
+}
+
 #back-img {
     height: 50px;
 }:root {
@@ -440,7 +444,7 @@ p {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 999;
+    /* z-index: 999; */
     background-color: var(--primary-color-light);
     padding: 1.25rem 1rem;
 }
