@@ -1,29 +1,31 @@
 // Ensure use of Airbnb Javascript style guide.
 
 /* activate toggle menu */
-document.addEventListener("DOMContentLoaded", function () {
-    const navToggle = document.querySelector(".nav-toggle");
-    const navMenu = document.getElementById("nav-menu");
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.getElementById('nav-menu');
 
-    navToggle.addEventListener("click", function () {
-       navMenu.classList.toggle("active");
-    });
- });
+  navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+  });
+
 
 /* search functionality */
-const performSearch = (query) => {
-  console.log('Searching for:', query);
-};
+  const performSearch = (query) => {
+    console.log('Searching for:', query);
+  };
 
-const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
+  const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
 
- searchInputs.forEach(input => {
-  input.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); 
-      performSearch(input.value);
-    }
+  searchInputs.forEach(input => {
+    input.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault(); 
+        performSearch(input.value);
+      }
+    });
   });
 });
+
 
 
