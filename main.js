@@ -144,9 +144,6 @@ function openDetail(id) {
       category.activityTypes.forEach((activityType) => {
         activityType.Tasks.forEach((task) => {
           if (task.taskName === taskName) {
-            console.log(task.days);
-            console.log(taskDate);
-            console.log(day);
             // Prevents same task name mismatch
             if (task.days.includes(taskDate) || task.days.includes(day)) {
               taskDesc = task.taskDescription;
@@ -391,7 +388,6 @@ function loadMatrix(matDate) {
   const dayNum = matDate.getDay();
 
   // Set date to the last Sunday to build day elements from the top
-  matDate.setDate(matDate.getDate() - dayNum);
   matDate.setDate(matDate.getDate() - dayNum);
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
