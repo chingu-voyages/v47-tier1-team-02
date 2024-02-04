@@ -6,9 +6,7 @@ const introForm = document.getElementById('intro-form');
 const welcomePage = document.getElementById('welcome-page');
 const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
-const categoryPage = document.getElementById('add-task-page');
 
-intro.style.display = 'none';
 matrix.style.display = 'none';
 
 document.addEventListener('click', (e) => {
@@ -17,9 +15,7 @@ document.addEventListener('click', (e) => {
     introForm.style.display = 'block';
   } else if (e.target.id === 'decline-btn') {
     introForm.style.display = 'none';
-    // welcomePage.style.display = 'block';
-    matrix.style.display = 'block';
-    introFormInput.value = '';
+    welcomePage.style.display = 'block';
   }
 });
 
@@ -36,49 +32,49 @@ introForm.addEventListener('submit', (e) => {
   matrix.style.display = 'block';
 });
 
-// const jsonObj = [
-//   {
-//     categoryName: 'Routine activities',
-//     activityTypes: [
-//       {
-//         activityName: 'Projects',
-//         Tasks: [
-//           {
-//             taskName: 'Ontrack',
-//             taskDescription: 'Create json data handling',
-//             days: [
-//               '25/01/2024',
-//               '23/01/2024',
-//               '22/01/2024',
-//             ],
-//             completion: [
-//               '23/01/2024',
-//               '22/01/2024',
-//             ],
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     categoryName: 'Studying',
-//     activityTypes: [
-//       {
-//         activityName: 'Node js course',
-//         Tasks: [
-//           {
-//             taskName: 'Read bookmarked article',
-//             taskDescription: 'Go through all articles in bookmark',
-//             days: [
-//               'Monday',
-//             ],
-//             completion: [],
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ];
+const jsonObj = [
+  {
+    categoryName: 'Routine activities',
+    activityTypes: [
+      {
+        activityName: 'Projects',
+        Tasks: [
+          {
+            taskName: 'Ontrack',
+            taskDescription: 'Create json data handling',
+            days: [
+              '25/01/2024',
+              '23/01/2024',
+              '22/01/2024',
+            ],
+            completion: [
+              '23/01/2024',
+              '22/01/2024',
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    categoryName: 'Studying',
+    activityTypes: [
+      {
+        activityName: 'Node js course',
+        Tasks: [
+          {
+            taskName: 'Read bookmarked article',
+            taskDescription: 'Go through all articles in bookmark',
+            days: [
+              'Monday',
+            ],
+            completion: [],
+          },
+        ],
+      },
+    ],
+  },
+];
 
 const jsonObj = [];
 
