@@ -9,7 +9,9 @@ const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
 const checklistPage = document.getElementById('checklist-page');
 const categoryPage = document.getElementById('category-page');
+const header = document.querySelector('header');
 
+header.style.display = 'none';
 checklistPage.style.display = 'none';
 categoryPage.style.display = 'none';
 matrix.style.display = 'none';
@@ -25,6 +27,7 @@ document.addEventListener('click', (e) => {
     welcomePage.style.display = 'none';
     introFormInput.value = '';
     matrix.style.display = 'block';
+    header.style.display = 'block';
   }
 });
 
@@ -39,6 +42,7 @@ introForm.addEventListener('submit', (e) => {
   introFormInput.value = '';
   intro.style.display = 'none';
   matrix.style.display = 'block';
+  header.style.display = 'block';
 });
 
 const date = new Date();
@@ -794,6 +798,7 @@ function submitTaskName(activityId) {
 
 // eslint-disable-next-line no-unused-vars
 function openCategoryPage() {
+  checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
 }
@@ -925,6 +930,7 @@ function backFromChecklist() {
 }
 
 function openChecklist() {
+  categoryPage.style.display = 'none';
   matrix.style.display = 'none';
   checklistPage.style.display = 'block';
   checklistPage.innerHTML = `
@@ -935,3 +941,29 @@ function openChecklist() {
   `;
   getDayDate();
 }
+
+/* activate toggle menu */
+document.addEventListener('DOMContentLoaded', () => {
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.getElementById('nav-menu');
+
+  navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+  });
+
+  /* search functionality */
+  const performSearch = (query) => {
+    console.log('Searching for:', query);
+  };
+
+  const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
+
+  searchInputs.forEach((input) => {
+    input.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        performSearch(input.value);
+      }
+    });
+  });
+});
