@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // Follows Airbnb JavaScript style guide
 
 const intro = document.getElementById('intro');
@@ -9,8 +10,6 @@ const categoryPage = document.getElementById('add-task-page');
 
 intro.style.display = 'none';
 matrix.style.display = 'none';
-
-// const userName = localStorage.getItem('name');
 
 document.addEventListener('click', (e) => {
   if (e.target.id === 'start-btn') {
@@ -272,58 +271,15 @@ function goToMonth(month) {
   loadMatrix(date);
 }
 
-// eslint-disable-next-line no-unused-vars
-function addTaskPage() {
-  matrix.style.display = 'none';
-  categoryPage.style.display = 'block';
-}
-
-// eslint-disable-next-line no-unused-vars
-function closeCategoryPage() {
-  categoryPage.style.display = 'none';
-  matrix.style.display = 'block';
-}
-
-// eslint-disable-next-line no-unused-vars
-function addCategory() {
-  const entry = document.getElementById('category-entry');
-  entry.innerHTML = `
-    <input type="text" id='category-submit' value="Category name"> 
-    <button onclick=submitCategoryName()>Add</button>
-  `;
-}
-
-// eslint-disable-next-line no-unused-vars
-function submitCategoryName() {
-  const category = document.getElementById('category-submit').value;
-
+function categoryToJson(category) {
   const categoryJSON = { categoryName: category, activityTypes: [] };
   jsonObj.push(categoryJSON);
-
-  const entry = document.getElementById('category-entry');
-  entry.innerHTML = '';
-
-  // console.log(jsonObj);
 }
 
-// eslint-disable-next-line no-unused-vars
-function addActivity(categoryId) {
-  const entry = document.getElementById('category-entry');
-  entry.innerHTML = `
-    <input type="text" id='activity-submit' value="activity name"> 
-    <button onclick=submitActivityName('${categoryId}')>Add</button>
-  `;
-}
+function activityToJson(categoryId, activity) {
+  const catText = document.getElementById(`category-text-${categoryId}`).textContent;
 
-// eslint-disable-next-line no-unused-vars
-function submitActivityName(categoryId) {
-  // use categoryID instead of category-text
-  let catText = document.getElementById('category-text').textContent;
-
-  // when the category page is ready the below line is to be removed
-  catText = 'Category name';
   const index = jsonObj.findIndex((cat) => cat.categoryName === catText);
-  const activity = document.getElementById('activity-submit').value;
 
   const activityjson = {
     activityName: activity,
@@ -332,47 +288,23 @@ function submitActivityName(categoryId) {
 
   jsonObj[index].activityTypes.push(activityjson);
 
-  const entry = document.getElementById('category-entry');
-  entry.innerHTML = '';
-
-  // console.log(jsonObj);
+//   console.log(jsonObj);
 }
 
-// eslint-disable-next-line no-unused-vars
-function addTask(id) {
-  // using category-entry entry box is temporary
-  const entry = document.getElementById('category-entry');
-  entry.innerHTML = `
-    <input type="text" id='task-submit' value="task name"> 
-    <input type="text" id='description-submit' value="description"> 
-    <input type="text" id='date-submit' value="due dates"> 
-    <button onclick=submitTaskName('${id}')>Add</button>
-  `;
-}
+function taskToJson(activityId, taskName, taskDate, taskDesc) {
+  const actText = document.getElementById(`activity-text-${activityId}`).textContent;
+  const taskDateList = [taskDate];
 
-// eslint-disable-next-line no-unused-vars
-function submitTaskName(id) {
-  let actText = document.getElementById('activity-text').textContent;
-
-  // when the category page is ready the below line is to be removed
-  actText = 'activity name';
-
-  const task = document.getElementById('task-submit').value;
-  const description = document.getElementById('description-submit').value;
-  const dueDate = document.getElementById('date-submit').value;
-
-  const dueDates = dueDate.split(', ');
-  // console.log(dueDates);
-
+  // Push task details to json
   const tasksJson = {
-    taskName: task,
-    taskDescription: description,
+    taskName,
+    taskDescription: taskDesc,
     days: [],
     completion: [],
   };
 
   // console.log(tasksJson.days);
-  tasksJson.days = tasksJson.days.concat(dueDates);
+  tasksJson.days = tasksJson.days.concat(taskDateList);
 
   jsonObj.forEach((cat) => {
     cat.activityTypes.forEach((activity) => {
@@ -381,8 +313,5 @@ function submitTaskName(id) {
       }
     });
   });
-
-  const entry = document.getElementById('category-entry');
-  entry.innerHTML = '';
-  // console.log(JSON.stringify(jsonObj));
+  // console.log(jsonObj);
 }
