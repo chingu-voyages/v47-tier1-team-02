@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // Follows Airbnb JavaScript style guide
 
 const intro = document.getElementById('intro');
@@ -5,7 +6,9 @@ const introForm = document.getElementById('intro-form');
 const welcomePage = document.getElementById('welcome-page');
 const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
+const checklistPage = document.getElementById('checklist-page');
 
+checklistPage.style.display = 'none';
 matrix.style.display = 'none';
 
 // const userName = localStorage.getItem('name');
@@ -49,6 +52,7 @@ const jsonObj = [
             days: [
               '25/01/2024',
               '23/01/2024',
+              '04/02/2024',
               '22/01/2024',
             ],
             completion: [
@@ -80,30 +84,30 @@ const jsonObj = [
   },
 ];
 
-function dateFormat(date) {
-  const dd = String(date.getDate()).padStart(2, '0');
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const yyyy = date.getFullYear();
+function dateFormat(fDate) {
+  const dd = String(fDate.getDate()).padStart(2, '0');
+  const mm = String(fDate.getMonth() + 1).padStart(2, '0');
+  const yyyy = fDate.getFullYear();
   return `${dd}/${mm}/${yyyy}`;
 }
 
-function setMonthName(date) {
+function setMonthName(mDate) {
   const months = [
     'January', 'February', 'March', 'April',
     'May', 'June', 'July', 'August',
     'September', 'October', 'November', 'December',
   ];
 
-  const monthIndex = date.getMonth();
+  const monthIndex = mDate.getMonth();
   document.getElementById('month-name').innerHTML = `${months[monthIndex]}`;
 }
 
-function loadMatrix(date) {
-  setMonthName(date);
-  const dayNum = date.getDay();
+function loadMatrix(matDate) {
+  setMonthName(matDate);
+  const dayNum = matDate.getDay();
 
   // Set date to the last Sunday to build day elements from the top
-  date.setDate(date.getDate() - dayNum);
+  matDate.setDate(matDate.getDate() - dayNum);
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -120,14 +124,14 @@ function loadMatrix(date) {
     // Division for day name, date and add task button
     dayHeader.classList.add('day-header');
 
-    const fDate = dateFormat(date);
+    const fDate = dateFormat(matDate);
 
     dayHeader.innerHTML = `
             <button type="button">+</button>
             <span class="day-name">${day} (${fDate})</span>
         `;
 
-    date.setDate(date.getDate() + 1);
+    matDate.setDate(matDate.getDate() + 1);
 
     const taskList = document.createElement('div');
 
@@ -180,8 +184,6 @@ function loadMatrix(date) {
   });
 }
 
-const date = new Date();
-
 document.addEventListener('DOMContentLoaded', () => {
   loadMatrix(date);
 });
@@ -198,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 
 // eslint-disable-next-line no-unused-vars
-function checkboxStore(id) {
+function checkboxStore(id, type) {
   const boxDate = id.slice(0, 10);
   const boxName = id.slice(11, -9);
 
@@ -269,83 +271,87 @@ function goToMonth(month) {
   loadMatrix(date);
 }
 
-
-
-
-// the button will render the new tasks added to local storage from the category page on the checklist page
-document.getElementById("checklist-add-btn").addEventListener('click', () => {
-    renderTasksToChecklist()
-})
-
-//to render the Checklist page upon loading the page
-
-if(window.location.href === 'category.html') {
-    document.addEventListener('DOMContentLoaded', renderChecklist)
-}
-
-//to get the current date and day to be displayed the Today's Checklist page
+// to get the current date and day to be displayed the Today's Checklist page
 function getChecklistDay() {
-    const dayIndex = String(date.getDay())
-    const checklistDate = dateFormat(date)
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return ` <h2 class="checklist-day">${daysOfWeek[dayIndex]}(${checklistDate})</h2>`;
+  const todayDate = new Date();
+  const dayIndex = String(todayDate.getDay());
+  const checklistDate = dateFormat(todayDate);
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return [daysOfWeek[dayIndex], checklistDate];
 }
 
-const today = getChecklistDay()
+function renderTaskToChecklist(todayDate, taskName, boxToTick) {
+  const categoryPage = document.getElementById('checklist-page');
+  const id = `${todayDate}-${taskName}`;
+  const taskElementHtml = `
+    <div id="${id}-ele" class="task-element">
+        <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${taskName} </label>
+        <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
+    </div>   
+  `;
 
-//to render the Checklist page with the current date and day plus the tasks added to the local storage
-function renderChecklist() {
-    const checklistDate = document.getElementById('checklist-date')
-    checklistDate.innerHTML = `${today}`
-    renderTasksToChecklist()
+  categoryPage.innerHTML += taskElementHtml;
+
+  boxToTick.forEach((boxId) => {
+    document.getElementById(`${boxId}-checkbox`).checked = true;
+    document.getElementById(`${boxId}-checkbox-checklist`).checked = true;
+  });
 }
 
-// get the tasks added to the category page to the local storage to be used in the checklist page
-function getTasksTochecklist(taskName, taskDate, taskId) {
-    const checklistItems = JSON.parse(localStorage.getItem('checklistItems') || "[]");
-    const checklistObj = {
-        name: taskName,
-        date: taskDate,
-        id: Math.random().toString(16).slice(2),
-    }
-    checklistItems.push(checklistObj)
-    localStorage.setItem('checklistItems', JSON.stringify(checklistItems))
+function findTasks() {
+  const dayDate = getChecklistDay();
+  const todayDay = dayDate[0];
+  const todayDate = dayDate[1];
+  const boxToTick = [];
+
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activityType) => {
+      activityType.Tasks.forEach((task) => {
+        task.days.forEach((dayN) => {
+          if (dayN === todayDay || dayN === todayDate) {
+            const id = `${todayDate}-${task.taskName}`;
+            if (task.completion.includes(todayDate)) {
+              boxToTick.push(id);
+            }
+            renderTaskToChecklist(todayDate, task.taskName, boxToTick);
+          }
+        });
+      });
+    });
+  });
 }
 
-
-const todaysDate = dateFormat(date)
-
-// get the tasks from the local storage to the checklist page
-
-function renderTasksToChecklist() {
-    const savedTasks = JSON.parse(localStorage.getItem('checklistItems') || "[]");
-    const checklistContainer = document.getElementById('checklist-container')
-    let checklistHtml = savedTasks.map(task => {
-        // only show today's tasks
-        if (task.date === todaysDate) {
-            return `
-            <div class="checklist-task">
-            <label for="${task.id}" class="checklist-name">${task.name}</label>
-            <input type="checkbox" id="${task.id}" name="${task.name}" />
-            </div>
-            `
-        }
-    }).join('');
-    checklistContainer.innerHTML = checklistHtml
-    const checkboxes = document.querySelectorAll('.checklist-container input[type="checkbox"]');
-    checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+function setDayHeader(todayDay, todayDate) {
+  const dayHeader = document.getElementById('day-header');
+  dayHeader.innerHTML = `
+    <button type="button">+</button>
+    <span class="day-name">${todayDay} (${todayDate})</span>
+  `;
+  findTasks();
 }
 
+function getDayDate() {
+  const dayDate = getChecklistDay();
+  const todayDay = dayDate[0];
+  const todayDate = dayDate[1];
 
-function handleCheck(e) {
-    const savedTasks = JSON.parse(localStorage.getItem('checklistItems') || "[]");
-    // if the checkbox is checked then the task will be removed from the local storage and the checklist page 
-    if (document.getElementById(e.target.id).checked) {
-        savedTasks.filter(x => x.id === e.target.id).map(tasks => {
-            savedTasks.pop(tasks)
-            return savedTasks
-        })
-    }
-    localStorage.setItem('checklistItems', JSON.stringify(savedTasks))
-    location.reload();
+  setDayHeader(todayDay, todayDate);
+}
+
+function backFromChecklist() {
+  checklistPage.innerHTML = '';
+  checklistPage.style.display = 'none';
+  matrix.style.display = 'block';
+}
+
+function openChecklist() {
+  matrix.style.display = 'none';
+  checklistPage.style.display = 'block';
+  checklistPage.innerHTML = `
+    <img src="images/back.png" id="back-img-checklist" onclick="backFromChecklist()">
+    <h1 class="checklist-title">Today's Tasks</h1>
+    <div class="day-header" id="day-header">
+    </div>  
+  `;
+  getDayDate();
 }
