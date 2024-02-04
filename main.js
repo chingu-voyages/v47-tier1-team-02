@@ -2,23 +2,28 @@
 
 /* activate toggle menu */
 document.addEventListener("DOMContentLoaded", function () {
-    let navToggle = document.querySelector(".nav-toggle");
-    let navMenu = document.getElementById("nav-menu");
+    const navToggle = document.querySelector(".nav-toggle");
+    const navMenu = document.getElementById("nav-menu");
 
     navToggle.addEventListener("click", function () {
        navMenu.classList.toggle("active");
     });
  });
 
- /* search functionality */
- document.getElementById('searchInput').addEventListener('keypress', function(event) {
-  if (event.key === 'Enter') {
+/* search functionality */
+const performSearch = (query) => {
+  console.log('Searching for:', query);
+};
+
+const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
+
+ searchInputs.forEach(input => {
+  input.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
       event.preventDefault(); 
-      performSearch();
-  }
+      performSearch(input.value);
+    }
+  });
 });
 
-function performSearch() {
-  let query = document.getElementById('searchInput').value;
-  console.log('Searching for:', query);
-}
+
