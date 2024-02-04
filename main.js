@@ -112,6 +112,7 @@ function loadMatrix(matDate) {
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   const daysContainer = document.getElementById('mobile-table');
+  daysContainer.innerHTML = '';
 
   daysOfWeek.forEach((day) => {
     const dayDiv = document.createElement('div');
@@ -200,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 
 // eslint-disable-next-line no-unused-vars
-function checkboxStore(id, type) {
+function checkboxStore(id) {
   const boxDate = id.slice(0, 10);
   const boxName = id.slice(11, -9);
 
@@ -219,7 +220,6 @@ function checkboxStore(id, type) {
     });
   });
   localStorage.setItem('tasksJson', JSON.stringify(jsonObj));
-  // console.log(jsonObj);
 }
 
 // Clear the matrix table when changing week/month
@@ -293,7 +293,7 @@ function renderTaskToChecklist(todayDate, taskName, boxToTick) {
   categoryPage.innerHTML += taskElementHtml;
 
   boxToTick.forEach((boxId) => {
-    document.getElementById(`${boxId}-checkbox`).checked = true;
+    // document.getElementById(`${boxId}-checkbox`).checked = true;
     document.getElementById(`${boxId}-checkbox-checklist`).checked = true;
   });
 }
@@ -341,6 +341,7 @@ function getDayDate() {
 function backFromChecklist() {
   checklistPage.innerHTML = '';
   checklistPage.style.display = 'none';
+  loadMatrix(date);
   matrix.style.display = 'block';
 }
 
