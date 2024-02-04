@@ -351,3 +351,74 @@ body {
     display: flex;
     justify-content: space-around;
 }
+
+/* checklist layout */
+
+.checklist-page {
+    padding-top: 0.5em;
+}
+
+
+.checklist-title {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 300;
+}
+
+.back {
+    display: block;
+    background-image: url(images/backBtn-img.png);
+    background-size: cover;
+    background-position: center;
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+
+
+.checklist-day-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checklist-day {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.checklist-add {
+    border-bottom: 2px solid black;
+    margin-top: 2em;
+    padding-bottom: 0.5em;
+}
+
+.checklist-add h2,
+p {
+    margin: 0;
+}
+
+.checklist-task {
+    width: 100%;
+    border-bottom: 2px solid #e5e5e5;
+    color: rgba(0, 0, 0, 0.67);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 0;
+}
+
+.checklist-name {
+    font-size: 1.3rem;
+}
+
+.checklist-add-btn {
+    background: none;
+    border-radius: 5px;
+    padding: 0;
+    font-size: 1rem;
+    padding: 0 0.2em;
+}
+
+#back-img-checklist {
+    height: 50px;
+}

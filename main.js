@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 // Follows Airbnb JavaScript style guide
 
@@ -6,8 +7,10 @@ const introForm = document.getElementById('intro-form');
 const welcomePage = document.getElementById('welcome-page');
 const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
+const checklistPage = document.getElementById('checklist-page');
 const categoryPage = document.getElementById('category-page');
 
+checklistPage.style.display = 'none';
 categoryPage.style.display = 'none';
 matrix.style.display = 'none';
 
@@ -52,6 +55,7 @@ const jsonObj = [
             days: [
               '25/01/2024',
               '23/01/2024',
+              '04/02/2024',
               '22/01/2024',
             ],
             completion: [
@@ -382,6 +386,7 @@ function loadMatrix(matDate) {
 
   // Set date to the last Sunday to build day elements from the top
   matDate.setDate(matDate.getDate() - dayNum);
+  matDate.setDate(matDate.getDate() - dayNum);
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -554,7 +559,6 @@ function checkboxStore(id) {
     });
   });
   localStorage.setItem('tasksJson', JSON.stringify(jsonObj));
-  // console.log(jsonObj);
 }
 
 // Clear the matrix table when changing week/month
@@ -844,4 +848,90 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
     });
   });
   console.log(jsonObj);
+}
+
+// to get the current date and day to be displayed the Today's Checklist page
+function getChecklistDay() {
+  const todayDate = new Date();
+  const dayIndex = String(todayDate.getDay());
+  const checklistDate = dateFormat(todayDate);
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return [daysOfWeek[dayIndex], checklistDate];
+}
+
+function renderTaskToChecklist(todayDate, taskName, boxToTick) {
+  const categoryPage = document.getElementById('checklist-page');
+  const id = `${todayDate}-${taskName}`;
+  const taskElementHtml = `
+    <div id="${id}-ele" class="task-element">
+        <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${taskName} </label>
+        <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
+    </div>   
+  `;
+
+  categoryPage.innerHTML += taskElementHtml;
+
+  boxToTick.forEach((boxId) => {
+    // document.getElementById(`${boxId}-checkbox`).checked = true;
+    document.getElementById(`${boxId}-checkbox-checklist`).checked = true;
+  });
+}
+
+function findTasks() {
+  const dayDate = getChecklistDay();
+  const todayDay = dayDate[0];
+  const todayDate = dayDate[1];
+  const boxToTick = [];
+
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activityType) => {
+      activityType.Tasks.forEach((task) => {
+        task.days.forEach((dayN) => {
+          if (dayN === todayDay || dayN === todayDate) {
+            const id = `${todayDate}-${task.taskName}`;
+            if (task.completion.includes(todayDate)) {
+              boxToTick.push(id);
+            }
+            renderTaskToChecklist(todayDate, task.taskName, boxToTick);
+          }
+        });
+      });
+    });
+  });
+}
+
+function setDayHeader(todayDay, todayDate) {
+  const dayHeader = document.getElementById('day-header');
+  dayHeader.innerHTML = `
+    <button type="button">+</button>
+    <span class="day-name">${todayDay} (${todayDate})</span>
+  `;
+  findTasks();
+}
+
+function getDayDate() {
+  const dayDate = getChecklistDay();
+  const todayDay = dayDate[0];
+  const todayDate = dayDate[1];
+
+  setDayHeader(todayDay, todayDate);
+}
+
+function backFromChecklist() {
+  checklistPage.innerHTML = '';
+  checklistPage.style.display = 'none';
+  loadMatrix(date);
+  matrix.style.display = 'block';
+}
+
+function openChecklist() {
+  matrix.style.display = 'none';
+  checklistPage.style.display = 'block';
+  checklistPage.innerHTML = `
+    <img src="images/back.png" id="back-img-checklist" onclick="backFromChecklist()">
+    <h1 class="checklist-title">Today's Tasks</h1>
+    <div class="day-header" id="day-header">
+    </div>  
+  `;
+  getDayDate();
 }
