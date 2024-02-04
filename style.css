@@ -213,3 +213,40 @@ body {
     border-bottom: solid;
     border-width: 0.1rem;
 }
+
+#category-page {
+    background: #f0f8ff;
+    padding: 20px;
+}
+
+#add-category-button {
+    background: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.category, .activity, .task {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+
+.activity-input {
+    margin: 10px 0;
+}
+
+.new-activity-name {
+    margin-right: 5px;
+}
+
+.task-input {
+    margin: 10px 0;
+}
+
+.new-task-name,
+.new-task-desc,
+.new-task-date {
+    margin-right: 5px;
+}
