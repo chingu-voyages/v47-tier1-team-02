@@ -135,7 +135,6 @@ function openDetail(id) {
     const taskDate = id.slice(0, 10);
 
     const taskName = id.slice(11);
-
     // To check for due date with day as well
     const day = giveDay(taskDate);
 
@@ -145,6 +144,9 @@ function openDetail(id) {
       category.activityTypes.forEach((activityType) => {
         activityType.Tasks.forEach((task) => {
           if (task.taskName === taskName) {
+            console.log(task.days);
+            console.log(taskDate);
+            console.log(day);
             // Prevents same task name mismatch
             if (task.days.includes(taskDate) || task.days.includes(day)) {
               taskDesc = task.taskDescription;
