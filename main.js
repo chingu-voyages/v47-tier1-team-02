@@ -16,6 +16,7 @@ document.addEventListener('click', (e) => {
   } else if (e.target.id === 'decline-btn') {
     introForm.style.display = 'none';
     welcomePage.style.display = 'block';
+    introFormInput.value = '';
   }
 });
 
