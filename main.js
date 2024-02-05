@@ -613,6 +613,7 @@ function goToMonth(month) {
   document.getElementById('months-dropdown').style.display = 'none';
   deleteChild();
   date.setMonth(month);
+  date.setDate(1);
   loadMatrix(date);
 }
 
@@ -806,11 +807,15 @@ function openCategoryPage() {
   header.style.display = 'none';
 }
 
+function giveToday() {
+  const today = new Date();
+  return today;
+}
 // eslint-disable-next-line no-unused-vars
 function backFromCategory() {
   categoryPage.style.display = 'none';
   header.style.display = 'block';
-  loadMatrix(date);
+  loadMatrix(giveToday());
   matrix.style.display = 'block';
 }
 
@@ -929,7 +934,7 @@ function getDayDate() {
 function backFromChecklist() {
   checklistPage.innerHTML = '';
   checklistPage.style.display = 'none';
-  loadMatrix(date);
+  loadMatrix(giveToday());
   header.style.display = 'block';
   matrix.style.display = 'block';
 }
