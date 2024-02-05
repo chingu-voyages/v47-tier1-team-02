@@ -432,7 +432,7 @@ function loadMatrix(matDate) {
             if (dayN === day || dayN === fDate) {
               const id = `${fDate}-${task.taskName}`;
 
-              taskList.innerHTML = `
+              taskList.innerHTML += `
                 <div id="${id}-ele" class="task-element">
                   <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${task.taskName} </label>
                   <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
