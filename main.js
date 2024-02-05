@@ -408,7 +408,7 @@ function loadMatrix(matDate) {
 
     const fDate = dateFormat(matDate);
 
-    dayHeader.innerHTML = `
+    dayHeader.innerHTML += `
             <button type="button">+</button>
             <span class="day-name">${day} (${fDate})</span>
         `;
