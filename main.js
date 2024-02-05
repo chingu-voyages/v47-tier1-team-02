@@ -290,7 +290,7 @@ function handleFile() {
               const jsonString = JSON.stringify(jsonData);
 
               // Save the JSON string to local storage
-              localStorage.setItem('myJsonData', jsonString);
+              localStorage.setItem('uploadedJsonFile', jsonString);
 
               // Log a success message
               console.log('JSON data saved to local storage.');
