@@ -214,6 +214,22 @@ body {
     border-width: 0.1rem;
 }
 
+.name-and-checkbox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox-label {
+    width: 97%;
+}
+
+.checkbox {
+    width: 3%;
+    justify-content: center;
+    border-bottom: solid;
+    border-width: 0.1rem;
+}
+
 #category-page {
     background: #f0f8ff;
     padding: 20px;

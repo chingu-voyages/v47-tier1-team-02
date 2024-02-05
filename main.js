@@ -433,10 +433,14 @@ function loadMatrix(matDate) {
               const id = `${fDate}-${task.taskName}`;
 
               taskList.innerHTML += `
-                <div id="${id}-ele" class="task-element">
-                  <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${task.taskName} </label>
-                  <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
-                </div>
+                <div class="name-and-checkbox">
+                  <div id="${id}-ele" class="task-element checkbox-label">
+                    <p class="checkbox-label"> ${task.taskName} </label>
+                  </div>
+                  <div class="checkbox">
+                    <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+                  </div>
+                <div>
               `;
 
               // Get id of checkboxes to be ticked
@@ -544,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // eslint-disable-next-line no-unused-vars
 function checkboxStore(id) {
   const boxDate = id.slice(0, 10);
-  const boxName = id.slice(11, -9);
+  const boxName = id.slice(11);
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
