@@ -268,8 +268,9 @@ function goToMonth(month) {
   loadMatrix(date);
 }
 
+
 // Intro page file upload - Template feature
-function handleFile() {
+function prepareFileForConfirmation() {
   // Get the file input element
   const fileInput = document.getElementById('fileInput');
 
@@ -278,6 +279,27 @@ function handleFile() {
       const fileName = fileInput.files[0].name;
       document.querySelector('label[for="fileInput"]').innerText = fileName;
 
+      // Dynamically create and insert the "Confirm" button if it doesn't already exist
+      const confirmBtnExists = document.getElementById('confirmBtn');
+      if (!confirmBtnExists) {
+        const confirmBtn = document.createElement('button');
+        confirmBtn.innerText = 'Confirm';
+        confirmBtn.id = 'confirmBtn';
+        confirmBtn.className = 'choice-btn';
+        document.getElementById('file-input-container').appendChild(confirmBtn);
+
+        // Add event listener to the "Confirm" button
+        confirmBtn.addEventListener('click', function() {
+            handleFile(fileInput.files[0]); 
+        });
+    }
+  } else {
+      // Log a message if no file is selected
+      console.log('No file selected.');
+  }
+}
+
+function handleFile(file) {
       // Create a FileReader instance
       const reader = new FileReader();
 
@@ -302,11 +324,9 @@ function handleFile() {
       };
 
       // Read the file as text
-      reader.readAsText(fileInput.files[0]);
-  } else {
-      // Log a message if no file is selected
-      console.log('No file selected.');
-  }
+      reader.readAsText(file);
+
 }
 
-document.getElementById('fileInput').addEventListener('change', handleFile);
+// Add event listener to the file input
+document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);

@@ -39,9 +39,13 @@
             <h2 class="form-choice">Do you want to use a template?</h2>
 
             <div class="form-choice-btns" id="form-choice-btns">
-                <input type="file" id="fileInput" name="importData" class="choice-field" accept=".json" hidden>
-                <label for="fileInput" class="intro-file-upload">Enter Exported Data</label>
-                <button class="choice-btn" id="decline-btn" type="reset">No</button>
+                <div class="file-input-container" id="file-input-container">
+                    <input type="file" id="fileInput" name="importData" class="choice-field" accept=".json" hidden>
+                    <label for="fileInput" class="intro-file-upload">Enter Exported Data</label>
+                </div>
+                <div class="decline-btn-container" id="decline-btn-container">
+                    <button class="choice-btn" id="decline-btn" type="reset">No</button>
+                </div>
             </div>
         </form>
     </section>
