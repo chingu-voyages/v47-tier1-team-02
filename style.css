@@ -213,3 +213,383 @@ body {
     border-bottom: solid;
     border-width: 0.1rem;
 }
+
+.name-and-checkbox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox-label {
+    width: 97%;
+}
+
+.checkbox {
+    width: 3%;
+    justify-content: center;
+    border-bottom: solid;
+    border-width: 0.1rem;
+}
+
+#category-page {
+    background: #f0f8ff;
+    padding: 20px;
+}
+
+#add-category-button {
+    background: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.category, .activity, .task {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+
+.activity-input {
+    margin: 10px 0;
+}
+
+.new-activity-name {
+    margin-right: 5px;
+}
+
+.task-input {
+    margin: 10px 0;
+}
+
+.new-task-name,
+.new-task-desc,
+.new-task-date {
+    margin-right: 5px;
+}
+
+
+.task-element:hover {
+    background-color: rgb(228, 222, 222);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#detailed-desc {
+    display: flex;
+    flex-direction: column;
+}
+
+#back-n-day {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#back-img {
+    height: 40px;
+    margin: 0.5rem;
+}
+
+#desc-day {
+    margin: 0.5rem;
+}
+
+#task-desc {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 255, 209, 0.32);
+}
+
+.desc-item {
+    display: flex;
+    margin: 1rem 0.5rem;
+}
+
+#deadline-desc {
+    display: flex;
+    justify-content: space-between;
+}
+
+.desc-element:hover {
+    background-color: rgba(0, 255, 208, 0.692);
+}
+
+.day-label {
+    border: solid 1px;
+}
+
+.day-widget {
+    border-bottom: 0.5px solid; 
+    margin: 0.3rem 0.2rem;
+    text-align: center;
+}
+
+#add-day{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0.3rem 0rem;
+    max-width: 100px;
+}
+
+.DateInput {
+    width: 40px;
+}
+
+.DateYearInput {
+    width: 60px;
+}
+
+.task-days {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem 2rem;
+}
+
+.add-day-element {
+    margin-top: 0.5rem;
+}
+
+#button-div {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* checklist layout */
+
+.checklist-page {
+    padding-top: 0.5em;
+}
+
+
+.checklist-title {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 300;
+}
+
+.back {
+    display: block;
+    background-image: url(images/backBtn-img.png);
+    background-size: cover;
+    background-position: center;
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+
+
+.checklist-day-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checklist-day {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.checklist-add {
+    border-bottom: 2px solid black;
+    margin-top: 2em;
+    padding-bottom: 0.5em;
+}
+
+.checklist-add h2,
+p {
+    margin: 0;
+}
+
+.checklist-task {
+    width: 100%;
+    border-bottom: 2px solid #e5e5e5;
+    color: rgba(0, 0, 0, 0.67);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 0;
+}
+
+.checklist-name {
+    font-size: 1.3rem;
+}
+
+.checklist-add-btn {
+    background: none;
+    border-radius: 5px;
+    padding: 0;
+    font-size: 1rem;
+    padding: 0 0.2em;
+}
+
+#back-img-checklist {
+    height: 50px;
+}
+
+#back-img {
+    height: 50px;
+}:root {
+    --primary-color-dark:#000;
+    --secondary-color-dark: #777; 
+    --primary-color-light: #fff;
+    --secondary-color-light:#a7fcff;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+/* Header and navigation menu */
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* z-index: 999; */
+    background-color: var(--primary-color-light);
+    padding: 1.25rem 1rem;
+}
+
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-toggle {
+    display: block;
+    text-align: right;
+}
+
+.nav-toggle-btn {
+    background: none;
+    border: none;
+    padding: 0.95rem;
+    cursor: pointer;
+}
+
+.icon-bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary-color-dark);
+    margin: 0.33rem 0;
+}
+
+.nav-menu.active {
+    display: flex;
+}
+
+.nav-menu ul {
+    padding: 0;
+    background-color: var(--primary-color-light);
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 50px;
+    margin-top: 0;
+}
+
+.nav-menu-list li {
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    padding: 1rem;
+    list-style: none;
+}
+
+.nav-menu-list li:nth-child(2) {
+    border-top: 1px solid var(--primary-color-dark);
+    border-bottom: 1px solid var(--primary-color-dark);
+  }
+
+.nav-menu-list li a {
+    color: var(--primary-color-dark);
+    border: none;
+    font-size: 1.4rem;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all 0.3s ease 0s;
+}
+
+.nav-menu-list li a:hover, .nav-menu-list li a:focus, .nav-menu-list li a:active {
+    background: none;
+    color: var(--secondary-color-dark);
+}
+
+.nav-menu {
+    display: none;
+}
+
+.logo img {
+    max-height: 100px;
+}
+
+
+/* Search bar */
+.search-container {
+    display: none;
+}
+
+.search-icon-container {
+    position: relative;
+    display: inline-block;
+}
+
+.search-input-desktop, .search-input-mobile {
+    padding: 8px;
+    padding-left: 30px; 
+    margin-left: 4px;
+    border-radius: 50px;
+}
+
+.search-input-desktop {
+    border: 1px solid #000;
+    width: 50vw; 
+}
+
+.search-input-mobile {
+    border: none;
+}
+
+.search-input-mobile:focus-visible {outline: 0;}
+
+.search-icon-desktop, .search-icon-mobile {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Media Queries */
+@media(min-width: 768px){
+    .nav-search-container {display: none;}
+    .nav-menu-list li:nth-child(2) {
+        border-top: none;
+      }
+
+    .search-container {
+        display: block;
+        margin: 20px;
+        text-align: center;
+    }
+
+    .nav-menu ul {width: 40%;}
+}
+
+
