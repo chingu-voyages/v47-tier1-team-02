@@ -518,7 +518,8 @@ function strayTaskSubmit(toDate) {
       jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
     }
   }
-  console.log(jsonObj);
+  closeStray();
+  loadMatrix(giveToday());
 }
 // eslint-disable-next-line no-unused-vars
 function DeleteTask(id) {
