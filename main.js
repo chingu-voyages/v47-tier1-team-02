@@ -268,7 +268,6 @@ function goToMonth(month) {
   loadMatrix(date);
 }
 
-
 // Intro page file upload - Template feature
 function handleFile(file) {
   // Create a FileReader instance
@@ -287,7 +286,6 @@ function handleFile(file) {
 
       // Log a success message
       console.log('JSON data saved to local storage.');
-
     } catch (error) {
       // Handle errors during JSON parsing
       console.error('Error parsing JSON file:', error);
@@ -317,8 +315,8 @@ function prepareFileForConfirmation() {
       document.getElementById('file-input-container').appendChild(confirmBtn);
 
       // Add event listener to the "Confirm" button
-      confirmBtn.addEventListener('click', function() {
-        handleFile(fileInput.files[0]); 
+      confirmBtn.addEventListener('click', () => {
+        handleFile(fileInput.files[0]);
       });
     }
   } else {
