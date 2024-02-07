@@ -811,14 +811,28 @@ function JsonToCategory() {
 
     catDiv.innerHTML = `
       <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
-      <span id="category-text-${catCounter}"> ${category.categoryName} </span>
-      <button input="button" onclick="addActivity(${catCounter}")> + </button>
+      <span id="category-text-${catCounter}">${category.categoryName}</span>
+      <button input="button" onclick="addActivity(${catCounter})"> + </button>
     `;
     catContainer.appendChild(catDiv);
 
     category.activityTypes.forEach((activityType) => {
+      const actContainer = document.createElement('div');
       actCounter += 1;
-      activityType;
+      actContainer.setAttribute('id', `activities-container-${catCounter}`);
+
+      const actDiv = document.createElement('div');
+      actDiv.setAttribute('id', `activity-${catCounter}-${actCounter}`);
+      actDiv.classList.add('activity');
+
+      actDiv.innerHTML = `
+      <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
+      <span id="category-text-${catCounter}-${actCounter}"> ${activityType.activityName} </span>
+      <button input="button" onclick="addActivity('${catCounter}-${actCounter}')"> + </button>
+      `;
+
+      actContainer.appendChild(actDiv);
+      catDiv.appendChild(actContainer);
       activityType.Tasks.forEach((task) => {
         console.log(task);
       });
