@@ -618,7 +618,7 @@ function goToMonth(month) {
 }
 
 // 1. Adding the category
-let categoryIdCounter = 1;
+// let categoryIdCounter = 1;
 
 function addCategory() {
   // Create input for new category name
@@ -630,6 +630,7 @@ function addCategory() {
 }
 
 function submitCategoryName() {
+  let categoryIdCounter = jsonObj.length + 1;
   const categoryName = document.getElementById('new-category-name').value;
   if (categoryName.trim() === '') {
     alert('Category name cannot be empty');
@@ -697,8 +698,8 @@ function submitActivityName(categoryId) {
 
   const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
   // Calculate new activity ID based on existing activities
-  const existingActivities = activitiesContainer.getElementsByClassName('activity');
-  const activityNumber = existingActivities.length + 1;
+  // const existingActivities = activitiesContainer.getElementsByClassName('activity');
+  const activityNumber = jsonObj[categoryId - 1].activityTypes.length;
   const activityId = `${categoryId}-${activityNumber}`;
 
   // Create new activity div
@@ -770,10 +771,12 @@ function submitTaskName(activityId) {
   // Push task details to json
   taskToJson(activityId, taskName, taskDate, taskDesc);
 
+  const catCount = activityId.slice(0, 1) - 1;
+  const actCount = activityId.slice(2, 3) - 1;
   const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
   // Calculate new task ID based on existing tasks
-  const existingTasks = tasksContainer.getElementsByClassName('task');
-  const taskNumber = existingTasks.length + 1;
+  // const existingTasks = tasksContainer.getElementsByClassName('task');
+  const taskNumber = jsonObj[catCount].activityTypes[actCount].Tasks.length;
   const categoryId = activityId.split('-')[0];
   const taskId = `${activityId}-${taskNumber}`;
 
