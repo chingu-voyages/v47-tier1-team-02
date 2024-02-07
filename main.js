@@ -838,7 +838,7 @@ function JsonToCategory() {
 
       actDiv.innerHTML = `
       <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
-      <span id="activity-text-${catCounter}-${actCounter}"> ${activityType.activityName} </span>
+      <span id="activity-text-${catCounter}-${actCounter}">${activityType.activityName}</span>
       <button input="button" onclick="addTask('${catCounter}-${actCounter}')"> + </button>
       `;
 
