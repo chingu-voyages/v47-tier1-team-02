@@ -270,62 +270,61 @@ function goToMonth(month) {
 
 
 // Intro page file upload - Template feature
+function handleFile(file) {
+  // Create a FileReader instance
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    try {
+      // Parse the JSON data from the file
+      const jsonData = JSON.parse(e.target.result);
+
+      // Convert the JSON object to a string
+      const jsonString = JSON.stringify(jsonData);
+
+      // Save the JSON string to local storage
+      localStorage.setItem('uploadedJsonFile', jsonString);
+
+      // Log a success message
+      console.log('JSON data saved to local storage.');
+
+    } catch (error) {
+      // Handle errors during JSON parsing
+      console.error('Error parsing JSON file:', error);
+    }
+  };
+
+  // Read the file as text
+  reader.readAsText(file);
+}
+
 function prepareFileForConfirmation() {
   // Get the file input element
   const fileInput = document.getElementById('fileInput');
 
   // Check if a file is selected and update the label with the file name
   if (fileInput.files.length > 0) {
-      const fileName = fileInput.files[0].name;
-      document.querySelector('label[for="fileInput"]').innerText = fileName;
+    const fileName = fileInput.files[0].name;
+    document.querySelector('label[for="fileInput"]').innerText = fileName;
 
-      // Dynamically create and insert the "Confirm" button if it doesn't already exist
-      const confirmBtnExists = document.getElementById('confirmBtn');
-      if (!confirmBtnExists) {
-        const confirmBtn = document.createElement('button');
-        confirmBtn.innerText = 'Confirm';
-        confirmBtn.id = 'confirmBtn';
-        confirmBtn.className = 'choice-btn';
-        document.getElementById('file-input-container').appendChild(confirmBtn);
+    // Dynamically create and insert the "Confirm" button if it doesn't already exist
+    const confirmBtnExists = document.getElementById('confirmBtn');
+    if (!confirmBtnExists) {
+      const confirmBtn = document.createElement('button');
+      confirmBtn.innerText = 'Confirm';
+      confirmBtn.id = 'confirmBtn';
+      confirmBtn.className = 'choice-btn';
+      document.getElementById('file-input-container').appendChild(confirmBtn);
 
-        // Add event listener to the "Confirm" button
-        confirmBtn.addEventListener('click', function() {
-            handleFile(fileInput.files[0]); 
-        });
+      // Add event listener to the "Confirm" button
+      confirmBtn.addEventListener('click', function() {
+        handleFile(fileInput.files[0]); 
+      });
     }
   } else {
-      // Log a message if no file is selected
-      console.log('No file selected.');
+    // Log a message if no file is selected
+    console.log('No file selected.');
   }
-}
-
-function handleFile(file) {
-      // Create a FileReader instance
-      const reader = new FileReader();
-
-      reader.onload = function (e) {
-          try {
-              // Parse the JSON data from the file
-              const jsonData = JSON.parse(e.target.result);
-
-              // Convert the JSON object to a string
-              const jsonString = JSON.stringify(jsonData);
-
-              // Save the JSON string to local storage
-              localStorage.setItem('uploadedJsonFile', jsonString);
-
-              // Log a success message
-              console.log('JSON data saved to local storage.');
-
-          } catch (error) {
-              // Handle errors during JSON parsing
-              console.error('Error parsing JSON file:', error);
-          }
-      };
-
-      // Read the file as text
-      reader.readAsText(file);
-
 }
 
 // Add event listener to the file input
