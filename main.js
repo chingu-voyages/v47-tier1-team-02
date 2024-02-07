@@ -808,7 +808,7 @@ function JsonToCategory() {
   let taskCounter = 0;
 
   const catContainer = document.getElementById('categories-container');
-
+  catContainer.innerHTML = '';
   jsonObj.forEach((category) => {
     actCounter = 0;
     catCounter += 1;
