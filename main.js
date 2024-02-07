@@ -802,9 +802,14 @@ function submitTaskName(activityId) {
 function JsonToCategory() {
   let catCounter = 0;
   let actCounter = 0;
+  let taskCounter = 0;
+
   const catContainer = document.getElementById('categories-container');
+
   jsonObj.forEach((category) => {
+    actCounter = 0;
     catCounter += 1;
+
     const catDiv = document.createElement('div');
     catDiv.classList.add('category');
     catDiv.setAttribute('id', `category-${catCounter}`);
@@ -814,12 +819,15 @@ function JsonToCategory() {
       <span id="category-text-${catCounter}">${category.categoryName}</span>
       <button input="button" onclick="addActivity(${catCounter})"> + </button>
     `;
+
+    const actContainer = document.createElement('div');
+    actContainer.setAttribute('id', `activities-container-${catCounter}`);
+
     catContainer.appendChild(catDiv);
 
     category.activityTypes.forEach((activityType) => {
-      const actContainer = document.createElement('div');
+      taskCounter = 0;
       actCounter += 1;
-      actContainer.setAttribute('id', `activities-container-${catCounter}`);
 
       const actDiv = document.createElement('div');
       actDiv.setAttribute('id', `activity-${catCounter}-${actCounter}`);
@@ -831,10 +839,25 @@ function JsonToCategory() {
       <button input="button" onclick="addActivity('${catCounter}-${actCounter}')"> + </button>
       `;
 
+      const taskContainer = document.createElement('div');
+      taskContainer.setAttribute('id', `task-container-${catCounter}-${actCounter}`);
+
       actContainer.appendChild(actDiv);
       catDiv.appendChild(actContainer);
+
       activityType.Tasks.forEach((task) => {
-        console.log(task);
+        const taskDiv = document.createElement('div');
+        taskDiv.setAttribute('id', `task-${catCounter}-${actCounter}-${taskCounter}`);
+        taskDiv.classList.add('task');
+
+        taskDiv.innerHTML = `
+          <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.taskName}</span>
+          <span id="task-desc-${catCounter}-${actCounter}-${taskCounter}">${task.taskDescription}</span>
+          <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.days}</span>
+        `;
+
+        taskContainer.appendChild(taskDiv);
+        actContainer.appendChild(taskContainer);
       });
     });
   });
