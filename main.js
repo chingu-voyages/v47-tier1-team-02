@@ -799,11 +799,39 @@ function submitTaskName(activityId) {
   taskNameInput.parentElement.remove();
 }
 
+function JsonToCategory() {
+  let catCounter = 0;
+  let actCounter = 0;
+  const catContainer = document.getElementById('categories-container');
+  jsonObj.forEach((category) => {
+    catCounter += 1;
+    const catDiv = document.createElement('div');
+    catDiv.classList.add('category');
+    catDiv.setAttribute('id', `category-${catCounter}`);
+
+    catDiv.innerHTML = `
+      <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
+      <span id="category-text-${catCounter}"> ${category.categoryName} </span>
+      <button input="button" onclick="addActivity(${catCounter}")> + </button>
+    `;
+    catContainer.appendChild(catDiv);
+
+    category.activityTypes.forEach((activityType) => {
+      actCounter += 1;
+      activityType;
+      activityType.Tasks.forEach((task) => {
+        console.log(task);
+      });
+    });
+  });
+}
+
 // eslint-disable-next-line no-unused-vars
 function openCategoryPage() {
   checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
+  JsonToCategory();
   header.style.display = 'none';
 }
 
