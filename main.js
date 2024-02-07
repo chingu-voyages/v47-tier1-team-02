@@ -835,12 +835,12 @@ function JsonToCategory() {
 
       actDiv.innerHTML = `
       <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
-      <span id="category-text-${catCounter}-${actCounter}"> ${activityType.activityName} </span>
-      <button input="button" onclick="addActivity('${catCounter}-${actCounter}')"> + </button>
+      <span id="activity-text-${catCounter}-${actCounter}"> ${activityType.activityName} </span>
+      <button input="button" onclick="addTask('${catCounter}-${actCounter}')"> + </button>
       `;
 
       const taskContainer = document.createElement('div');
-      taskContainer.setAttribute('id', `task-container-${catCounter}-${actCounter}`);
+      taskContainer.setAttribute('id', `tasks-container-${catCounter}-${actCounter}`);
 
       actContainer.appendChild(actDiv);
       catDiv.appendChild(actContainer);
@@ -857,7 +857,7 @@ function JsonToCategory() {
         `;
 
         taskContainer.appendChild(taskDiv);
-        actContainer.appendChild(taskContainer);
+        actDiv.appendChild(taskContainer);
       });
     });
   });
