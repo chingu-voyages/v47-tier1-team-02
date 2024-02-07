@@ -90,6 +90,15 @@ const jsonObj = [
       },
     ],
   },
+  {
+    categoryName: 'Stray category',
+    activityTypes: [
+      {
+        activityName: 'Stray activity',
+        Tasks: [],
+      },
+    ],
+  },
 ];
 
 // Convert date object to DD/MM/YYYY string format
@@ -402,14 +411,14 @@ function loadMatrix(matDate) {
     dayDiv.classList.add('days');
 
     const dayHeader = document.createElement('div');
-
     // Division for day name, date and add task button
     dayHeader.classList.add('day-header');
 
     const fDate = dateFormat(matDate);
-
     dayHeader.innerHTML = `
-            <button type="button">+</button>
+            <div id="add-to-date-${fDate}" class="add-to-date">
+              <button type="button" onclick="AddToDate('${fDate}')">+</button>
+            </div>
             <span class="day-name">${day} (${fDate})</span>
         `;
 
@@ -466,6 +475,52 @@ function loadMatrix(matDate) {
   setListen();
 }
 
+function AddToDate(toDate) {
+  if (document.getElementById('stray-task-entry')) {
+    return;
+  }
+  const dayHeader = document.getElementById(`add-to-date-${toDate}`);
+  const strayTaskWin = document.createElement('div');
+  strayTaskWin.setAttribute('id', 'stray-task-div');
+  strayTaskWin.classList.add('stray-task-overlay');
+
+  strayTaskWin.innerHTML = `
+      <input id="stray-task-entry" class="stray-task-entry" type="text" placeholder="Name">
+      <input id="stray-desc-entry" class="stray-task-entry" type="text" placeholder="Description">
+      <button onclick="strayTaskSubmit('${toDate}')"> Add </button>
+      <button onclick="closeStray()"> x </button>
+  `;
+
+  dayHeader.appendChild(strayTaskWin);
+}
+
+function closeStray() {
+  document.getElementById('stray-task-div').remove();
+}
+
+function strayTaskSubmit(toDate) {
+  const taskNameEntry = document.getElementById('stray-task-entry');
+  const strayDescEntry = document.getElementById('stray-desc-entry');
+  const strayName = taskNameEntry.value;
+  const strayDesc = strayDescEntry.value;
+  if (strayName === '') {
+    taskNameEntry.placeholder = 'can\'t be empty';
+  } else {
+    const strayTask = {
+      taskName: strayName,
+      taskDescription: strayDesc,
+      days: [`${toDate}`],
+      completion: [],
+    };
+
+    const strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+    if (strayIndex !== -1) {
+      jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
+    }
+  }
+  closeStray();
+  loadMatrix(giveToday());
+}
 // eslint-disable-next-line no-unused-vars
 function DeleteTask(id) {
   const taskName = id.slice(11);

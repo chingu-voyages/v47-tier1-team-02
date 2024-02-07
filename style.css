@@ -267,6 +267,15 @@ body {
     margin-right: 5px;
 }
 
+.add-to-date {
+    display: flex;
+}
+
+.stray-task-entry{
+    margin: 0rem 0.2rem;
+    width: 75px;
+}
+
 
 .task-element:hover {
     background-color: rgb(228, 222, 222);
