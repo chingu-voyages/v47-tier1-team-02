@@ -264,12 +264,16 @@ body {
     cursor: pointer;
 }
 
+.task {
+    display: flex;
+    flex-direction: column;
+}
 .category, .activity, .task {
     margin-left: 20px;
     margin-top: 10px;
 }
 
-
+    
 .activity-input {
     margin: 10px 0;
 }

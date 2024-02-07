@@ -673,7 +673,7 @@ function goToMonth(month) {
 }
 
 // 1. Adding the category
-let categoryIdCounter = 1;
+// let categoryIdCounter = 1;
 
 function addCategory() {
   // Create input for new category name
@@ -685,6 +685,7 @@ function addCategory() {
 }
 
 function submitCategoryName() {
+  let categoryIdCounter = jsonObj.length + 1;
   const categoryName = document.getElementById('new-category-name').value;
   if (categoryName.trim() === '') {
     alert('Category name cannot be empty');
@@ -752,8 +753,8 @@ function submitActivityName(categoryId) {
 
   const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
   // Calculate new activity ID based on existing activities
-  const existingActivities = activitiesContainer.getElementsByClassName('activity');
-  const activityNumber = existingActivities.length + 1;
+  // const existingActivities = activitiesContainer.getElementsByClassName('activity');
+  const activityNumber = jsonObj[categoryId - 1].activityTypes.length;
   const activityId = `${categoryId}-${activityNumber}`;
 
   // Create new activity div
@@ -825,10 +826,12 @@ function submitTaskName(activityId) {
   // Push task details to json
   taskToJson(activityId, taskName, taskDate, taskDesc);
 
+  const catCount = activityId.slice(0, 1) - 1;
+  const actCount = activityId.slice(2, 3) - 1;
   const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
   // Calculate new task ID based on existing tasks
-  const existingTasks = tasksContainer.getElementsByClassName('task');
-  const taskNumber = existingTasks.length + 1;
+  // const existingTasks = tasksContainer.getElementsByClassName('task');
+  const taskNumber = jsonObj[catCount].activityTypes[actCount].Tasks.length;
   const categoryId = activityId.split('-')[0];
   const taskId = `${activityId}-${taskNumber}`;
 
@@ -854,11 +857,77 @@ function submitTaskName(activityId) {
   taskNameInput.parentElement.remove();
 }
 
+function JsonToCategory() {
+  let catCounter = 0;
+  let actCounter = 0;
+  let taskCounter = 0;
+
+  const catContainer = document.getElementById('categories-container');
+  catContainer.innerHTML = '';
+  jsonObj.forEach((category) => {
+    actCounter = 0;
+    catCounter += 1;
+
+    const catDiv = document.createElement('div');
+    catDiv.classList.add('category');
+    catDiv.setAttribute('id', `category-${catCounter}`);
+
+    catDiv.innerHTML = `
+      <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
+      <span id="category-text-${catCounter}">${category.categoryName}</span>
+      <button input="button" onclick="addActivity(${catCounter})"> + </button>
+    `;
+
+    const actContainer = document.createElement('div');
+    actContainer.setAttribute('id', `activities-container-${catCounter}`);
+
+    catContainer.appendChild(catDiv);
+
+    category.activityTypes.forEach((activityType) => {
+      taskCounter = 0;
+      actCounter += 1;
+
+      const actDiv = document.createElement('div');
+      actDiv.setAttribute('id', `activity-${catCounter}-${actCounter}`);
+      actDiv.classList.add('activity');
+
+      actDiv.innerHTML = `
+      <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
+      <span id="activity-text-${catCounter}-${actCounter}">${activityType.activityName}</span>
+      <button input="button" onclick="addTask('${catCounter}-${actCounter}')"> + </button>
+      `;
+
+      const taskContainer = document.createElement('div');
+      taskContainer.setAttribute('id', `tasks-container-${catCounter}-${actCounter}`);
+
+      actContainer.appendChild(actDiv);
+      catDiv.appendChild(actContainer);
+
+      activityType.Tasks.forEach((task) => {
+        taskCounter += 1;
+        const taskDiv = document.createElement('div');
+        taskDiv.setAttribute('id', `task-${catCounter}-${actCounter}-${taskCounter}`);
+        taskDiv.classList.add('task');
+
+        taskDiv.innerHTML = `
+          <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.taskName}</span>
+          <span id="task-desc-${catCounter}-${actCounter}-${taskCounter}">${task.taskDescription}</span>
+          <span id="task-date-${catCounter}-${actCounter}-${taskCounter}">${task.days}</span>
+        `;
+
+        taskContainer.appendChild(taskDiv);
+        actDiv.appendChild(taskContainer);
+      });
+    });
+  });
+}
+
 // eslint-disable-next-line no-unused-vars
 function openCategoryPage() {
   checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
+  JsonToCategory();
   header.style.display = 'none';
 }
 
