@@ -825,11 +825,12 @@ function addTask(activityId) {
 
   // Create input fields for new task
   const taskInputHtml = `
-        <div class="task-input">
+         <div id="task-input" class="task-input">
             <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
             <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
-            <input type="text" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates" onfocus="(this.type='date')">
-            <button onclick="submitTaskName('${activityId}')">Add</button>
+            <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
+            <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Add day</button>
+            <button id="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
         </div>
     `;
 
