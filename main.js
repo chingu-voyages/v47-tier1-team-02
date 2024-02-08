@@ -242,9 +242,18 @@ function addDay(id) {
 
 // Show drop down menu when Add day button is clicked
 // eslint-disable-next-line no-unused-vars
-function showDayDropDown(id) {
-  const addDayDiv = document.getElementById('add-day');
-  addDayDiv.innerHTML = `
+function showDayDropDown(id = null) {
+  let addDayDiv = null;
+  let addButton = false;
+  let taskInputDiv = null;
+  if (document.getElementById('task-input')) {
+    taskInputDiv = document.getElementById('task-input');
+    addDayDiv = document.createElement('div');
+  } else {
+    addDayDiv = document.getElementById('add-day');
+    addButton = true;
+  }
+  const dropDownHTML = `
     <select id="day-dropdown" class="add-day-element">
         <option value="Sunday">Sunday</option>
         <option value="Monday">Monday</option>
@@ -254,9 +263,20 @@ function showDayDropDown(id) {
         <option value="Friday">Friday</option>
         <option value="Saturday">Saturday</option>
     </select>
-    <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
-    <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
   `;
+  if (addButton) {
+    addDayDiv.innerHTML = `${dropDownHTML}
+      <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
+      <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
+  `;
+  } else {
+    addDayDiv.innerHTML += dropDownHTML;
+    const newAddDayButton = document.querySelector('new-task-submit');
+    document.querySelector('.new-task-date').remove();
+    document.querySelector('.new-task-day').remove();
+    taskInputDiv.appendChild(addDayDiv);
+    taskInputDiv.insertBefore(addDayDiv, newAddDayButton);
+  }
 }
 
 // Remove entry box and add button when cancel is clicked on
