@@ -876,6 +876,7 @@ function JsonToCategory() {
       catDiv.appendChild(actContainer);
 
       activityType.Tasks.forEach((task) => {
+        taskCounter += 1;
         const taskDiv = document.createElement('div');
         taskDiv.setAttribute('id', `task-${catCounter}-${actCounter}-${taskCounter}`);
         taskDiv.classList.add('task');
@@ -883,7 +884,7 @@ function JsonToCategory() {
         taskDiv.innerHTML = `
           <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.taskName}</span>
           <span id="task-desc-${catCounter}-${actCounter}-${taskCounter}">${task.taskDescription}</span>
-          <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.days}</span>
+          <span id="task-date-${catCounter}-${actCounter}-${taskCounter}">${task.days}</span>
         `;
 
         taskContainer.appendChild(taskDiv);
