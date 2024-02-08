@@ -377,6 +377,9 @@ function loadMatrix(matDate) {
   const daysContainer = document.getElementById('mobile-table');
   daysContainer.innerHTML = '';
 
+  jsonString = localStorage.getItem('taskData');
+  jsonObj = JSON.parse(jsonString);
+
   daysOfWeek.forEach((day) => {
     const dayDiv = document.createElement('div');
 
@@ -401,9 +404,6 @@ function loadMatrix(matDate) {
 
     // Division for task name and checkbox
     taskList.classList.add('task-list');
-
-    jsonString = localStorage.getItem('taskData');
-    jsonObj = JSON.parse(jsonString);
 
     /*
       Find each task's day in json and check if it is same as the day of element under construction.
@@ -475,6 +475,19 @@ function closeStray() {
   document.getElementById('stray-task-div').remove();
 }
 
+function strayToJson() {
+  const strayObj = {
+    categoryName: 'Stray category',
+    activityTypes: [
+      {
+        activityName: 'Stray activity',
+        Tasks: [],
+      },
+    ],
+  };
+  jsonObj.push(strayObj);
+}
+
 function strayTaskSubmit(toDate) {
   const taskNameEntry = document.getElementById('stray-task-entry');
   const strayDescEntry = document.getElementById('stray-desc-entry');
@@ -491,29 +504,28 @@ function strayTaskSubmit(toDate) {
     };
     jsonString = localStorage.getItem('taskData');
 
+    // If local storage is empty, setup stray category for stray task
     if (jsonString === null) {
-      jsonObj = [];
-      const strayObj = {
-        categoryName: 'Stray category',
-        activityTypes: [
-          {
-            activityName: 'Stray activity',
-            Tasks: [],
-          },
-        ],
-      };
-      jsonObj.push(strayObj);
-      console.log(jsonObj);
+      strayToJson();
     }
 
-    const strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+    // Check if json already had stray category
+    let strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
 
-    if (strayIndex !== -1) {
-      jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
-      jsonString = JSON.stringify(jsonObj);
-      localStorage.setItem('taskData', jsonString);
+    // If not, add a stray category and get it's index
+    if (strayIndex === -1) {
+      strayToJson();
+      strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
     }
+
+    // Push stray task to stray category
+    jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
   }
+
+  // Store json in local storage and refresh matrix
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
+
   closeStray();
   loadMatrix(giveToday());
 }
