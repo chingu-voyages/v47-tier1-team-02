@@ -787,8 +787,8 @@ function submitActivityName(categoryId) {
 
   const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
   // Calculate new activity ID based on existing activities
-  const existingActivities = activitiesContainer.getElementsByClassName('activity');
-  const activityNumber = existingActivities.length + 1;
+  // const existingActivities = activitiesContainer.getElementsByClassName('activity');
+  const activityNumber = jsonObj[categoryId - 1].activityTypes.length;
   const activityId = `${categoryId}-${activityNumber}`;
 
   // Create new activity div
