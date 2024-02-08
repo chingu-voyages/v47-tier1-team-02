@@ -1036,16 +1036,15 @@ function getChecklistDay() {
 }
 
 function renderTaskToChecklist(todayDate, taskName, boxToTick) {
-  const categoryPage = document.getElementById('checklist-page');
   const id = `${todayDate}-${taskName}`;
   const taskElementHtml = `
     <div id="${id}-ele" class="task-element">
-        <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${taskName} </label>
+        <p class="checkbox-label"> ${taskName} </p>
         <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
     </div>   
   `;
 
-  categoryPage.innerHTML += taskElementHtml;
+  checklistPage.innerHTML += taskElementHtml;
 
   boxToTick.forEach((boxId) => {
     // document.getElementById(`${boxId}-checkbox`).checked = true;
@@ -1068,7 +1067,9 @@ function findTasks() {
             if (task.completion.includes(todayDate)) {
               boxToTick.push(id);
             }
-            renderTaskToChecklist(todayDate, task.taskName, boxToTick);
+            if (document.getElementById('08/02/2024-asdf-ele') === null) {
+              renderTaskToChecklist(todayDate, task.taskName, boxToTick);
+            }
           }
         });
       });
