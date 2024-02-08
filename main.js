@@ -96,6 +96,15 @@ const jsonObj = [
       },
     ],
   },
+    {
+    categoryName: 'Stray category',
+    activityTypes: [
+      {
+        activityName: 'Stray activity',
+        Tasks: [],
+      },
+    ],
+  },
 ];
 
 // Convert date object to DD/MM/YYYY string format
