@@ -409,8 +409,8 @@ function loadMatrix(matDate) {
       Find each task's day in json and check if it is same as the day of element under construction.
       If it is, add the task name under the constructed header.
     */
+    const boxToTick = [];
     if (jsonObj !== null) {
-      const boxToTick = [];
       jsonObj.forEach((category) => {
         category.activityTypes.forEach((activityType) => {
           activityType.Tasks.forEach((task) => {
@@ -438,16 +438,16 @@ function loadMatrix(matDate) {
           });
         });
       });
-      // Tick all checkboxes that have a completion date in json.
-      boxToTick.forEach((boxId) => {
-        document.getElementById(`${boxId}`).checked = true;
-      });
     }
-
     dayDiv.appendChild(dayHeader);
     dayDiv.appendChild(taskList);
 
     daysContainer.appendChild(dayDiv);
+
+    // Tick all checkboxes that have a completion date in json.
+    boxToTick.forEach((boxId) => {
+      document.getElementById(`${boxId}`).checked = true;
+    });
   });
   setListen();
 }
