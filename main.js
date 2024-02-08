@@ -969,6 +969,7 @@ function openCategoryPage() {
   checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
+  JsonToCategory();
   header.style.display = 'none';
 }
 
