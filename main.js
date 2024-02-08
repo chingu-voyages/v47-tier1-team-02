@@ -443,6 +443,7 @@ function loadMatrix(matDate) {
             <span class="day-name">${day} (${fDate})</span>
         `;
 
+    dayDiv.appendChild(dayHeader);
     matDate.setDate(matDate.getDate() + 1);
 
     const taskList = document.createElement('div');
@@ -461,32 +462,31 @@ function loadMatrix(matDate) {
           task.days.forEach((dayN) => {
             if (dayN === day || dayN === fDate) {
               const id = `${fDate}-${task.taskName}`;
-
-              taskList.innerHTML += `
-                <div class="name-and-checkbox">
-                  <div id="${id}-ele" class="task-element checkbox-label">
-                    <p class="checkbox-label"> ${task.taskName} </label>
-                  </div>
-                  <div class="checkbox">
-                    <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
-                  </div>
-                <div>
-              `;
+              if (document.getElementById(`${id}-ele`) === null) {
+                taskList.innerHTML += `
+                  <div class="name-and-checkbox">
+                    <div id="${id}-ele" class="task-element checkbox-label">
+                      <p class="checkbox-label"> ${task.taskName} </label>
+                    </div>
+                    <div class="checkbox">
+                      <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+                    </div>
+                  <div>
+                `;
+              }
 
               // Get id of checkboxes to be ticked
               if (task.completion.includes(fDate)) {
                 boxToTick.push(`${id}-checkbox`);
               }
             }
+            // Appending now so the division can be checked for existence - prevent duplicates
+            dayDiv.appendChild(taskList);
+            daysContainer.appendChild(dayDiv);
           });
         });
       });
     });
-
-    dayDiv.appendChild(dayHeader);
-    dayDiv.appendChild(taskList);
-
-    daysContainer.appendChild(dayDiv);
 
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
