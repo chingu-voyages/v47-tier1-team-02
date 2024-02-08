@@ -226,6 +226,7 @@ function openDetail(id) {
 // eslint-disable-next-line no-unused-vars
 function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
+
   addDayDiv.innerHTML = `
     <input id="date-entry" type="date" class="add-day-element">
     <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
@@ -236,9 +237,18 @@ function addDay(id) {
 
 // Show drop down menu when Add day button is clicked
 // eslint-disable-next-line no-unused-vars
-function showDayDropDown(id) {
-  const addDayDiv = document.getElementById('add-day');
-  addDayDiv.innerHTML = `
+function showDayDropDown(id = null) {
+  let addDayDiv = null;
+  let addButton = false;
+  let taskInputDiv = null;
+  if (document.getElementById('task-input')) {
+    taskInputDiv = document.getElementById('task-input');
+    addDayDiv = document.createElement('div');
+  } else {
+    addDayDiv = document.getElementById('add-day');
+    addButton = true;
+  }
+  const dropDownHTML = `
     <select id="day-dropdown" class="add-day-element">
         <option value="Sunday">Sunday</option>
         <option value="Monday">Monday</option>
@@ -248,9 +258,20 @@ function showDayDropDown(id) {
         <option value="Friday">Friday</option>
         <option value="Saturday">Saturday</option>
     </select>
-    <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
-    <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
   `;
+  if (addButton) {
+    addDayDiv.innerHTML = `${dropDownHTML}
+      <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
+      <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
+  `;
+  } else {
+    addDayDiv.innerHTML += dropDownHTML;
+    const newAddDayButton = document.querySelector('new-task-submit');
+    document.querySelector('.new-task-date').remove();
+    document.querySelector('.new-task-day').remove();
+    taskInputDiv.appendChild(addDayDiv);
+    taskInputDiv.insertBefore(addDayDiv, newAddDayButton);
+  }
 }
 
 // Remove entry box and add button when cancel is clicked on
@@ -791,11 +812,12 @@ function addTask(activityId) {
 
   // Create input fields for new task
   const taskInputHtml = `
-        <div class="task-input">
+        <div id="task-input" class="task-input">
             <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
             <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
-            <input type="text" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates" onfocus="(this.type='date')">
-            <button onclick="submitTaskName('${activityId}')">Add</button>
+            <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
+            <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Add day</button>
+            <button id="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
         </div>
     `;
 
@@ -808,9 +830,16 @@ function submitTaskName(activityId) {
   const taskNameInput = document.getElementById(`new-task-name-${activityId}`);
   const taskDescInput = document.getElementById(`new-task-desc-${activityId}`);
   const taskDateInput = document.getElementById(`new-task-date-${activityId}`);
+  const taskDayInput = document.getElementById('day-dropdown');
   const taskName = taskNameInput.value;
   const taskDesc = taskDescInput.value;
-  let taskDate = taskDateInput.value;
+  let taskDate = null;
+
+  if (taskDayInput) {
+    taskDate = taskDayInput.value;
+  } else {
+    taskDate = taskDateInput.value;
+  }
 
   if (taskName.trim() === '' || taskDesc.trim() === '' || taskDate.trim() === '') {
     alert('Task name, description, and due date cannot be empty');
@@ -818,7 +847,7 @@ function submitTaskName(activityId) {
   }
 
   // Convert date from yyyy-mm-dd to dd/mm/yyyy format
-  if (taskDate) {
+  if (!taskDayInput) {
     const dateParts = taskDate.split('-');
     taskDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
   }
