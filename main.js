@@ -10,6 +10,8 @@ const matrix = document.getElementById('matrix');
 const checklistPage = document.getElementById('checklist-page');
 const categoryPage = document.getElementById('category-page');
 const header = document.querySelector('header');
+const navMenu = document.getElementById('nav-menu')
+const dropdown = document.getElementById('months-dropdown');
 
 header.style.display = 'none';
 checklistPage.style.display = 'none';
@@ -28,6 +30,10 @@ document.addEventListener('click', (e) => {
     introFormInput.value = '';
     matrix.style.display = 'block';
     header.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  else if (e.target.id === 'month-name') {
+    navMenu.classList.remove('active');
   }
 });
 
@@ -182,10 +188,10 @@ function openDetail(id) {
       </div>
 
       <div id="task-desc">
-        <div id="name-desc" class="desc-item">Task name : 
+        <div id="name-desc" class="desc-item">Task name: 
           <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')"> ${taskName}</span>
         </div>
-        <div id="deadline-desc" class="desc-item">Deadline : 
+        <div id="deadline-desc" class="desc-item">Deadline: 
           <div id="task-days" class="task-days">
             ${htmlAdd}
           </div>
@@ -193,19 +199,19 @@ function openDetail(id) {
             <button id="add-day-button" onclick="addDay('${id}')"> + </button>
           </div>
         </div>
-        <div id="category-desc" class="desc-item">Category : 
+        <div id="category-desc" class="desc-item">Category: 
             <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')"> ${taskCat}</span>
         </div>
-        <div id="activity-desc" class="desc-item">Activity : 
+        <div id="activity-desc" class="desc-item">Activity: 
             <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')"> ${taskAct}</span>
         </div>
-        <div id="detail-desc" class="desc-item">Description : 
+        <div id="detail-desc" class="desc-item">Description: 
             <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
         </div>
 
         <div id="button-div" class="desc-item">
           <button id="save-button" onclick="saveDesc('${id}')">Save</button>
-          <button id="delete-button" onclick="DeleteTask('${id}')">Delete Task</button>
+          <button id="delete-button" onclick="DeleteTask('${id}')">Delete</button>
         <div>
       </div>
     `;
@@ -380,6 +386,8 @@ function setListen() {
 // eslint-disable-next-line no-unused-vars
 function backFromDesc() {
   const descWin = document.getElementById('detailed-desc');
+  navMenu.classList.remove('active');
+  dropdown.style.display = 'none'
   descWin.remove();
 }
 
@@ -599,13 +607,17 @@ function nextMonth() {
 // Click to display dropdown
 // eslint-disable-next-line no-unused-vars
 function changeMonth() {
-  const dropdown = document.getElementById('months-dropdown');
+
   if (dropdown.style.display === 'block') {
     dropdown.style.display = 'none';
+
+
   } else {
     dropdown.style.display = 'block';
   }
 }
+
+
 
 // Select month and load matrix
 // eslint-disable-next-line no-unused-vars
@@ -813,10 +825,13 @@ function giveToday() {
 }
 // eslint-disable-next-line no-unused-vars
 function backFromCategory() {
+  navMenu.classList.remove('active');
   categoryPage.style.display = 'none';
   header.style.display = 'block';
   loadMatrix(giveToday());
   matrix.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+
 }
 
 function categoryToJson(category) {
@@ -877,7 +892,7 @@ function renderTaskToChecklist(todayDate, taskName, boxToTick) {
   const categoryPage = document.getElementById('checklist-page');
   const id = `${todayDate}-${taskName}`;
   const taskElementHtml = `
-    <div id="${id}-ele" class="task-element">
+    <div id="${id}-ele" class="task-element checklist-task-element">
         <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${taskName} </label>
         <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
     </div>   
@@ -932,12 +947,15 @@ function getDayDate() {
 }
 
 function backFromChecklist() {
+  navMenu.classList.remove('active');
   checklistPage.innerHTML = '';
   checklistPage.style.display = 'none';
   loadMatrix(giveToday());
   header.style.display = 'block';
   matrix.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
 
 function openChecklist() {
   categoryPage.style.display = 'none';
@@ -945,22 +963,25 @@ function openChecklist() {
   header.style.display = 'none';
   checklistPage.style.display = 'block';
   checklistPage.innerHTML = `
-    <img src="images/back.png" id="back-img-checklist" onclick="backFromChecklist()">
-    <h1 class="checklist-title">Today's Tasks</h1>
+  <img src="images/back.png" id="back-img" onclick="backFromChecklist()">
+   <h1 class="checklist-title">Today's Tasks</h1>
     <div class="day-header" id="day-header">
     </div>  
   `;
   getDayDate();
 }
 
+
 /* activate toggle menu */
 document.addEventListener('DOMContentLoaded', () => {
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.getElementById('nav-menu');
+
 
   navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
+    dropdown.style.display = 'none'
   });
+
 
   /* search functionality */
   const performSearch = (query) => {
