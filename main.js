@@ -707,7 +707,7 @@ function goToMonth(month) {
 }
 
 // 1. Adding the category
-let categoryIdCounter = 1;
+// let categoryIdCounter = 1;
 
 function addCategory() {
   // Create input for new category name
