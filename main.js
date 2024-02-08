@@ -50,7 +50,7 @@ introForm.addEventListener('submit', (e) => {
 });
 
 const date = new Date();
-let jsonObj = null;
+let jsonObj = [];
 let jsonString = null;
 
 // Convert date object to DD/MM/YYYY string format
@@ -698,7 +698,12 @@ function addCategory() {
 }
 
 function submitCategoryName() {
-  let categoryIdCounter = jsonObj.length + 1;
+  let categoryIdCounter = 1;
+
+  if (jsonObj !== null) {
+    categoryIdCounter = jsonObj.length + 1;
+  }
+
   const categoryName = document.getElementById('new-category-name').value;
   if (categoryName.trim() === '') {
     alert('Category name cannot be empty');
@@ -948,7 +953,9 @@ function openCategoryPage() {
   checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
-  JsonToCategory();
+  if (jsonObj !== null) {
+    JsonToCategory();
+  }
   header.style.display = 'none';
 }
 
@@ -966,6 +973,9 @@ function backFromCategory() {
 
 function categoryToJson(category) {
   const categoryJSON = { categoryName: category, activityTypes: [] };
+  if (jsonObj === null) {
+    jsonObj = [];
+  }
   jsonObj.push(categoryJSON);
 
   jsonString = JSON.stringify(jsonObj);
