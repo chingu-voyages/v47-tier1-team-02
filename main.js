@@ -438,7 +438,7 @@ function loadMatrix(matDate) {
     const fDate = dateFormat(matDate);
     dayHeader.innerHTML = `
             <div id="add-to-date-${fDate}" class="add-to-date">
-              <button type="button" onclick="AddToDate('${fDate}')">+</button>
+              <button type="button" onclick="addToDate('${fDate}')">+</button>
             </div>
             <span class="day-name">${day} (${fDate})</span>
         `;
@@ -496,11 +496,15 @@ function loadMatrix(matDate) {
   setListen();
 }
 
-function AddToDate(toDate) {
+function addToDate(toDate) {
   if (document.getElementById('stray-task-entry')) {
     return;
   }
-  const dayHeader = document.getElementById(`add-to-date-${toDate}`);
+
+  let dayHeader = document.getElementById(`add-to-date-${toDate}-checklist`);
+  if (dayHeader === null) {
+    dayHeader = document.getElementById(`add-to-date-${toDate}`);
+  }
   const strayTaskWin = document.createElement('div');
   strayTaskWin.setAttribute('id', 'stray-task-div');
   strayTaskWin.classList.add('stray-task-overlay');
@@ -511,7 +515,6 @@ function AddToDate(toDate) {
       <button onclick="strayTaskSubmit('${toDate}')"> Add </button>
       <button onclick="closeStray()"> x </button>
   `;
-
   dayHeader.appendChild(strayTaskWin);
 }
 
@@ -540,6 +543,12 @@ function strayTaskSubmit(toDate) {
     }
   }
   closeStray();
+
+  // Refresh checklist if task added from checklist
+  if (document.getElementById('checklist-title') !== null) {
+    openChecklist();
+  }
+
   loadMatrix(giveToday());
 }
 // eslint-disable-next-line no-unused-vars
@@ -1070,7 +1079,9 @@ function findTasks() {
 function setDayHeader(todayDay, todayDate) {
   const dayHeader = document.getElementById('day-header');
   dayHeader.innerHTML = `
-    <button type="button">+</button>
+    <div id="add-to-date-${todayDate}-checklist" class="add-to-date">
+      <button type="button" onclick="addToDate('${todayDate}')">+</button>
+    </div>
     <span class="day-name">${todayDay} (${todayDate})</span>
   `;
   findTasks();
@@ -1099,7 +1110,7 @@ function openChecklist() {
   checklistPage.style.display = 'block';
   checklistPage.innerHTML = `
     <img src="images/back.png" id="back-img-checklist" onclick="backFromChecklist()">
-    <h1 class="checklist-title">Today's Tasks</h1>
+    <h1 id="checklist-title" class="checklist-title">Today's Tasks</h1>
     <div class="day-header" id="day-header">
     </div>  
   `;
