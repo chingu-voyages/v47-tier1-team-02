@@ -719,6 +719,7 @@ function addCategory() {
 }
 
 function submitCategoryName() {
+  let categoryIdCounter = jsonObj.length + 1;
   const categoryName = document.getElementById('new-category-name').value;
   if (categoryName.trim() === '') {
     alert('Category name cannot be empty');
