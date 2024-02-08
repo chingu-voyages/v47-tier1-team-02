@@ -257,9 +257,11 @@ function showDayDropDown(id = null) {
   `;
   } else {
     addDayDiv.innerHTML += dropDownHTML;
+    const newAddDayButton = document.querySelector('new-task-submit');
     document.querySelector('.new-task-date').remove();
     document.querySelector('.new-task-day').remove();
     taskInputDiv.appendChild(addDayDiv);
+    taskInputDiv.insertBefore(addDayDiv, newAddDayButton);
   }
 }
 

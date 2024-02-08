@@ -263,6 +263,7 @@ body {
 
 .task-input {
     margin: 10px 0;
+    display: flex;
 }
 
 .new-task-name,
