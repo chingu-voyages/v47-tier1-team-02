@@ -420,6 +420,7 @@ function backFromDesc() {
   descWin.remove();
 }
 
+
 function loadMatrix(matDate) {
   setMonthName(matDate);
   const dayNum = matDate.getDay();
@@ -439,14 +440,14 @@ function loadMatrix(matDate) {
     dayDiv.classList.add('days');
 
     const dayHeader = document.createElement('div');
-
     // Division for day name, date and add task button
     dayHeader.classList.add('day-header');
 
     const fDate = dateFormat(matDate);
-
     dayHeader.innerHTML = `
-            <button type="button">+</button>
+            <div id="add-to-date-${fDate}" class="add-to-date">
+              <button type="button" onclick="AddToDate('${fDate}')">+</button>
+            </div>
             <span class="day-name">${day} (${fDate})</span>
         `;
 
