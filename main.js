@@ -993,7 +993,7 @@ function giveToday() {
 }
 // eslint-disable-next-line no-unused-vars
 function backFromCategory() {
-  categoryPage.innerHTML = '';
+  document.getElementById('categories-container').innerHTML = '';
   categoryPage.style.display = 'none';
   header.style.display = 'block';
   loadMatrix(giveToday());
