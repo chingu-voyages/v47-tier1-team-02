@@ -11,12 +11,16 @@ const checklistPage = document.getElementById('checklist-page');
 const categoryPage = document.getElementById('category-page');
 const header = document.querySelector('header');
 
-header.style.display = 'none';
-checklistPage.style.display = 'none';
-categoryPage.style.display = 'none';
-matrix.style.display = 'none';
-
-// const userName = localStorage.getItem('name');
+if (localStorage.getItem('taskData') === null) {
+  header.style.display = 'none';
+  checklistPage.style.display = 'none';
+  categoryPage.style.display = 'none';
+  matrix.style.display = 'none';
+} else {
+  intro.style.display = 'none';
+  introForm.style.display = 'none';
+  categoryPage.style.display = 'none';
+}
 
 document.addEventListener('click', (e) => {
   if (e.target.id === 'start-btn') {
@@ -46,60 +50,8 @@ introForm.addEventListener('submit', (e) => {
 });
 
 const date = new Date();
-const jsonObj = [
-  {
-    categoryName: 'Routine activities',
-    activityTypes: [
-      {
-        activityName: 'Projects',
-        Tasks: [
-          {
-            taskName: 'Ontrack',
-            taskDescription: 'Create json data handling',
-            days: [
-              '25/01/2024',
-              '23/01/2024',
-              '04/02/2024',
-              '22/01/2024',
-            ],
-            completion: [
-              '23/01/2024',
-              '22/01/2024',
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    categoryName: 'Studying',
-    activityTypes: [
-      {
-        activityName: 'Node js course',
-        Tasks: [
-          {
-            taskName: 'Read bookmarked article',
-            taskDescription: 'Go through all articles in bookmark',
-            days: [
-              'Monday',
-              '02/02/2024',
-            ],
-            completion: [],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    categoryName: 'Stray category',
-    activityTypes: [
-      {
-        activityName: 'Stray activity',
-        Tasks: [],
-      },
-    ],
-  },
-];
+let jsonObj = [];
+let jsonString = null;
 
 // Convert date object to DD/MM/YYYY string format
 function dateFormat(fDate) {
@@ -425,6 +377,9 @@ function loadMatrix(matDate) {
   const daysContainer = document.getElementById('mobile-table');
   daysContainer.innerHTML = '';
 
+  jsonString = localStorage.getItem('taskData');
+  jsonObj = JSON.parse(jsonString);
+
   daysOfWeek.forEach((day) => {
     const dayDiv = document.createElement('div');
 
@@ -455,34 +410,35 @@ function loadMatrix(matDate) {
       If it is, add the task name under the constructed header.
     */
     const boxToTick = [];
-    jsonObj.forEach((category) => {
-      category.activityTypes.forEach((activityType) => {
-        activityType.Tasks.forEach((task) => {
-          task.days.forEach((dayN) => {
-            if (dayN === day || dayN === fDate) {
-              const id = `${fDate}-${task.taskName}`;
+    if (jsonObj !== null) {
+      jsonObj.forEach((category) => {
+        category.activityTypes.forEach((activityType) => {
+          activityType.Tasks.forEach((task) => {
+            task.days.forEach((dayN) => {
+              if (dayN === day || dayN === fDate) {
+                const id = `${fDate}-${task.taskName}`;
 
-              taskList.innerHTML += `
-                <div class="name-and-checkbox">
-                  <div id="${id}-ele" class="task-element checkbox-label">
-                    <p class="checkbox-label"> ${task.taskName} </label>
-                  </div>
-                  <div class="checkbox">
-                    <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
-                  </div>
-                <div>
-              `;
+                taskList.innerHTML += `
+                  <div class="name-and-checkbox">
+                    <div id="${id}-ele" class="task-element checkbox-label">
+                      <p class="checkbox-label"> ${task.taskName} </label>
+                    </div>
+                    <div class="checkbox">
+                      <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+                    </div>
+                  <div>
+                `;
 
-              // Get id of checkboxes to be ticked
-              if (task.completion.includes(fDate)) {
-                boxToTick.push(`${id}-checkbox`);
+                // Get id of checkboxes to be ticked
+                if (task.completion.includes(fDate)) {
+                  boxToTick.push(`${id}-checkbox`);
+                }
               }
-            }
+            });
           });
         });
       });
-    });
-
+    }
     dayDiv.appendChild(dayHeader);
     dayDiv.appendChild(taskList);
 
@@ -519,6 +475,19 @@ function closeStray() {
   document.getElementById('stray-task-div').remove();
 }
 
+function strayToJson() {
+  const strayObj = {
+    categoryName: 'Stray category',
+    activityTypes: [
+      {
+        activityName: 'Stray activity',
+        Tasks: [],
+      },
+    ],
+  };
+  jsonObj.push(strayObj);
+}
+
 function strayTaskSubmit(toDate) {
   const taskNameEntry = document.getElementById('stray-task-entry');
   const strayDescEntry = document.getElementById('stray-desc-entry');
@@ -533,12 +502,30 @@ function strayTaskSubmit(toDate) {
       days: [`${toDate}`],
       completion: [],
     };
+    jsonString = localStorage.getItem('taskData');
 
-    const strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
-    if (strayIndex !== -1) {
-      jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
+    // If local storage is empty, setup stray category for stray task
+    if (jsonString === null) {
+      strayToJson();
     }
+
+    // Check if json already had stray category
+    let strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+
+    // If not, add a stray category and get it's index
+    if (strayIndex === -1) {
+      strayToJson();
+      strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+    }
+
+    // Push stray task to stray category
+    jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
   }
+
+  // Store json in local storage and refresh matrix
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
+
   closeStray();
   loadMatrix(giveToday());
 }
@@ -551,6 +538,8 @@ function DeleteTask(id) {
       activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
     });
   });
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
   loadMatrix(date);
   document.getElementById('detailed-desc').remove();
 }
@@ -596,7 +585,9 @@ function saveDesc(id) {
       });
     });
   });
-  // Place matrix on the task that was cliked on
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
+  // Place matrix on the task that was clicked on
   const dateComponents = taskDate.split('/');
 
   const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
@@ -640,7 +631,8 @@ function checkboxStore(id) {
       });
     });
   });
-  localStorage.setItem('tasksJson', JSON.stringify(jsonObj));
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
 }
 
 // Clear the matrix table when changing week/month
@@ -706,7 +698,12 @@ function addCategory() {
 }
 
 function submitCategoryName() {
-  let categoryIdCounter = jsonObj.length + 1;
+  let categoryIdCounter = 1;
+
+  if (jsonObj !== null) {
+    categoryIdCounter = jsonObj.length + 1;
+  }
+
   const categoryName = document.getElementById('new-category-name').value;
   if (categoryName.trim() === '') {
     alert('Category name cannot be empty');
@@ -956,7 +953,9 @@ function openCategoryPage() {
   checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
-  JsonToCategory();
+  if (jsonObj !== null) {
+    JsonToCategory();
+  }
   header.style.display = 'none';
 }
 
@@ -974,7 +973,13 @@ function backFromCategory() {
 
 function categoryToJson(category) {
   const categoryJSON = { categoryName: category, activityTypes: [] };
+  if (jsonObj === null) {
+    jsonObj = [];
+  }
   jsonObj.push(categoryJSON);
+
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
 }
 
 function activityToJson(categoryId, activity) {
@@ -989,6 +994,8 @@ function activityToJson(categoryId, activity) {
 
   jsonObj[index].activityTypes.push(activityjson);
 
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
   //   console.log(jsonObj);
 }
 
@@ -1014,6 +1021,9 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
       }
     });
   });
+
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
   console.log(jsonObj);
 }
 
@@ -1142,11 +1152,14 @@ function handleFile(file) {
       // Parse the JSON data from the file
       const jsonData = JSON.parse(e.target.result);
 
+      // Set the json object as global variable
+      jsonObj = jsonData;
+
       // Convert the JSON object to a string
-      const jsonString = JSON.stringify(jsonData);
+      jsonString = JSON.stringify(jsonData);
 
       // Save the JSON string to local storage
-      localStorage.setItem('uploadedJsonFile', jsonString);
+      localStorage.setItem('taskData', jsonString);
 
       // Log a success message
       console.log('JSON data saved to local storage.');
@@ -1181,6 +1194,7 @@ function prepareFileForConfirmation() {
       // Add event listener to the "Confirm" button
       confirmBtn.addEventListener('click', () => {
         handleFile(fileInput.files[0]);
+        loadMatrix(date);
       });
     }
   } else {
