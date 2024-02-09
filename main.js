@@ -99,7 +99,10 @@ function openDetail(id) {
     // id format -> taskDate-taskName
     const taskDate = id.slice(0, 10);
 
-    const taskName = id.slice(11);
+    const taskName = id.slice(11).split('-')[0];
+
+    const detailId = `${taskDate}-${taskName}`;
+
     // To check for due date with day as well
     const day = giveDay(taskDate);
 
@@ -131,9 +134,9 @@ function openDetail(id) {
 
     taskDays.forEach((taskDay) => {
       htmlAdd += `
-          <div id="${id}-deadline-${taskDay}-div" class="day-widget">
-            <span id="${id}-deadline-${taskDay}" class="desc-element date-widget">${taskDay}</span>
-            <button id="${id}-deadline-${taskDay}-button" onclick="deleteDate('${id}-deadline-${taskDay}-div')">x</button>
+          <div id="${detailId}-deadline-${taskDay}-div" class="day-widget">
+            <span id="${detailId}-deadline-${taskDay}" class="desc-element date-widget">${taskDay}</span>
+            <button id="${detailId}-deadline-${taskDay}-button" onclick="deleteDate('${detailId}-deadline-${taskDay}-div')">x</button>
           </div>
       `;
     });
@@ -148,33 +151,33 @@ function openDetail(id) {
 
       <div id="task-desc">
         <div id="name-desc" class="desc-item">Task name : 
-          <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')"> ${taskName}</span>
+          <span id="${detailId}-name" class="desc-element" onclick="editDesc('${detailId}', 'name')"> ${taskName}</span>
         </div>
         <div id="deadline-desc" class="desc-item">Deadline : 
           <div id="task-days" class="task-days">
             ${htmlAdd}
           </div>
           <div id="add-day">
-            <button id="add-day-button" onclick="addDay('${id}')"> + </button>
+            <button id="add-day-button" onclick="addDay('${detailId}')"> + </button>
           </div>
         </div>
         <div id="category-desc" class="desc-item">Category : 
-            <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')"> ${taskCat}</span>
+            <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')"> ${taskCat}</span>
         </div>
         <div id="activity-desc" class="desc-item">Activity : 
-            <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')"> ${taskAct}</span>
+            <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')"> ${taskAct}</span>
         </div>
         <div id="detail-desc" class="desc-item">Description : 
-            <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
+            <span id="${detailId}-description" class="desc-element" onclick="editDesc('${detailId}', 'description')">${taskDesc}</span>
         </div>
 
         <div id="button-div" class="desc-item">
-          <button id="save-button" onclick="saveDesc('${id}')">Save</button>
-          <button id="delete-button" onclick="DeleteTask('${id}')">Delete Task</button>
+          <button id="save-button" onclick="saveDesc('${detailId}')">Save</button>
+          <button id="delete-button" onclick="DeleteTask('${detailId}')">Delete Task</button>
         <div>
       </div>
     `;
-    document.getElementById('matrix').appendChild(overlayDesc);
+    document.getElementById('detail-overlay').appendChild(overlayDesc);
   }
 }
 
@@ -357,7 +360,8 @@ function editDesc(id, element) {
 // Set onclick functions to each task element
 function setListen() {
   document.querySelectorAll('.task-element').forEach((element) => {
-    const id = element.id.replace('-ele', '');
+    let id = element.id.replace('-ele', '');
+    id = id.replace('ele-checklist', '');
     element.addEventListener('click', () => openDetail(id));
   });
 }
@@ -397,11 +401,12 @@ function loadMatrix(matDate) {
     const fDate = dateFormat(matDate);
     dayHeader.innerHTML = `
             <div id="add-to-date-${fDate}" class="add-to-date">
-              <button type="button" onclick="AddToDate('${fDate}')">+</button>
+              <button type="button" onclick="addToDate('${fDate}')">+</button>
             </div>
             <span class="day-name">${day} (${fDate})</span>
         `;
 
+    dayDiv.appendChild(dayHeader);
     matDate.setDate(matDate.getDate() + 1);
 
     const taskList = document.createElement('div');
@@ -421,32 +426,31 @@ function loadMatrix(matDate) {
             task.days.forEach((dayN) => {
               if (dayN === day || dayN === fDate) {
                 const id = `${fDate}-${task.taskName}`;
-
-                taskList.innerHTML += `
-                  <div class="name-and-checkbox">
-                    <div id="${id}-ele" class="task-element checkbox-label">
-                      <p class="checkbox-label"> ${task.taskName} </label>
-                    </div>
-                    <div class="checkbox">
-                      <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
-                    </div>
-                  <div>
-                `;
-
-                // Get id of checkboxes to be ticked
-                if (task.completion.includes(fDate)) {
-                  boxToTick.push(`${id}-checkbox`);
+                if (document.getElementById(`${id}-ele`) === null) {
+                  taskList.innerHTML += `
+                    <div class="name-and-checkbox">
+                      <div id="${id}-ele" class="task-element checkbox-label">
+                        <p class="checkbox-label"> ${task.taskName} </label>
+                      </div>
+                      <div class="checkbox">
+                        <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+                      </div>
+                    <div>
+                  `;
                 }
+
+              // Get id of checkboxes to be ticked
+              if (task.completion.includes(fDate)) {
+                boxToTick.push(`${id}-checkbox`);
               }
-            });
+            }
+            // Appending now so the division can be checked for existence - prevent duplicates
+            dayDiv.appendChild(taskList);
+            daysContainer.appendChild(dayDiv);
           });
         });
       });
-    }
-    dayDiv.appendChild(dayHeader);
-    dayDiv.appendChild(taskList);
-
-    daysContainer.appendChild(dayDiv);
+    });
 
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
@@ -456,11 +460,15 @@ function loadMatrix(matDate) {
   setListen();
 }
 
-function AddToDate(toDate) {
+function addToDate(toDate) {
   if (document.getElementById('stray-task-entry')) {
     return;
   }
-  const dayHeader = document.getElementById(`add-to-date-${toDate}`);
+
+  let dayHeader = document.getElementById(`add-to-date-${toDate}-checklist`);
+  if (dayHeader === null) {
+    dayHeader = document.getElementById(`add-to-date-${toDate}`);
+  }
   const strayTaskWin = document.createElement('div');
   strayTaskWin.setAttribute('id', 'stray-task-div');
   strayTaskWin.classList.add('stray-task-overlay');
@@ -471,7 +479,6 @@ function AddToDate(toDate) {
       <button onclick="strayTaskSubmit('${toDate}')"> Add </button>
       <button onclick="closeStray()"> x </button>
   `;
-
   dayHeader.appendChild(strayTaskWin);
 }
 
@@ -497,41 +504,46 @@ function strayTaskSubmit(toDate) {
   const strayDescEntry = document.getElementById('stray-desc-entry');
   const strayName = taskNameEntry.value;
   const strayDesc = strayDescEntry.value;
+
   if (strayName === '') {
     taskNameEntry.placeholder = 'can\'t be empty';
-  } else {
-    const strayTask = {
-      taskName: strayName,
-      taskDescription: strayDesc,
-      days: [`${toDate}`],
-      completion: [],
-    };
-    jsonString = localStorage.getItem('taskData');
+    return;
+  }
+  const strayTask = {
+    taskName: strayName,
+    taskDescription: strayDesc,
+    days: [`${toDate}`],
+    completion: [],
+  };
+  jsonString = localStorage.getItem('taskData');
 
-    // If local storage is empty, setup stray category for stray task
-    if (jsonString === null) {
-      strayToJson();
-    }
-
-    // Check if json already had stray category
-    let strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
-
-    // If not, add a stray category and get it's index
-    if (strayIndex === -1) {
-      strayToJson();
-      strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
-    }
-
-    // Push stray task to stray category
-    jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
+  // If local storage is empty, setup stray category for stray task
+  if (jsonString === null) {
+    strayToJson();
   }
 
-  // Store json in local storage and refresh matrix
-  jsonString = JSON.stringify(jsonObj);
-  localStorage.setItem('taskData', jsonString);
+  // Check if json already had stray category
+  let strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+
+  // If not, add a stray category and get it's index
+  if (strayIndex === -1) {
+    strayToJson();
+    strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+  }
+
+  // Push stray task to stray category
+  jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
 
   closeStray();
-  loadMatrix(giveToday());
+
+  // Refresh checklist if task added from checklist
+  if (document.getElementById('checklist-title') !== null) {
+    openChecklist();
+  }
+  let newTaskDate = toDate.split('/');
+  newTaskDate = new Date(newTaskDate[2], newTaskDate[1] - 1, newTaskDate[0]);
+
+  loadMatrix(newTaskDate);
 }
 // eslint-disable-next-line no-unused-vars
 function DeleteTask(id) {
@@ -619,7 +631,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // eslint-disable-next-line no-unused-vars
 function checkboxStore(id) {
   const boxDate = id.slice(0, 10);
-  const boxName = id.slice(11);
+
+  /*
+    If the checkbox belongs to daily checklist the id will be suffixed with -checklist.
+    Split for '-' and get the first element to eliminate the suffix. Works for matrix checkboxes
+  */
+  const boxName = id.slice(11).split('-')[0];
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
@@ -969,6 +986,7 @@ function giveToday() {
 }
 // eslint-disable-next-line no-unused-vars
 function backFromCategory() {
+  document.getElementById('categories-container').innerHTML = '';
   categoryPage.style.display = 'none';
   header.style.display = 'block';
   loadMatrix(giveToday());
@@ -1015,7 +1033,6 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
     completion: [],
   };
 
-  // console.log(tasksJson.days);
   tasksJson.days = tasksJson.days.concat(taskDateList);
 
   jsonObj.forEach((cat) => {
@@ -1041,16 +1058,21 @@ function getChecklistDay() {
 }
 
 function renderTaskToChecklist(todayDate, taskName, boxToTick) {
-  const categoryPage = document.getElementById('checklist-page');
   const id = `${todayDate}-${taskName}`;
   const taskElementHtml = `
-    <div id="${id}-ele" class="task-element">
-        <label class="checkbox-label" for="${id}-checkbox"${id}-task"> ${taskName} </label>
-        <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
-    </div>   
+    <div class="task-list">
+      <div class="name-and-checkbox">
+        <div id="${id}-ele-checklist" class="task-element checkbox-label">
+            <p class="checkbox-label">${taskName}</p>
+        </div>   
+        <div class="checkbox">
+          <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
+        </div>
+      </div> 
+    </div>
   `;
 
-  categoryPage.innerHTML += taskElementHtml;
+  checklistPage.innerHTML += taskElementHtml;
 
   boxToTick.forEach((boxId) => {
     // document.getElementById(`${boxId}-checkbox`).checked = true;
@@ -1073,7 +1095,9 @@ function findTasks() {
             if (task.completion.includes(todayDate)) {
               boxToTick.push(id);
             }
-            renderTaskToChecklist(todayDate, task.taskName, boxToTick);
+            if (document.getElementById(`${todayDate}-${task.taskName}-ele-checklist`) === null) {
+              renderTaskToChecklist(todayDate, task.taskName, boxToTick);
+            }
           }
         });
       });
@@ -1084,7 +1108,9 @@ function findTasks() {
 function setDayHeader(todayDay, todayDate) {
   const dayHeader = document.getElementById('day-header');
   dayHeader.innerHTML = `
-    <button type="button">+</button>
+    <div id="add-to-date-${todayDate}-checklist" class="add-to-date">
+      <button type="button" onclick="addToDate('${todayDate}')">+</button>
+    </div>
     <span class="day-name">${todayDay} (${todayDate})</span>
   `;
   findTasks();
@@ -1113,11 +1139,12 @@ function openChecklist() {
   checklistPage.style.display = 'block';
   checklistPage.innerHTML = `
     <img src="images/back.png" id="back-img-checklist" onclick="backFromChecklist()">
-    <h1 class="checklist-title">Today's Tasks</h1>
+    <h1 id="checklist-title" class="checklist-title">Today's Tasks</h1>
     <div class="day-header" id="day-header">
     </div>  
   `;
   getDayDate();
+  setListen();
 }
 
 /* activate toggle menu */
