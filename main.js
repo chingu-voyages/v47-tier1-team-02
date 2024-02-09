@@ -543,12 +543,15 @@ function strayTaskSubmit(toDate) {
     completion: [],
   };
 
-  const strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+  jsonObj.forEach((category) => {
+
+  });
+  const strayIndex = jsonObj.findIndex((category) => category.categoryName.trim() === 'Stray category');
+
   if (strayIndex !== -1) {
     jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
   }
 
-  console.log(jsonObj);
   closeStray();
 
   // Refresh checklist if task added from checklist
