@@ -470,7 +470,7 @@ function loadMatrix(matDate) {
                 taskList.innerHTML += `
                   <div class="name-and-checkbox">
                     <div id="${id}-ele" class="task-element checkbox-label">
-                      <p class="checkbox-label"> ${task.taskName} </label>
+                      <p class="checkbox-label">${task.taskName}</label>
                     </div>
                     <div class="checkbox">
                       <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
@@ -531,21 +531,24 @@ function strayTaskSubmit(toDate) {
   const strayDescEntry = document.getElementById('stray-desc-entry');
   const strayName = taskNameEntry.value;
   const strayDesc = strayDescEntry.value;
+
   if (strayName === '') {
     taskNameEntry.placeholder = 'can\'t be empty';
-  } else {
-    const strayTask = {
-      taskName: strayName,
-      taskDescription: strayDesc,
-      days: [`${toDate}`],
-      completion: [],
-    };
-
-    const strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
-    if (strayIndex !== -1) {
-      jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
-    }
+    return;
   }
+  const strayTask = {
+    taskName: strayName,
+    taskDescription: strayDesc,
+    days: [`${toDate}`],
+    completion: [],
+  };
+
+  const strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+  if (strayIndex !== -1) {
+    jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
+  }
+
+  console.log(jsonObj);
   closeStray();
 
   // Refresh checklist if task added from checklist
@@ -985,6 +988,7 @@ function giveToday() {
 }
 // eslint-disable-next-line no-unused-vars
 function backFromCategory() {
+  categoryPage.innerHTML = '';
   categoryPage.style.display = 'none';
   header.style.display = 'block';
   loadMatrix(giveToday());
@@ -1007,8 +1011,6 @@ function activityToJson(categoryId, activity) {
   };
 
   jsonObj[index].activityTypes.push(activityjson);
-
-  //   console.log(jsonObj);
 }
 
 function taskToJson(activityId, taskName, taskDate, taskDesc) {
@@ -1023,7 +1025,6 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
     completion: [],
   };
 
-  // console.log(tasksJson.days);
   tasksJson.days = tasksJson.days.concat(taskDateList);
 
   jsonObj.forEach((cat) => {
@@ -1033,7 +1034,6 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
       }
     });
   });
-  console.log(jsonObj);
 }
 
 // to get the current date and day to be displayed the Today's Checklist page
@@ -1051,7 +1051,7 @@ function renderTaskToChecklist(todayDate, taskName, boxToTick) {
     <div class="task-list">
       <div class="name-and-checkbox">
         <div id="${id}-ele-checklist" class="task-element checkbox-label">
-            <p class="checkbox-label"> ${taskName} </p>
+            <p class="checkbox-label">${taskName}</p>
         </div>   
         <div class="checkbox">
           <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
@@ -1084,7 +1084,6 @@ function findTasks() {
               boxToTick.push(id);
             }
             if (document.getElementById(`${todayDate}-${task.taskName}-ele-checklist`) === null) {
-              console.log('asdf');
               renderTaskToChecklist(todayDate, task.taskName, boxToTick);
             }
           }
