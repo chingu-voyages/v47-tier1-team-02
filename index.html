@@ -42,6 +42,7 @@
                         </li>
                         <li><span onclick="openCategoryPage()">Categories</span></li>
                         <li><span onclick="openChecklist()">Today's Tasks</span></li>
+                        <li><span onclick="openSettings()">Settings</span></li>
                     </ul>
                 </div>
         </nav>
@@ -120,8 +121,20 @@
     </section>
     
     <section id="checklist-page">
+    </section>
+
+    <section id="settings-page" class="overlay">
+        <div id="settings-back">
+            <img src="images/back.png" id="back-img" onclick="backFromSettings()">
+        </div>
+        
+        <div id="export-json">
+            <span>Export all of your saved tasks and their data as a JSON file and share it with anyone.</span>
+            <button onclick="exportJSON()">Export task list</button>
+        </div>
 
     </section>
+
     <script src="main.js"></script>
 
 </body>

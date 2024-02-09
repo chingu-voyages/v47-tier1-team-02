@@ -9,6 +9,7 @@ const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
 const checklistPage = document.getElementById('checklist-page');
 const categoryPage = document.getElementById('category-page');
+const settingsPage = document.getElementById('settings-page');
 const header = document.querySelector('header');
 
 if (localStorage.getItem('taskData') === null) {
@@ -21,6 +22,9 @@ if (localStorage.getItem('taskData') === null) {
   introForm.style.display = 'none';
   categoryPage.style.display = 'none';
 }
+settingsPage.style.display = 'none';
+
+// const userName = localStorage.getItem('name');
 
 document.addEventListener('click', (e) => {
   if (e.target.id === 'start-btn') {
@@ -1205,3 +1209,28 @@ function prepareFileForConfirmation() {
 
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
+
+function openSettings() {
+  settingsPage.style.display = 'block';
+}
+
+function backFromSettings() {
+  settingsPage.style.display = 'none';
+}
+
+// eslint-disable-next-line no-unused-vars
+function exportJSON() {
+  const jsonString = JSON.stringify(jsonObj);
+
+  const blob = new Blob([jsonString], { type: 'application/json' });
+
+  const downloadLink = document.createElement('a');
+  downloadLink.href = window.URL.createObjectURL(blob);
+  downloadLink.download = 'data.json';
+
+  document.body.appendChild(downloadLink);
+
+  downloadLink.click();
+
+  document.body.removeChild(downloadLink);
+}
