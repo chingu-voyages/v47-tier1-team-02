@@ -545,7 +545,7 @@ p {
     list-style: none;
 }
 
-.nav-menu-list li:nth-child(2) {
+.nav-menu-list li:nth-child(3) {
     border-top: 1px solid var(--primary-color-dark);
     border-bottom: 1px solid var(--primary-color-dark);
   }
@@ -611,6 +611,10 @@ p {
     cursor: pointer;
 }
 
+#export-json {
+    display: flex;
+    margin: 1rem;
+}
 /* Media Queries */
 @media(min-width: 768px){
     .nav-search-container {display: none;}

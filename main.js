@@ -9,8 +9,10 @@ const introFormInput = document.getElementById('introForm-input');
 const matrix = document.getElementById('matrix');
 const checklistPage = document.getElementById('checklist-page');
 const categoryPage = document.getElementById('category-page');
+const settingsPage = document.getElementById('settings-page');
 const header = document.querySelector('header');
 
+settingsPage.style.display = 'none';
 header.style.display = 'none';
 checklistPage.style.display = 'none';
 categoryPage.style.display = 'none';
@@ -1191,3 +1193,11 @@ function prepareFileForConfirmation() {
 
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
+
+function openSettings() {
+  settingsPage.style.display = 'block';
+}
+
+function backFromSettings() {
+  settingsPage.style.display = 'none';
+}
