@@ -57,6 +57,11 @@ const date = new Date();
 let jsonObj = [];
 let jsonString = null;
 
+if (localStorage.getItem('taskData')) {
+  jsonString = localStorage.getItem('taskData');
+  jsonObj = JSON.parse(jsonString);
+}
+
 // Convert date object to DD/MM/YYYY string format
 function dateFormat(fDate) {
   const dd = String(fDate.getDate()).padStart(2, '0');
@@ -385,8 +390,8 @@ function loadMatrix(matDate) {
   const daysContainer = document.getElementById('mobile-table');
   daysContainer.innerHTML = '';
 
-  jsonString = localStorage.getItem('taskData');
-  jsonObj = JSON.parse(jsonString);
+  // jsonString = localStorage.getItem('taskData');
+  // jsonObj = JSON.parse(jsonString);
 
   daysOfWeek.forEach((day) => {
     const dayDiv = document.createElement('div');
@@ -497,6 +502,7 @@ function strayToJson() {
     ],
   };
   jsonObj.push(strayObj);
+  localStorage.setItem('taskData', JSON.stringify(jsonObj));
 }
 
 function strayTaskSubmit(toDate) {
@@ -1025,7 +1031,7 @@ function activityToJson(categoryId, activity) {
 
   jsonObj[index].activityTypes.push(activityjson);
 
-  //   console.log(jsonObj);
+  localStorage.setItem('taskData', JSON.stringify(jsonObj));
 }
 
 function taskToJson(activityId, taskName, taskDate, taskDesc) {
@@ -1049,7 +1055,7 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
       }
     });
   });
-  console.log(jsonObj);
+  localStorage.setItem('taskData', JSON.stringify(jsonObj));
 }
 
 // to get the current date and day to be displayed the Today's Checklist page
@@ -1089,9 +1095,6 @@ function findTasks() {
   const todayDay = dayDate[0];
   const todayDate = dayDate[1];
   const boxToTick = [];
-
-  jsonString = localStorage.getItem('taskData');
-  jsonObj = JSON.parse(jsonString);
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
