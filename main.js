@@ -143,7 +143,10 @@ function openDetail(id) {
     // id format -> taskDate-taskName
     const taskDate = id.slice(0, 10);
 
-    const taskName = id.slice(11);
+    const taskName = id.slice(11).split('-')[0];
+
+    const detailId = `${taskDate}-${taskName}`;
+
     // To check for due date with day as well
     const day = giveDay(taskDate);
 
@@ -175,9 +178,9 @@ function openDetail(id) {
 
     taskDays.forEach((taskDay) => {
       htmlAdd += `
-          <div id="${id}-deadline-${taskDay}-div" class="day-widget">
-            <span id="${id}-deadline-${taskDay}" class="desc-element date-widget">${taskDay}</span>
-            <button id="${id}-deadline-${taskDay}-button" onclick="deleteDate('${id}-deadline-${taskDay}-div')">x</button>
+          <div id="${detailId}-deadline-${taskDay}-div" class="day-widget">
+            <span id="${detailId}-deadline-${taskDay}" class="desc-element date-widget">${taskDay}</span>
+            <button id="${detailId}-deadline-${taskDay}-button" onclick="deleteDate('${detailId}-deadline-${taskDay}-div')">x</button>
           </div>
       `;
     });
@@ -192,33 +195,33 @@ function openDetail(id) {
 
       <div id="task-desc">
         <div id="name-desc" class="desc-item">Task name : 
-          <span id="${id}-name" class="desc-element" onclick="editDesc('${id}', 'name')"> ${taskName}</span>
+          <span id="${detailId}-name" class="desc-element" onclick="editDesc('${detailId}', 'name')"> ${taskName}</span>
         </div>
         <div id="deadline-desc" class="desc-item">Deadline : 
           <div id="task-days" class="task-days">
             ${htmlAdd}
           </div>
           <div id="add-day">
-            <button id="add-day-button" onclick="addDay('${id}')"> + </button>
+            <button id="add-day-button" onclick="addDay('${detailId}')"> + </button>
           </div>
         </div>
         <div id="category-desc" class="desc-item">Category : 
-            <span id="${id}-category" class="desc-element" onclick="editDesc('${id}', 'category')"> ${taskCat}</span>
+            <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')"> ${taskCat}</span>
         </div>
         <div id="activity-desc" class="desc-item">Activity : 
-            <span id="${id}-activity" class="desc-element" onclick="editDesc('${id}', 'activity')"> ${taskAct}</span>
+            <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')"> ${taskAct}</span>
         </div>
         <div id="detail-desc" class="desc-item">Description : 
-            <span id="${id}-description" class="desc-element" onclick="editDesc('${id}', 'description')">${taskDesc}</span>
+            <span id="${detailId}-description" class="desc-element" onclick="editDesc('${detailId}', 'description')">${taskDesc}</span>
         </div>
 
         <div id="button-div" class="desc-item">
-          <button id="save-button" onclick="saveDesc('${id}')">Save</button>
-          <button id="delete-button" onclick="DeleteTask('${id}')">Delete Task</button>
+          <button id="save-button" onclick="saveDesc('${detailId}')">Save</button>
+          <button id="delete-button" onclick="DeleteTask('${detailId}')">Delete Task</button>
         <div>
       </div>
     `;
-    document.getElementById('matrix').appendChild(overlayDesc);
+    document.getElementById('detail-overlay').appendChild(overlayDesc);
   }
 }
 
@@ -401,7 +404,8 @@ function editDesc(id, element) {
 // Set onclick functions to each task element
 function setListen() {
   document.querySelectorAll('.task-element').forEach((element) => {
-    const id = element.id.replace('-ele', '');
+    let id = element.id.replace('-ele', '');
+    id = id.replace('ele-checklist', '');
     element.addEventListener('click', () => openDetail(id));
   });
 }
@@ -633,7 +637,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // eslint-disable-next-line no-unused-vars
 function checkboxStore(id) {
   const boxDate = id.slice(0, 10);
-  const boxName = id.slice(11);
+
+  /*
+    If the checkbox belongs to daily checklist the id will be suffixed with -checklist.
+    Split for '-' and get the first element to eliminate the suffix. Works for matrix checkboxes
+  */
+  const boxName = id.slice(11).split('-')[0];
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
@@ -649,6 +658,7 @@ function checkboxStore(id) {
       });
     });
   });
+  console.log(jsonObj);
   localStorage.setItem('tasksJson', JSON.stringify(jsonObj));
 }
 
@@ -1038,10 +1048,16 @@ function getChecklistDay() {
 function renderTaskToChecklist(todayDate, taskName, boxToTick) {
   const id = `${todayDate}-${taskName}`;
   const taskElementHtml = `
-    <div id="${id}-ele" class="task-element">
-        <p class="checkbox-label"> ${taskName} </p>
-        <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
-    </div>   
+    <div class="task-list">
+      <div class="name-and-checkbox">
+        <div id="${id}-ele-checklist" class="task-element checkbox-label">
+            <p class="checkbox-label"> ${taskName} </p>
+        </div>   
+        <div class="checkbox">
+          <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
+        </div>
+      </div> 
+    </div>
   `;
 
   checklistPage.innerHTML += taskElementHtml;
@@ -1067,7 +1083,8 @@ function findTasks() {
             if (task.completion.includes(todayDate)) {
               boxToTick.push(id);
             }
-            if (document.getElementById('08/02/2024-asdf-ele') === null) {
+            if (document.getElementById(`${todayDate}-${task.taskName}-ele-checklist`) === null) {
+              console.log('asdf');
               renderTaskToChecklist(todayDate, task.taskName, boxToTick);
             }
           }
@@ -1116,6 +1133,7 @@ function openChecklist() {
     </div>  
   `;
   getDayDate();
+  setListen();
 }
 
 /* activate toggle menu */
