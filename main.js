@@ -558,8 +558,10 @@ function strayTaskSubmit(toDate) {
   if (document.getElementById('checklist-title') !== null) {
     openChecklist();
   }
+  let newTaskDate = toDate.split('/');
+  newTaskDate = new Date(newTaskDate[2], newTaskDate[1] - 1, newTaskDate[0]);
 
-  loadMatrix(giveToday());
+  loadMatrix(newTaskDate);
 }
 // eslint-disable-next-line no-unused-vars
 function DeleteTask(id) {
