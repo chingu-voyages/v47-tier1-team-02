@@ -439,19 +439,19 @@ function loadMatrix(matDate) {
                   `;
                 }
 
-              // Get id of checkboxes to be ticked
-              if (task.completion.includes(fDate)) {
-                boxToTick.push(`${id}-checkbox`);
+                // Get id of checkboxes to be ticked
+                if (task.completion.includes(fDate)) {
+                  boxToTick.push(`${id}-checkbox`);
+                }
               }
-            }
-            // Appending now so the division can be checked for existence - prevent duplicates
-            dayDiv.appendChild(taskList);
-            daysContainer.appendChild(dayDiv);
+              // Appending now so the division can be checked for existence - prevent duplicates
+              dayDiv.appendChild(taskList);
+              daysContainer.appendChild(dayDiv);
+            });
           });
         });
       });
-    });
-
+    }
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
       document.getElementById(`${boxId}`).checked = true;
@@ -516,7 +516,7 @@ function strayTaskSubmit(toDate) {
     completion: [],
   };
   jsonString = localStorage.getItem('taskData');
-
+  jsonObj = JSON.parse(jsonString);
   // If local storage is empty, setup stray category for stray task
   if (jsonString === null) {
     strayToJson();
@@ -533,6 +533,9 @@ function strayTaskSubmit(toDate) {
 
   // Push stray task to stray category
   jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
+
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
 
   closeStray();
 
@@ -652,8 +655,7 @@ function checkboxStore(id) {
       });
     });
   });
-  jsonString = JSON.stringify(jsonObj);
-  localStorage.setItem('taskData', jsonString);
+  localStorage.setItem('taskData', JSON.stringify(jsonObj));
 }
 
 // Clear the matrix table when changing week/month
@@ -734,6 +736,9 @@ function submitCategoryName() {
   // Push category to json
   categoryToJson(categoryName);
 
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
+
   // Create new category div
   const newCategoryDiv = document.createElement('div');
   newCategoryDiv.id = `category-${categoryIdCounter}`; // Assign a unique ID
@@ -789,6 +794,8 @@ function submitActivityName(categoryId) {
 
   // Push activity name to json
   activityToJson(categoryId, activityName);
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
 
   const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
   // Calculate new activity ID based on existing activities
@@ -872,6 +879,8 @@ function submitTaskName(activityId) {
 
   // Push task details to json
   taskToJson(activityId, taskName, taskDate, taskDesc);
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
 
   const catCount = activityId.slice(0, 1) - 1;
   const actCount = activityId.slice(2, 3) - 1;
@@ -1016,8 +1025,6 @@ function activityToJson(categoryId, activity) {
 
   jsonObj[index].activityTypes.push(activityjson);
 
-  jsonString = JSON.stringify(jsonObj);
-  localStorage.setItem('taskData', jsonString);
   //   console.log(jsonObj);
 }
 
@@ -1042,9 +1049,6 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
       }
     });
   });
-
-  jsonString = JSON.stringify(jsonObj);
-  localStorage.setItem('taskData', jsonString);
   console.log(jsonObj);
 }
 
@@ -1085,6 +1089,9 @@ function findTasks() {
   const todayDay = dayDate[0];
   const todayDate = dayDate[1];
   const boxToTick = [];
+
+  jsonString = localStorage.getItem('taskData');
+  jsonObj = JSON.parse(jsonString);
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
