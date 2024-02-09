@@ -724,7 +724,7 @@ function submitCategoryName() {
   // HTML for new category
   newCategoryDiv.innerHTML = `
         <button input="button" onclick="toggleCategory(${categoryIdCounter})">&gt;</button>
-        <span id="category-text-${categoryIdCounter}" onclick="editCategoryPageDesc('category-${categoryIdCounter}', 'category')">${categoryName}</span>
+        <span id="category-text-${categoryIdCounter}" onclick="editCategoryPageDesc('${categoryIdCounter}', 'categoryName')">${categoryName}</span>
         <button input="button" onclick="addActivity(${categoryIdCounter})"> + </button>
         <div id="activities-container-${categoryIdCounter}"></div> 
     `;
@@ -786,7 +786,7 @@ function submitActivityName(categoryId) {
   // HTML for new activity
   newActivityDiv.innerHTML = `
         <button input="button" onclick="toggleActivity('${activityId}')">&gt;</button>
-        <span id="activity-text-${activityId}" onclick="editCategoryPageDesc('${activityId}', 'activity')">${activityName}</span>
+        <span id="activity-text-${activityId}" onclick="editCategoryPageDesc('${activityId}', 'activityName')">${activityName}</span>
         <button input="button" onclick="addTask('${activityId}')"> + </button>
         <div id="tasks-container-${activityId}"></div> <!-- This will hold the tasks for this activity -->
     `;
@@ -1194,37 +1194,38 @@ document.getElementById('fileInput').addEventListener('change', prepareFileForCo
 
 
 
-
-
-// Editing the names on the Category page
+// Edit the names on the Category page
 function editCategoryPageDesc(id, elementType) {
-  let elementId;
-  let editableElement;
+  let elementId = id;
+  let editableElement = null;
 
-  // Construct the elementId based on the elementType and the given id
+  // Find the element that was clicked on. The elementId is based on the elementType and the id
   switch (elementType) {
-      case 'categoryName':
-          elementId = `category-text-${id}`;
-          break;
-      case 'activityName':
-          elementId = `activity-text-${id}`;
-          break;
-      case 'taskName':
-          elementId = `task-name-${id}`;
-          break;
-      case 'taskDesc':
-          elementId = `task-desc-${id}`;
-          break;
-      default:
-          console.error("Unsupported element type for editing");
-          return;
+    case 'categoryName':
+      elementId = `category-text-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    case 'activityName':
+      elementId = `activity-text-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    case 'taskName':
+      elementId = `task-name-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    case 'taskDesc':
+      elementId = `task-desc-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    default:
+      textBox = '';
+      console.error("Unsupported element type for editing");
+      return;
   }
 
-  // Find the element by its constructed ID
-  editableElement = document.getElementById(elementId);
   if (!editableElement) {
-      console.error("Element not found for editing:", elementId);
-      return;
+    console.error("Element not found for editing:", elementId);
+    return;
   }
 
   // Replace the element with an input for editing
@@ -1233,27 +1234,17 @@ function editCategoryPageDesc(id, elementType) {
   inputBox.value = editableElement.textContent;
   inputBox.classList.add('edit-input'); 
 
-  // When the input loses focus, replace it with the updated span element
+  // On clicking away from the box, change entry box to text
   inputBox.addEventListener('blur', function() {
-      const newValue = inputBox.value;
-      editableElement.textContent = newValue; 
-      inputBox.replaceWith(editableElement); 
-
- 
+    const newValue = inputBox.value;
+    editableElement.textContent = newValue; 
+    inputBox.replaceWith(editableElement);  
   });
 
- 
   editableElement.replaceWith(inputBox);
   inputBox.focus();
 }
 
 
-inputBox.addEventListener('blur', function() {
-  const newValue = inputBox.value;
-  editableElement.textContent = newValue;
-  inputBox.replaceWith(editableElement);
 
-  // Update jsonObj here based on elementType and id
-  updateJsonData(id, elementType, newValue);
-});
 
