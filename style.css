@@ -1,5 +1,6 @@
 body {
     font-family: "Inter", sans-serif;
+    margin: 0;
 }
 
 /* intro layout */
@@ -213,3 +214,44 @@ body {
     border-bottom: solid;
     border-width: 0.1rem;
 }
+
+footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding-bottom: 20px;
+    border-radius: 4px;
+}
+
+.footer-list{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.footer-list li{
+    margin-right: 30px;
+    cursor: pointer;
+    transition: color 0.25s;
+}
+
+.footer-list li:hover{
+    color: blue;
+}
+
+.footer-title{
+    display: flex;
+    align-items: center;
+    
+}
+
+.footer-img{
+    width: 40px;
+    border-radius: 50%;
+}
+
+@media(min-width: 600px){
+    .footer-list{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+} 
