@@ -260,7 +260,7 @@ function addDaySubmit(id) {
 
   let addedDate = null;
 
-  // Date entry box will not exist is day is added (vice versa)
+  // Date entry box will not exist if day is added and vice versa
   if (inputDateEntry) {
     const inputDate = inputDateEntry.value;
     const dateComp = inputDate.slice(8);
@@ -442,6 +442,10 @@ function loadMatrix(matDate) {
                       </div>
                     <div>
                   `;
+
+                  // Appending now so the division can be checked for existence - prevent duplicates
+                  dayDiv.appendChild(taskList);
+                  daysContainer.appendChild(dayDiv);
                 }
 
                 // Get id of checkboxes to be ticked
@@ -508,6 +512,22 @@ function strayToJson() {
   localStorage.setItem('taskData', JSON.stringify(jsonObj));
 }
 
+function isDuplicateTask(checkDate, checkName) {
+  let isDuplicate = false;
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activityType) => {
+      activityType.Tasks.forEach((task) => {
+        task.days.forEach((dayN) => {
+          if (task.taskName === checkName.trim() && dayN === checkDate) {
+            isDuplicate = true;
+          }
+        });
+      });
+    });
+  });
+  return isDuplicate;
+}
+
 function strayTaskSubmit(toDate) {
   const taskNameEntry = document.getElementById('stray-task-entry');
   const strayDescEntry = document.getElementById('stray-desc-entry');
@@ -519,7 +539,7 @@ function strayTaskSubmit(toDate) {
     return;
   }
   const strayTask = {
-    taskName: strayName,
+    taskName: strayName.trim(),
     taskDescription: strayDesc,
     days: [`${toDate}`],
     completion: [],
@@ -531,27 +551,30 @@ function strayTaskSubmit(toDate) {
     strayToJson();
   }
 
-  // Check if json already had stray category
-  let strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+  if (!isDuplicateTask(toDate, strayName)) {
+    // Check if json already has stray category
+    let strayIndex = jsonObj.findIndex((category) => category.categoryName.trim() === 'Stray category');
 
-  // If not, add a stray category and get it's index
-  if (strayIndex === -1) {
-    strayToJson();
-    strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+    // If not, add a stray category and get it's index
+    if (strayIndex === -1) {
+      strayToJson();
+      strayIndex = jsonObj.findIndex((category) => category.categoryName.trim() === 'Stray category');
+    }
+
+    // Push stray task to stray category
+    jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
+
+    jsonString = JSON.stringify(jsonObj);
+    localStorage.setItem('taskData', jsonString);
+
+    closeStray();
+
+    // Refresh checklist if task added from checklist
+    if (document.getElementById('checklist-title') !== null) {
+      openChecklist();
+    }
   }
 
-  // Push stray task to stray category
-  jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
-
-  jsonString = JSON.stringify(jsonObj);
-  localStorage.setItem('taskData', jsonString);
-
-  closeStray();
-
-  // Refresh checklist if task added from checklist
-  if (document.getElementById('checklist-title') !== null) {
-    openChecklist();
-  }
   let newTaskDate = toDate.split('/');
   newTaskDate = new Date(newTaskDate[2], newTaskDate[1] - 1, newTaskDate[0]);
 
@@ -589,11 +612,12 @@ function saveDesc(id) {
   const updatedactivity = document.getElementById(activityId).textContent;
   const updateddesc = document.getElementById(descId).textContent;
 
-  const datesList = [];
+  let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
   dateWidgets.forEach((element) => {
     datesList.push(document.getElementById(element.id).textContent);
   });
+  datesList = [...new Set(datesList)];
 
   jsonObj.forEach((category) => {
     category.activityTypes.forEach((activityType) => {
@@ -602,7 +626,7 @@ function saveDesc(id) {
           // Prevents same task name mismatch
           if (task.days.includes(taskDate) || task.days.includes(day)) {
             /* eslint-disable no-param-reassign */
-            task.taskName = updatedName;
+            task.taskName = updatedName.trim();
             task.days = datesList;
             task.taskDescription = updateddesc;
             category.categoryName = updatedcategory;
@@ -1041,24 +1065,26 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
   const actText = document.getElementById(`activity-text-${activityId}`).textContent;
   const taskDateList = [taskDate];
 
-  // Push task details to json
-  const tasksJson = {
-    taskName,
-    taskDescription: taskDesc,
-    days: [],
-    completion: [],
-  };
+  if (!isDuplicateTask(taskDate, taskName)) {
+    // Push task details to json
+    const tasksJson = {
+      taskName: taskName.trim(),
+      taskDescription: taskDesc,
+      days: [],
+      completion: [],
+    };
 
-  tasksJson.days = tasksJson.days.concat(taskDateList);
+    tasksJson.days = tasksJson.days.concat(taskDateList);
 
-  jsonObj.forEach((cat) => {
-    cat.activityTypes.forEach((activity) => {
-      if (activity.activityName === actText) {
-        activity.Tasks.push(tasksJson);
-      }
+    jsonObj.forEach((cat) => {
+      cat.activityTypes.forEach((activity) => {
+        if (activity.activityName === actText) {
+          activity.Tasks.push(tasksJson);
+        }
+      });
     });
-  });
-  localStorage.setItem('taskData', JSON.stringify(jsonObj));
+    localStorage.setItem('taskData', JSON.stringify(jsonObj));
+  }
 }
 
 // to get the current date and day to be displayed the Today's Checklist page
