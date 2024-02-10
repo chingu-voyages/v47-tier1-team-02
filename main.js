@@ -129,6 +129,10 @@ function openDetail(id) {
       });
     });
 
+    // Give taskDesc a placeholder so it is clickable
+    if (taskDesc === '') {
+      taskDesc = '---';
+    }
     const overlayDesc = document.createElement('div');
     // Class overlays on top of all elements
     overlayDesc.classList.add('overlay');
@@ -349,7 +353,6 @@ function editDesc(id, element) {
       category.activityTypes.forEach((activityType) => {
         activityType.Tasks.forEach((task) => {
           if (task.taskName === taskName) {
-            console.log(category.categoryName.trim() + activityType.activityName);
             if (category.categoryName.trim() === 'Stray category' || activityType.activityName.trim() === 'Stray activity') {
               isStray = true;
             }
