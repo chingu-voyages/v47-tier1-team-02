@@ -451,12 +451,12 @@ function loadMatrix(matDate) {
               }
               // Appending now so the division can be checked for existence - prevent duplicates
               dayDiv.appendChild(taskList);
-              daysContainer.appendChild(dayDiv);
             });
           });
         });
       });
     }
+    daysContainer.appendChild(dayDiv);
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
       document.getElementById(`${boxId}`).checked = true;
@@ -501,6 +501,9 @@ function strayToJson() {
       },
     ],
   };
+  if (jsonObj === null) {
+    jsonObj = [];
+  }
   jsonObj.push(strayObj);
   localStorage.setItem('taskData', JSON.stringify(jsonObj));
 }
