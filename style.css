@@ -1,5 +1,8 @@
 body {
     font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
 }
 
@@ -217,11 +220,12 @@ body {
 
 footer{
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding-bottom: 20px;
     border-radius: 4px;
+    margin-top: auto;
 }
 
 .footer-list{
@@ -252,6 +256,6 @@ footer{
 
 @media(min-width: 600px){
     .footer-list{
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(6, 1fr);
     }
 } 
