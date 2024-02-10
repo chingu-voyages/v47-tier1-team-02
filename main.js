@@ -305,6 +305,9 @@ function deleteDate(id) {
 // Click on task description items to edit them using entry boxes and date inputs
 // eslint-disable-next-line no-unused-vars
 function editDesc(id, element) {
+  const taskDate = id.slice(0, 10);
+  const taskName = id.slice(11);
+
   let boxId = id;
   let textBox = null;
 
@@ -338,6 +341,25 @@ function editDesc(id, element) {
     default:
       textBox = '';
       break;
+  }
+
+  let isStray = false;
+  if (element === 'category' || element === 'activity') {
+    jsonObj.forEach((category) => {
+      category.activityTypes.forEach((activityType) => {
+        activityType.Tasks.forEach((task) => {
+          if (task.taskName === taskName) {
+            console.log(category.categoryName.trim() + activityType.activityName);
+            if (category.categoryName.trim() === 'Stray category' || activityType.activityName.trim() === 'Stray activity') {
+              isStray = true;
+            }
+          }
+        });
+      });
+    });
+  }
+  if (isStray) {
+    return;
   }
 
   // Entry box to replace the text
