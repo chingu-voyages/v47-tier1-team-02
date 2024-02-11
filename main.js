@@ -1209,23 +1209,67 @@ document.addEventListener('DOMContentLoaded', () => {
     navMenu.classList.toggle('active');
     dropdown.style.display = 'none';
   });
+});
 
-  /* search functionality */
-  const performSearch = (query) => {
-    console.log('Searching for:', query);
-  };
+// Search functionality 
+// Perform search and display results
+const performSearch = (query, container) => {
+  if (!query.trim()) {
+    document.querySelector(container).style.display = 'none'; 
+    return;
+  }
 
-  const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
+  const searchQuery = query.toLowerCase();
+  const searchResults = [];
 
-  searchInputs.forEach((input) => {
-    input.addEventListener('keypress', (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        performSearch(input.value);
-      }
+  // Search the jsonObj for tasks matching the query
+  jsonObj.forEach(category => {
+    category.activityTypes.forEach(activity => {
+      activity.Tasks.forEach(task => {
+        if (task.taskName.toLowerCase().includes(searchQuery)) {
+          searchResults.push(task);
+        }
+      });
     });
   });
+
+  displaySearchResults(searchResults, container);
+};
+
+// Function to display search results
+const displaySearchResults = (results, container) => {
+  const resultsContainer = document.querySelector(container);
+  resultsContainer.innerHTML = ''; 
+  if (results.length === 0) {
+    resultsContainer.style.display = 'none'; 
+    return;
+  }
+
+  results.forEach(task => {
+    const resultElement = document.createElement('div');
+    resultElement.textContent = task.taskName;
+    resultsContainer.appendChild(resultElement);
+  });
+
+  resultsContainer.style.display = 'block'; 
+};
+
+// Attach input event listeners to search inputs
+const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
+searchInputs.forEach((input, index) => {
+  const isDesktop = index === 0; 
+  let resultsContainerSelector;
+  if (isDesktop) {
+    resultsContainerSelector = '.search-results-container-desktop';
+  } else {
+    resultsContainerSelector = '.search-results-container-mobile';
+  }
+
+  input.addEventListener('input', (event) => {
+    performSearch(event.target.value, resultsContainerSelector);
+  });
 });
+
 
 // Intro page file upload - Template feature
 function handleFile(file) {
