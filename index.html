@@ -42,6 +42,7 @@
                         </li>
                         <li><span onclick="openCategoryPage()">Categories</span></li>
                         <li><span onclick="openChecklist()">Today's Tasks</span></li>
+                        <li><span onclick="openSettings()">Settings</span></li>
                     </ul>
                 </div>
         </nav>
@@ -69,11 +70,16 @@
             <h2 class="form-title">First we want to know a few things about you</h2>
             <input type="text" name="user" placeholder="Name" id="introForm-input" maxlength="12" minlength="3"
                 required />
-            <h2 class="form-choice">Do you want template?</h2>
+            <h2 class="form-choice">Do you want to use a template?</h2>
 
             <div class="form-choice-btns" id="form-choice-btns">
-                <button type="submit" class="choice-btn">Yes</button>
-                <button class="choice-btn" id="decline-btn" type="reset">No</button>
+                <div class="file-input-container" id="file-input-container">
+                    <input type="file" id="fileInput" name="importData" class="choice-field" accept=".json" hidden>
+                    <label for="fileInput" class="intro-file-upload">Upload JSON file</label>
+                </div>
+                <div class="decline-btn-container" id="decline-btn-container">
+                    <button class="choice-btn" id="decline-btn" type="reset">No</button>
+                </div>
             </div>
         </form>
     </section>
@@ -115,8 +121,22 @@
     </section>
     
     <section id="checklist-page">
-
     </section>
+
+    <section id="settings-page" class="overlay">
+        <div id="settings-back">
+            <img src="images/back.png" id="back-img" onclick="backFromSettings()">
+        </div>
+        
+        <div id="export-json">
+            <span>Export all of your saved tasks and their data as a JSON file and share it with anyone.</span>
+            <button onclick="exportJSON()">Export task list</button>
+        </div>
+    </section>
+
+    <section id="detail-overlay">
+    </section>
+
     <script src="main.js"></script>
 
 </body>
