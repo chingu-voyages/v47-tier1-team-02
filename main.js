@@ -378,7 +378,31 @@ function backFromDesc() {
   descWin.remove();
 }
 
+let renderedWeeks = 1;
 function loadMatrix(matDate) {
+  let daysContainer = document.getElementById('mobile-table');
+  let bigScreen = false;
+  const matrixContainer = document.createElement('div');
+  if (window.screen.width > 1000) {
+    bigScreen = true;
+    daysContainer = document.createElement('div');
+    switch (renderedWeeks) {
+      case 1:
+        matDate.setDate(1);
+        break;
+      case 2:
+        matDate.setDate(8);
+        break;
+      case 3:
+        matDate.setDate(15);
+        break;
+      case 4:
+        matDate.setDate(22);
+        break;
+      default:
+    }
+  }
+
   setMonthName(matDate);
   const dayNum = matDate.getDay();
 
@@ -387,7 +411,6 @@ function loadMatrix(matDate) {
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-  const daysContainer = document.getElementById('mobile-table');
   daysContainer.innerHTML = '';
 
   // jsonString = localStorage.getItem('taskData');
@@ -461,12 +484,22 @@ function loadMatrix(matDate) {
       });
     }
     daysContainer.appendChild(dayDiv);
+
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
       document.getElementById(`${boxId}`).checked = true;
     });
   });
   setListen();
+  if (bigScreen) {
+    daysContainer.setAttribute('id', `table-${renderedWeeks}`);
+    matrixContainer.appendChild(daysContainer);
+    if (renderedWeeks < 4) {
+      renderedWeeks += 1;
+      loadMatrix(matDate);
+    }
+  }
+  matrix.appendChild(daysContainer);
 }
 
 function addToDate(toDate) {
