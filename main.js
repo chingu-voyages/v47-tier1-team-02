@@ -486,6 +486,8 @@ function loadMatrix(matDate) {
                   // Appending now so the division can be checked for existence - prevent duplicates
                   dayDiv.appendChild(taskList);
                   daysContainer.appendChild(dayDiv);
+                  matrixContainer.appendChild(daysContainer);
+                  matrix.appendChild(matrixContainer);
                 }
 
                 // Get id of checkboxes to be ticked
