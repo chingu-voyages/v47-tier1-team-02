@@ -382,10 +382,11 @@ let renderedWeeks = 1;
 function loadMatrix(matDate) {
   let daysContainer = document.getElementById('mobile-table');
   let bigScreen = false;
-  const matrixContainer = document.createElement('div');
+  const matrixContainer = document.getElementById('desktop-container');
   if (window.screen.width > 1000) {
     bigScreen = true;
     daysContainer = document.createElement('div');
+    daysContainer.classList.add('desktop-days');
     switch (renderedWeeks) {
       case 1:
         matDate.setDate(1);
@@ -484,7 +485,7 @@ function loadMatrix(matDate) {
       });
     }
     daysContainer.appendChild(dayDiv);
-
+    // matrixContainer.appendChild(daysContainer);
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
       document.getElementById(`${boxId}`).checked = true;
@@ -499,7 +500,7 @@ function loadMatrix(matDate) {
       loadMatrix(matDate);
     }
   }
-  matrix.appendChild(daysContainer);
+  matrix.appendChild(matrixContainer);
 }
 
 function addToDate(toDate) {
