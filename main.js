@@ -11,6 +11,8 @@ const checklistPage = document.getElementById('checklist-page');
 const categoryPage = document.getElementById('category-page');
 const settingsPage = document.getElementById('settings-page');
 const header = document.querySelector('header');
+const navMenu = document.getElementById('nav-menu');
+const dropdown = document.getElementById('months-dropdown');
 
 if (localStorage.getItem('taskData') === null) {
   header.style.display = 'none';
@@ -36,6 +38,9 @@ document.addEventListener('click', (e) => {
     introFormInput.value = '';
     matrix.style.display = 'block';
     header.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (e.target.id === 'month-name') {
+    navMenu.classList.remove('active');
   }
 });
 
@@ -155,10 +160,10 @@ function openDetail(id) {
       </div>
 
       <div id="task-desc">
-        <div id="name-desc" class="desc-item">Task name : 
+        <div id="name-desc" class="desc-item">Task name: 
           <span id="${detailId}-name" class="desc-element" onclick="editDesc('${detailId}', 'name')"> ${taskName}</span>
         </div>
-        <div id="deadline-desc" class="desc-item">Deadline : 
+        <div id="deadline-desc" class="desc-item">Deadline: 
           <div id="task-days" class="task-days">
             ${htmlAdd}
           </div>
@@ -166,13 +171,13 @@ function openDetail(id) {
             <button id="add-day-button" onclick="addDay('${detailId}')"> + </button>
           </div>
         </div>
-        <div id="category-desc" class="desc-item">Category : 
+        <div id="category-desc" class="desc-item">Category: 
             <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')"> ${taskCat}</span>
         </div>
-        <div id="activity-desc" class="desc-item">Activity : 
+        <div id="activity-desc" class="desc-item">Activity: 
             <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')"> ${taskAct}</span>
         </div>
-        <div id="detail-desc" class="desc-item">Description : 
+        <div id="detail-desc" class="desc-item">Description: 
             <span id="${detailId}-description" class="desc-element" onclick="editDesc('${detailId}', 'description')">${taskDesc}</span>
         </div>
 
@@ -190,7 +195,6 @@ function openDetail(id) {
 // eslint-disable-next-line no-unused-vars
 function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
-
   addDayDiv.innerHTML = `
     <input id="date-entry" type="date" class="add-day-element">
     <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
@@ -375,6 +379,8 @@ function setListen() {
 // eslint-disable-next-line no-unused-vars
 function backFromDesc() {
   const descWin = document.getElementById('detailed-desc');
+  navMenu.classList.remove('active');
+  dropdown.style.display = 'none';
   descWin.remove();
 }
 
@@ -580,6 +586,7 @@ function strayTaskSubmit(toDate) {
 
   loadMatrix(newTaskDate);
 }
+
 // eslint-disable-next-line no-unused-vars
 function DeleteTask(id) {
   const taskName = id.slice(11);
@@ -723,7 +730,6 @@ function nextMonth() {
 // Click to display dropdown
 // eslint-disable-next-line no-unused-vars
 function changeMonth() {
-  const dropdown = document.getElementById('months-dropdown');
   if (dropdown.style.display === 'block') {
     dropdown.style.display = 'none';
   } else {
@@ -870,7 +876,7 @@ function addTask(activityId) {
 
   // Create input fields for new task
   const taskInputHtml = `
-        <div id="task-input" class="task-input">
+         <div id="task-input" class="task-input">
             <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
             <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
             <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
@@ -1028,11 +1034,13 @@ function giveToday() {
 }
 // eslint-disable-next-line no-unused-vars
 function backFromCategory() {
+  navMenu.classList.remove('active');
   document.getElementById('categories-container').innerHTML = '';
   categoryPage.style.display = 'none';
   header.style.display = 'block';
   loadMatrix(giveToday());
   matrix.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function categoryToJson(category) {
@@ -1169,11 +1177,13 @@ function getDayDate() {
 }
 
 function backFromChecklist() {
+  navMenu.classList.remove('active');
   checklistPage.innerHTML = '';
   checklistPage.style.display = 'none';
   loadMatrix(giveToday());
   header.style.display = 'block';
   matrix.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function openChecklist() {
@@ -1194,10 +1204,10 @@ function openChecklist() {
 /* activate toggle menu */
 document.addEventListener('DOMContentLoaded', () => {
   const navToggle = document.querySelector('.nav-toggle');
-  const navMenu = document.getElementById('nav-menu');
 
   navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
+    dropdown.style.display = 'none';
   });
 
   /* search functionality */
