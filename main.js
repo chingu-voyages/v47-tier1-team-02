@@ -1305,3 +1305,23 @@ function exportJSON() {
 
   document.body.removeChild(downloadLink);
 }
+
+
+// link back to the intro page
+function openIntroPage() {
+  checklistPage.style.display = 'none';
+  categoryPage.style.display = 'none';
+  matrix.style.display = 'none';
+  intro.style.display = 'block';
+}
+
+// reset local storage button
+function resetLocalStorage() {
+  if (confirm('Are you sure you want to reset all saved data? This action cannot be undone.')) {
+    localStorage.clear();
+    jsonObj = []; 
+    location.reload(); 
+  }
+}
+
+
