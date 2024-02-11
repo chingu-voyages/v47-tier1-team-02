@@ -96,6 +96,15 @@ const jsonObj = [
       },
     ],
   },
+    {
+    categoryName: 'Stray category',
+    activityTypes: [
+      {
+        activityName: 'Stray activity',
+        Tasks: [],
+      },
+    ],
+  },
 ];
 
 // Convert date object to DD/MM/YYYY string format
@@ -233,9 +242,18 @@ function addDay(id) {
 
 // Show drop down menu when Add day button is clicked
 // eslint-disable-next-line no-unused-vars
-function showDayDropDown(id) {
-  const addDayDiv = document.getElementById('add-day');
-  addDayDiv.innerHTML = `
+function showDayDropDown(id = null) {
+  let addDayDiv = null;
+  let addButton = false;
+  let taskInputDiv = null;
+  if (document.getElementById('task-input')) {
+    taskInputDiv = document.getElementById('task-input');
+    addDayDiv = document.createElement('div');
+  } else {
+    addDayDiv = document.getElementById('add-day');
+    addButton = true;
+  }
+  const dropDownHTML = `
     <select id="day-dropdown" class="add-day-element">
         <option value="Sunday">Sunday</option>
         <option value="Monday">Monday</option>
@@ -245,9 +263,20 @@ function showDayDropDown(id) {
         <option value="Friday">Friday</option>
         <option value="Saturday">Saturday</option>
     </select>
-    <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
-    <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
   `;
+  if (addButton) {
+    addDayDiv.innerHTML = `${dropDownHTML}
+      <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
+      <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
+  `;
+  } else {
+    addDayDiv.innerHTML += dropDownHTML;
+    const newAddDayButton = document.querySelector('new-task-submit');
+    document.querySelector('.new-task-date').remove();
+    document.querySelector('.new-task-day').remove();
+    taskInputDiv.appendChild(addDayDiv);
+    taskInputDiv.insertBefore(addDayDiv, newAddDayButton);
+  }
 }
 
 // Remove entry box and add button when cancel is clicked on
@@ -391,6 +420,7 @@ function backFromDesc() {
   descWin.remove();
 }
 
+
 function loadMatrix(matDate) {
   setMonthName(matDate);
   const dayNum = matDate.getDay();
@@ -410,14 +440,14 @@ function loadMatrix(matDate) {
     dayDiv.classList.add('days');
 
     const dayHeader = document.createElement('div');
-
     // Division for day name, date and add task button
     dayHeader.classList.add('day-header');
 
     const fDate = dateFormat(matDate);
-
     dayHeader.innerHTML = `
-            <button type="button">+</button>
+            <div id="add-to-date-${fDate}" class="add-to-date">
+              <button type="button" onclick="AddToDate('${fDate}')">+</button>
+            </div>
             <span class="day-name">${day} (${fDate})</span>
         `;
 
@@ -472,6 +502,53 @@ function loadMatrix(matDate) {
     });
   });
   setListen();
+}
+
+function AddToDate(toDate) {
+  if (document.getElementById('stray-task-entry')) {
+    return;
+  }
+  const dayHeader = document.getElementById(`add-to-date-${toDate}`);
+  const strayTaskWin = document.createElement('div');
+  strayTaskWin.setAttribute('id', 'stray-task-div');
+  strayTaskWin.classList.add('stray-task-overlay');
+
+  strayTaskWin.innerHTML = `
+      <input id="stray-task-entry" class="stray-task-entry" type="text" placeholder="Name">
+      <input id="stray-desc-entry" class="stray-task-entry" type="text" placeholder="Description">
+      <button onclick="strayTaskSubmit('${toDate}')"> Add </button>
+      <button onclick="closeStray()"> x </button>
+  `;
+
+  dayHeader.appendChild(strayTaskWin);
+}
+
+function closeStray() {
+  document.getElementById('stray-task-div').remove();
+}
+
+function strayTaskSubmit(toDate) {
+  const taskNameEntry = document.getElementById('stray-task-entry');
+  const strayDescEntry = document.getElementById('stray-desc-entry');
+  const strayName = taskNameEntry.value;
+  const strayDesc = strayDescEntry.value;
+  if (strayName === '') {
+    taskNameEntry.placeholder = 'can\'t be empty';
+  } else {
+    const strayTask = {
+      taskName: strayName,
+      taskDescription: strayDesc,
+      days: [`${toDate}`],
+      completion: [],
+    };
+
+    const strayIndex = jsonObj.findIndex((category) => category.categoryName === 'Stray category');
+    if (strayIndex !== -1) {
+      jsonObj[strayIndex].activityTypes[0].Tasks.push(strayTask);
+    }
+  }
+  closeStray();
+  loadMatrix(giveToday());
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -630,7 +707,7 @@ function goToMonth(month) {
 }
 
 // 1. Adding the category
-let categoryIdCounter = 1;
+// let categoryIdCounter = 1;
 
 function addCategory() {
   // Create input for new category name
@@ -642,6 +719,7 @@ function addCategory() {
 }
 
 function submitCategoryName() {
+  let categoryIdCounter = jsonObj.length + 1;
   const categoryName = document.getElementById('new-category-name').value;
   if (categoryName.trim() === '') {
     alert('Category name cannot be empty');
@@ -709,8 +787,8 @@ function submitActivityName(categoryId) {
 
   const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
   // Calculate new activity ID based on existing activities
-  const existingActivities = activitiesContainer.getElementsByClassName('activity');
-  const activityNumber = existingActivities.length + 1;
+  // const existingActivities = activitiesContainer.getElementsByClassName('activity');
+  const activityNumber = jsonObj[categoryId - 1].activityTypes.length;
   const activityId = `${categoryId}-${activityNumber}`;
 
   // Create new activity div
@@ -747,11 +825,12 @@ function addTask(activityId) {
 
   // Create input fields for new task
   const taskInputHtml = `
-        <div class="task-input">
+         <div id="task-input" class="task-input">
             <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
             <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
-            <input type="text" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates" onfocus="(this.type='date')">
-            <button onclick="submitTaskName('${activityId}')">Add</button>
+            <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
+            <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Add day</button>
+            <button id="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
         </div>
     `;
 
@@ -764,9 +843,16 @@ function submitTaskName(activityId) {
   const taskNameInput = document.getElementById(`new-task-name-${activityId}`);
   const taskDescInput = document.getElementById(`new-task-desc-${activityId}`);
   const taskDateInput = document.getElementById(`new-task-date-${activityId}`);
+  const taskDayInput = document.getElementById('day-dropdown');
   const taskName = taskNameInput.value;
   const taskDesc = taskDescInput.value;
-  let taskDate = taskDateInput.value;
+  let taskDate = null;
+
+  if (taskDayInput) {
+    taskDate = taskDayInput.value;
+  } else {
+    taskDate = taskDateInput.value;
+  }
 
   if (taskName.trim() === '' || taskDesc.trim() === '' || taskDate.trim() === '') {
     alert('Task name, description, and due date cannot be empty');
@@ -774,7 +860,7 @@ function submitTaskName(activityId) {
   }
 
   // Convert date from yyyy-mm-dd to dd/mm/yyyy format
-  if (taskDate) {
+  if (!taskDayInput) {
     const dateParts = taskDate.split('-');
     taskDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
   }
@@ -782,10 +868,12 @@ function submitTaskName(activityId) {
   // Push task details to json
   taskToJson(activityId, taskName, taskDate, taskDesc);
 
+  const catCount = activityId.slice(0, 1) - 1;
+  const actCount = activityId.slice(2, 3) - 1;
   const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
   // Calculate new task ID based on existing tasks
-  const existingTasks = tasksContainer.getElementsByClassName('task');
-  const taskNumber = existingTasks.length + 1;
+  // const existingTasks = tasksContainer.getElementsByClassName('task');
+  const taskNumber = jsonObj[catCount].activityTypes[actCount].Tasks.length;
   const categoryId = activityId.split('-')[0];
   const taskId = `${activityId}-${taskNumber}`;
 
@@ -811,11 +899,77 @@ function submitTaskName(activityId) {
   taskNameInput.parentElement.remove();
 }
 
+function JsonToCategory() {
+  let catCounter = 0;
+  let actCounter = 0;
+  let taskCounter = 0;
+
+  const catContainer = document.getElementById('categories-container');
+  catContainer.innerHTML = '';
+  jsonObj.forEach((category) => {
+    actCounter = 0;
+    catCounter += 1;
+
+    const catDiv = document.createElement('div');
+    catDiv.classList.add('category');
+    catDiv.setAttribute('id', `category-${catCounter}`);
+
+    catDiv.innerHTML = `
+      <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
+      <span id="category-text-${catCounter}">${category.categoryName}</span>
+      <button input="button" onclick="addActivity(${catCounter})"> + </button>
+    `;
+
+    const actContainer = document.createElement('div');
+    actContainer.setAttribute('id', `activities-container-${catCounter}`);
+
+    catContainer.appendChild(catDiv);
+
+    category.activityTypes.forEach((activityType) => {
+      taskCounter = 0;
+      actCounter += 1;
+
+      const actDiv = document.createElement('div');
+      actDiv.setAttribute('id', `activity-${catCounter}-${actCounter}`);
+      actDiv.classList.add('activity');
+
+      actDiv.innerHTML = `
+      <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
+      <span id="activity-text-${catCounter}-${actCounter}">${activityType.activityName}</span>
+      <button input="button" onclick="addTask('${catCounter}-${actCounter}')"> + </button>
+      `;
+
+      const taskContainer = document.createElement('div');
+      taskContainer.setAttribute('id', `tasks-container-${catCounter}-${actCounter}`);
+
+      actContainer.appendChild(actDiv);
+      catDiv.appendChild(actContainer);
+
+      activityType.Tasks.forEach((task) => {
+        taskCounter += 1;
+        const taskDiv = document.createElement('div');
+        taskDiv.setAttribute('id', `task-${catCounter}-${actCounter}-${taskCounter}`);
+        taskDiv.classList.add('task');
+
+        taskDiv.innerHTML = `
+          <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.taskName}</span>
+          <span id="task-desc-${catCounter}-${actCounter}-${taskCounter}">${task.taskDescription}</span>
+          <span id="task-date-${catCounter}-${actCounter}-${taskCounter}">${task.days}</span>
+        `;
+
+        taskContainer.appendChild(taskDiv);
+        actDiv.appendChild(taskContainer);
+      });
+    });
+  });
+}
+
 // eslint-disable-next-line no-unused-vars
 function openCategoryPage() {
   checklistPage.style.display = 'none';
   matrix.style.display = 'none';
   categoryPage.style.display = 'block';
+  JsonToCategory();
   header.style.display = 'none';
 }
 
@@ -999,3 +1153,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+
+// Intro page file upload - Template feature
+function handleFile(file) {
+  // Create a FileReader instance
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    try {
+      // Parse the JSON data from the file
+      const jsonData = JSON.parse(e.target.result);
+
+      // Convert the JSON object to a string
+      const jsonString = JSON.stringify(jsonData);
+
+      // Save the JSON string to local storage
+      localStorage.setItem('uploadedJsonFile', jsonString);
+
+      // Log a success message
+      console.log('JSON data saved to local storage.');
+    } catch (error) {
+      // Handle errors during JSON parsing
+      console.error('Error parsing JSON file:', error);
+    }
+  };
+
+  // Read the file as text
+  reader.readAsText(file);
+}
+
+function prepareFileForConfirmation() {
+  // Get the file input element
+  const fileInput = document.getElementById('fileInput');
+
+  // Check if a file is selected and update the label with the file name
+  if (fileInput.files.length > 0) {
+    const fileName = fileInput.files[0].name;
+    document.querySelector('label[for="fileInput"]').innerText = fileName;
+
+    // Dynamically create and insert the "Confirm" button if it doesn't already exist
+    const confirmBtnExists = document.getElementById('confirmBtn');
+    if (!confirmBtnExists) {
+      const confirmBtn = document.createElement('button');
+      confirmBtn.innerText = 'Confirm';
+      confirmBtn.id = 'confirmBtn';
+      confirmBtn.className = 'choice-btn';
+      document.getElementById('file-input-container').appendChild(confirmBtn);
+
+      // Add event listener to the "Confirm" button
+      confirmBtn.addEventListener('click', () => {
+        handleFile(fileInput.files[0]);
+      });
+    }
+  } else {
+    // Log a message if no file is selected
+    console.log('No file selected.');
+  }
+}
+
+// Add event listener to the file input
+document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
