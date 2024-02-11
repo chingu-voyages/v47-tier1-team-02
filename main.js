@@ -1036,14 +1036,19 @@ function backFromCategory() {
 }
 
 function categoryToJson(category) {
-  const categoryJSON = { categoryName: category, activityTypes: [] };
-  if (jsonObj === null) {
-    jsonObj = [];
-  }
-  jsonObj.push(categoryJSON);
+  const index = jsonObj.findIndex((cat) => cat.categoryName === category);
 
-  jsonString = JSON.stringify(jsonObj);
-  localStorage.setItem('taskData', jsonString);
+  // Disallow duplicate entries
+  if (index === -1) {
+    const categoryJSON = { categoryName: category, activityTypes: [] };
+    if (jsonObj === null) {
+      jsonObj = [];
+    }
+    jsonObj.push(categoryJSON);
+
+    jsonString = JSON.stringify(jsonObj);
+    localStorage.setItem('taskData', jsonString);
+  }
 }
 
 function activityToJson(categoryId, activity) {
