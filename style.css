@@ -180,6 +180,12 @@ body {
     width: 100%;
 }
 
+.week-label {
+    text-align: center;
+    background-color: #ece3e3;
+    margin: 1rem 0rem;
+}
+
 .four-week {
     display: flex;
     width: 99%;

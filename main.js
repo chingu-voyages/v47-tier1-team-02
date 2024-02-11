@@ -378,16 +378,28 @@ function backFromDesc() {
   descWin.remove();
 }
 
-let renderedWeeks = 1;
+let renderedWeek = 1;
+let bigScreen = false;
+
 function loadMatrix(matDate) {
   let daysContainer = document.getElementById('mobile-table');
-  let bigScreen = false;
+  bigScreen = false;
   const matrixContainer = document.getElementById('desktop-container');
   if (window.screen.width > 1000) {
     bigScreen = true;
+    if (renderedWeek === 1) {
+      matrixContainer.innerHTML = '';
+    }
     daysContainer = document.createElement('div');
     daysContainer.classList.add('desktop-days');
-    switch (renderedWeeks) {
+
+    const weekLabel = document.createElement('div');
+    weekLabel.classList.add('week-label');
+    weekLabel.textContent = `week ${renderedWeek}`;
+
+    daysContainer.appendChild(weekLabel);
+
+    switch (renderedWeek) {
       case 1:
         matDate.setDate(1);
         break;
@@ -412,10 +424,14 @@ function loadMatrix(matDate) {
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-  daysContainer.innerHTML = '';
-
-  // jsonString = localStorage.getItem('taskData');
-  // jsonObj = JSON.parse(jsonString);
+  /*
+    On mobiles, daysContainer is the only column. So on every loadMatrix() call, it must be cleared
+    so data doesn't overlap. On desktops, daysContatiner will have a week label on top
+    so clearing it will delete the week label too.
+  */
+  if (!bigScreen) {
+    daysContainer.innerHTML = '';
+  }
 
   daysOfWeek.forEach((day) => {
     const dayDiv = document.createElement('div');
@@ -485,22 +501,26 @@ function loadMatrix(matDate) {
       });
     }
     daysContainer.appendChild(dayDiv);
-    // matrixContainer.appendChild(daysContainer);
+
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
       document.getElementById(`${boxId}`).checked = true;
     });
   });
-  setListen();
+
   if (bigScreen) {
-    daysContainer.setAttribute('id', `table-${renderedWeeks}`);
+    daysContainer.setAttribute('id', `table-${renderedWeek}`);
     matrixContainer.appendChild(daysContainer);
-    if (renderedWeeks < 4) {
-      renderedWeeks += 1;
+    if (renderedWeek < 4) {
+      renderedWeek += 1;
       loadMatrix(matDate);
+    } else {
+      renderedWeek = 1;
     }
   }
   matrix.appendChild(matrixContainer);
+
+  setListen();
 }
 
 function addToDate(toDate) {
@@ -741,7 +761,11 @@ function prevMonth() {
     Creating the matrix puts the date on next Sunday
     so decrement 8 to get to previous week
   */
-  date.setDate(date.getDate() - 8);
+  if (bigScreen) {
+    date.setMonth(date.getMonth() - 1);
+  } else {
+    date.setDate(date.getDate() - 8);
+  }
 
   loadMatrix(date);
 }
@@ -750,7 +774,9 @@ function prevMonth() {
 function nextMonth() {
   deleteChild();
   // Don't have to increment date as creating matrix puts date on next week
-
+  if (bigScreen) {
+    date.setMonth(date.getMonth() + 1);
+  }
   loadMatrix(date);
 }
 
