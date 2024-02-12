@@ -2,12 +2,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
-
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    font-size: 15px;
   }
 
 body {
@@ -184,7 +179,9 @@ body {
 
 /*___________________*/
 
-
+.four-week {
+    display: flex;
+}
 #month {
     display: flex;
     justify-content: center;
@@ -251,6 +248,27 @@ body {
     font-size: 20px;
 }
 
+#matrix{
+    width: 100%;
+}
+
+.week-label {
+    text-align: center;
+    background-color: #ece3e3;
+    margin: 1rem 0rem;
+}
+
+.four-week {
+    display: flex;
+    width: 99%;
+    justify-content: space-between;
+}
+
+.desktop-days {
+    width: 23%;
+
+}
+
 .days {
     width: 100%;
     margin-top: 1em;
@@ -270,7 +288,7 @@ body {
     border-radius: 5px;
     background: none;
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: 1rem;
     color: #000000;
     padding: 0.1em 0.4em;
 }
@@ -305,6 +323,7 @@ body {
     width: 95%;
     color:  #727272;
     padding: 0.5em 0;
+    overflow: hidden;
 }
 
 .checkbox {
