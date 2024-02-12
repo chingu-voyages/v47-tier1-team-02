@@ -1248,6 +1248,13 @@ const displaySearchResults = (results, container) => {
   results.forEach(task => {
     const resultElement = document.createElement('div');
     resultElement.textContent = task.taskName;
+    resultElement.classList.add('search-result-item');
+    resultElement.onclick = () => {
+      console.log('Task ID being passed:', task.taskId);
+      console.log('Task name being passed:', task.taskName);
+      console.log('Task date being passed:', task.days);
+      searchDetail(task.taskName);
+    }
     resultsContainer.appendChild(resultElement);
   });
 
@@ -1269,6 +1276,40 @@ searchInputs.forEach((input, index) => {
     performSearch(event.target.value, resultsContainerSelector);
   });
 });
+
+// Link the tasks from the search results to their respective description pages
+function searchDetail(taskName) {
+  let found = false;
+  jsonObj.some(category => {
+    return category.activityTypes.some(activityType => {
+      return activityType.Tasks.some(task => {
+        if (task.taskName === taskName) {
+          const identifier = task.days + "-" + taskName;
+          console.log(identifier)
+          openDetail(identifier);
+          found = true;
+          return true;
+        }
+      });
+    });
+  });
+  
+  if (!found) {
+    console.log("Task not found");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Intro page file upload - Template feature
