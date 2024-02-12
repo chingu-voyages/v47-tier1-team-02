@@ -1250,10 +1250,7 @@ const displaySearchResults = (results, container) => {
     resultElement.textContent = task.taskName;
     resultElement.classList.add('search-result-item');
     resultElement.onclick = () => {
-      console.log('Task ID being passed:', task.taskId);
-      console.log('Task name being passed:', task.taskName);
-      console.log('Task date being passed:', task.days);
-      searchDetail(task.taskName);
+      searchDetails(task.taskName);
     }
     resultsContainer.appendChild(resultElement);
   });
@@ -1278,14 +1275,13 @@ searchInputs.forEach((input, index) => {
 });
 
 // Link the tasks from the search results to their respective description pages
-function searchDetail(taskName) {
+function searchDetails(taskName) {
   let found = false;
   jsonObj.some(category => {
     return category.activityTypes.some(activityType => {
       return activityType.Tasks.some(task => {
         if (task.taskName === taskName) {
-          const identifier = task.days + "-" + taskName;
-          console.log(identifier)
+          const identifier = task.days[0].slice(0, 10) + "-" + taskName;
           openDetail(identifier);
           found = true;
           return true;
@@ -1298,19 +1294,6 @@ function searchDetail(taskName) {
     console.log("Task not found");
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Intro page file upload - Template feature
 function handleFile(file) {
