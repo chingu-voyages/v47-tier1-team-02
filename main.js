@@ -1414,7 +1414,7 @@ function editCategoryPageDesc(id, elementType) {
 
 
 // Function that adds a save button, a cancel button and a delete button to the elements
-function createEditButtons(id, entryBox, textBox) {
+function createEditButtons(id) {
   // Create the Save button
   const saveButton = document.createElement('button');
   saveButton.textContent = 'Save';
