@@ -387,7 +387,7 @@ function backFromDesc() {
 let bigScreen = false;
 let renderWeek = 1;
 
-if (window.screen.width > 1200) {
+if (window.screen.width > 1300) {
   bigScreen = true;
 }
 
@@ -1356,7 +1356,7 @@ function backFromSettings() {
 
 // eslint-disable-next-line no-unused-vars
 function exportJSON() {
-  const jsonString = JSON.stringify(jsonObj);
+  jsonString = JSON.stringify(jsonObj);
 
   const blob = new Blob([jsonString], { type: 'application/json' });
 
