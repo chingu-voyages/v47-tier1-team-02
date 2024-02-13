@@ -364,6 +364,11 @@ function editDesc(id, element) {
   });
 
   entryBox.focus();
+
+  // Add the editing buttons only on the Category page
+  if (categoryPage.style.display === 'block') {
+    createEditButtons(id, entryBox, textBox);
+  }
 }
 
 // Set onclick functions to each task element
@@ -1407,3 +1412,33 @@ function editCategoryPageDesc(id, elementType) {
   inputBox.focus();
 }
 
+
+// Function that adds a save button, a cancel button and a delete button to the elements
+function createEditButtons(id, entryBox, textBox) {
+  // Create the Save button
+  const saveButton = document.createElement('button');
+  saveButton.textContent = 'Save';
+  saveButton.addEventListener('click', function() {
+    saveDesc(id); 
+  });
+
+  // Create the Cancel button
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+  cancelButton.addEventListener('click', function() {
+    location.reload(); 
+  });
+
+  // Create the Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.addEventListener('click', function() {
+    deleteTask(id); 
+  });
+
+  // Append buttons
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.appendChild(saveButton);
+  buttonsContainer.appendChild(cancelButton);
+  buttonsContainer.appendChild(deleteButton);
+}
