@@ -107,10 +107,10 @@ function giveDay(iDate) {
 function openDetail(id) {
   if (document.getElementById('detailed-desc') == null) {
     // id format -> taskDate-taskName
+
     const taskDate = id.slice(0, 10);
 
-    const taskName = id.slice(11).split('-')[0];
-
+    const taskName = id.slice(11);
     const detailId = `${taskDate}-${taskName}`;
 
     // To check for due date with day as well
@@ -384,7 +384,39 @@ function backFromDesc() {
   descWin.remove();
 }
 
+let bigScreen = false;
+let renderWeek = 1;
+
+if (window.screen.width > 1300) {
+  bigScreen = true;
+}
+
 function loadMatrix(matDate) {
+  const matrixContainer = document.getElementById('desktop-table');
+  let daysContainer = document.getElementById('mobile-table');
+
+  if (bigScreen) {
+    daysContainer = document.createElement('div');
+    daysContainer.setAttribute('id', `week-${renderWeek}`);
+    daysContainer.classList.add('desktop-days');
+
+    const weekLabel = document.createElement('div');
+    weekLabel.classList.add('week-label');
+    weekLabel.textContent = `week ${renderWeek}`;
+
+    daysContainer.appendChild(weekLabel);
+
+    if (renderWeek === 1) {
+      if (document.getElementById(`week-${renderWeek}`) === null) {
+        matDate.setDate(1);
+      } else {
+        // date.setDate(date.getDate() + 6);
+      }
+      matrixContainer.innerHTML = '';
+    }
+  } else {
+    daysContainer.innerHTML = '';
+  }
   setMonthName(matDate);
   const dayNum = matDate.getDay();
 
@@ -392,9 +424,6 @@ function loadMatrix(matDate) {
   matDate.setDate(matDate.getDate() - dayNum);
 
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-  const daysContainer = document.getElementById('mobile-table');
-  daysContainer.innerHTML = '';
 
   // jsonString = localStorage.getItem('taskData');
   // jsonObj = JSON.parse(jsonString);
@@ -452,6 +481,9 @@ function loadMatrix(matDate) {
                   // Appending now so the division can be checked for existence - prevent duplicates
                   dayDiv.appendChild(taskList);
                   daysContainer.appendChild(dayDiv);
+
+                  matrixContainer.appendChild(daysContainer);
+                  matrix.appendChild(matrixContainer);
                 }
 
                 // Get id of checkboxes to be ticked
@@ -467,11 +499,21 @@ function loadMatrix(matDate) {
       });
     }
     daysContainer.appendChild(dayDiv);
+
+    matrixContainer.appendChild(daysContainer);
+    matrix.appendChild(matrixContainer);
     // Tick all checkboxes that have a completion date in json.
     boxToTick.forEach((boxId) => {
       document.getElementById(`${boxId}`).checked = true;
     });
   });
+
+  if (bigScreen && renderWeek < 4) {
+    renderWeek += 1;
+    loadMatrix(matDate);
+  } else {
+    renderWeek = 1;
+  }
   setListen();
 }
 
@@ -583,10 +625,18 @@ function strayTaskSubmit(toDate) {
 
   let newTaskDate = toDate.split('/');
   newTaskDate = new Date(newTaskDate[2], newTaskDate[1] - 1, newTaskDate[0]);
-
-  loadMatrix(newTaskDate);
+  deviceLoad(newTaskDate);
 }
 
+function deviceLoad(newDate) {
+  if (bigScreen) {
+    // Reset date to first week of current display so dates don't change
+    date.setDate(date.getDate() - 28);
+    loadMatrix(date);
+  } else {
+    loadMatrix(newDate);
+  }
+}
 // eslint-disable-next-line no-unused-vars
 function DeleteTask(id) {
   const taskName = id.slice(11);
@@ -598,7 +648,7 @@ function DeleteTask(id) {
   });
   jsonString = JSON.stringify(jsonObj);
   localStorage.setItem('taskData', jsonString);
-  loadMatrix(date);
+  deviceLoad(date);
   document.getElementById('detailed-desc').remove();
 }
 
@@ -652,7 +702,7 @@ function saveDesc(id) {
   const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
   const d = new Date(formattedDate);
 
-  loadMatrix(d);
+  deviceLoad(d);
   document.getElementById('detailed-desc').remove();
 }
 
@@ -714,7 +764,12 @@ function prevMonth() {
     Creating the matrix puts the date on next Sunday
     so decrement 8 to get to previous week
   */
-  date.setDate(date.getDate() - 8);
+  if (bigScreen) {
+    // Go eight weeks back and display it as the first week 8 * 7 = 56
+    date.setDate(date.getDate() - 56);
+  } else {
+    date.setDate(date.getDate() - 8);
+  }
 
   loadMatrix(date);
 }
@@ -1038,7 +1093,7 @@ function backFromCategory() {
   document.getElementById('categories-container').innerHTML = '';
   categoryPage.style.display = 'none';
   header.style.display = 'block';
-  loadMatrix(giveToday());
+  deviceLoad(giveToday());
   matrix.style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1180,7 +1235,7 @@ function backFromChecklist() {
   navMenu.classList.remove('active');
   checklistPage.innerHTML = '';
   checklistPage.style.display = 'none';
-  loadMatrix(giveToday());
+  deviceLoad(giveToday());
   header.style.display = 'block';
   matrix.style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1347,7 +1402,7 @@ function prepareFileForConfirmation() {
       // Add event listener to the "Confirm" button
       confirmBtn.addEventListener('click', () => {
         handleFile(fileInput.files[0]);
-        loadMatrix(date);
+        deviceLoad(date);
       });
     }
   } else {
@@ -1359,6 +1414,27 @@ function prepareFileForConfirmation() {
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
 
+
+// Prevents the No button to be clicked if the name input is empty and saves the name of the user to the Local Storage
+document.getElementById('decline-btn').addEventListener('click', function(event) {
+  const userName = introFormInput.value.trim();
+  if (!userName) {
+    alert('Please enter your name.'); 
+    event.preventDefault();
+    event.stopPropagation();
+    return; 
+  }
+
+  localStorage.setItem('name', userName);
+
+  introForm.style.display = 'none';
+  welcomePage.style.display = 'none';
+  introFormInput.value = ''; 
+  matrix.style.display = 'block';
+  header.style.display = 'block';
+});
+
+
 function openSettings() {
   settingsPage.style.display = 'block';
 }
@@ -1369,7 +1445,7 @@ function backFromSettings() {
 
 // eslint-disable-next-line no-unused-vars
 function exportJSON() {
-  const jsonString = JSON.stringify(jsonObj);
+  jsonString = JSON.stringify(jsonObj);
 
   const blob = new Blob([jsonString], { type: 'application/json' });
 
@@ -1383,3 +1459,23 @@ function exportJSON() {
 
   document.body.removeChild(downloadLink);
 }
+
+
+/* link back to the intro page
+function openIntroPage() {
+  checklistPage.style.display = 'none';
+  categoryPage.style.display = 'none';
+  matrix.style.display = 'none';
+  intro.style.display = 'block';
+} */
+
+// reset local storage button
+function resetLocalStorage() {
+  if (confirm('Are you sure you want to reset all saved data? This action cannot be undone.')) {
+    localStorage.clear();
+    jsonObj = []; 
+    location.reload(); 
+  }
+}
+
+
