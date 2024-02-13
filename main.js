@@ -1291,6 +1291,27 @@ function prepareFileForConfirmation() {
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
 
+
+// Prevents the No button to be clicked if the name input is empty and saves the name of the user to the Local Storage
+document.getElementById('decline-btn').addEventListener('click', function(event) {
+  const userName = introFormInput.value.trim();
+  if (!userName) {
+    alert('Please enter your name.'); 
+    event.preventDefault();
+    event.stopPropagation();
+    return; 
+  }
+
+  localStorage.setItem('name', userName);
+
+  introForm.style.display = 'none';
+  welcomePage.style.display = 'none';
+  introFormInput.value = ''; 
+  matrix.style.display = 'block';
+  header.style.display = 'block';
+});
+
+
 function openSettings() {
   settingsPage.style.display = 'block';
 }
@@ -1315,3 +1336,23 @@ function exportJSON() {
 
   document.body.removeChild(downloadLink);
 }
+
+
+/* link back to the intro page
+function openIntroPage() {
+  checklistPage.style.display = 'none';
+  categoryPage.style.display = 'none';
+  matrix.style.display = 'none';
+  intro.style.display = 'block';
+} */
+
+// reset local storage button
+function resetLocalStorage() {
+  if (confirm('Are you sure you want to reset all saved data? This action cannot be undone.')) {
+    localStorage.clear();
+    jsonObj = []; 
+    location.reload(); 
+  }
+}
+
+

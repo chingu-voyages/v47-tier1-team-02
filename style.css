@@ -744,10 +744,15 @@ p {
     cursor: pointer;
 }
 
-#export-json {
+#export-json, #reset-storage {
     display: flex;
     margin: 1rem;
 }
+
+.settings-text {
+    margin-right: 1rem;
+}
+
 /* Media Queries */
 @media (max-width:375px) {
 

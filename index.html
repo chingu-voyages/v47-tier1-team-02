@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="logo">
-                    <a href="#intro"><img src="images/ontrack-logo.png" alt="OnTrack"></a>
+                    <img src="images/ontrack-logo.png" alt="OnTrack">
                 </div>
             </div> 
                 <div id="nav-menu" class="nav-menu">
@@ -129,8 +129,13 @@
         </div>
         
         <div id="export-json">
-            <span>Export all of your saved tasks and their data as a JSON file and share it with anyone.</span>
+            <span class="settings-text">Export all of your saved tasks and their data as a JSON file and share it with anyone</span>
             <button onclick="exportJSON()">Export task list</button>
+        </div>
+
+        <div id="reset-storage">
+            <span class="settings-text">Reset all of your saved tasks and clear local storage</span>
+            <button onclick="resetLocalStorage()">Reset Data</button>
         </div>
     </section>
 
