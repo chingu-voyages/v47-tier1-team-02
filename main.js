@@ -107,10 +107,10 @@ function giveDay(iDate) {
 function openDetail(id) {
   if (document.getElementById('detailed-desc') == null) {
     // id format -> taskDate-taskName
+
     const taskDate = id.slice(0, 10);
 
-    const taskName = id.slice(11).split('-')[0];
-
+    const taskName = id.slice(11);
     const detailId = `${taskDate}-${taskName}`;
 
     // To check for due date with day as well
