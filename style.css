@@ -272,16 +272,11 @@ body {
 }
 
 .desktop-days {
-    width: 23%;
+    width: 24%;
     height: 500px;
-    overflow-y: hidden;
-}
-
-.desktop-days:hover {
     overflow-y: overlay;
     scrollbar-width: thin;
 }
-
 
 .days {
     width: 100%;
