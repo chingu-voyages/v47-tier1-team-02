@@ -107,32 +107,55 @@ function giveDay(iDate) {
 function openDetail(id) {
   if (document.getElementById('detailed-desc') == null) {
     // id format -> taskDate-taskName
-
-    const taskDate = id.slice(0, 10);
-
-    const taskName = id.slice(11);
-    const detailId = `${taskDate}-${taskName}`;
-
-    // To check for due date with day as well
-    const day = giveDay(taskDate);
-
-    let taskCat = ''; let taskAct = ''; let taskDesc = ''; let taskDays = '';
-
-    jsonObj.forEach((category) => {
-      category.activityTypes.forEach((activityType) => {
-        activityType.Tasks.forEach((task) => {
-          if (task.taskName === taskName) {
-            // Prevents same task name mismatch
-            if (task.days.includes(taskDate) || task.days.includes(day)) {
-              taskDesc = task.taskDescription;
-              taskCat = category.categoryName;
-              taskAct = activityType.activityName;
-              taskDays = task.days;
+    let taskCat; let taskAct; let taskDesc = ''; let taskDays; let detailId; let day; let taskDate; let taskName;
+    if (categoryPage.style.display === 'block') {
+      const catActTask = id.split(', ');
+      const catCat = catActTask[0];
+      const catAct = catActTask[1];
+      const catTask = catActTask[2];
+      taskName = catTask;
+      detailId = id;
+      jsonObj.forEach((category) => {
+        if (category.categoryName === catCat) {
+          category.activityTypes.forEach((activityType) => {
+            if (activityType.activityName === catAct) {
+              activityType.Tasks.forEach((task) => {
+                if (task.taskName === catTask) {
+                  taskDesc = task.taskDescription;
+                  taskCat = category.categoryName;
+                  taskAct = activityType.activityName;
+                  taskDays = task.days;
+                }
+              });
             }
-          }
+          });
+        }
+      });
+    } else {
+      taskDate = id.slice(0, 10);
+
+      taskName = id.slice(11);
+      detailId = `${taskDate}-${taskName}`;
+
+      // To check for due date with day as well
+      day = giveDay(taskDate);
+
+      jsonObj.forEach((category) => {
+        category.activityTypes.forEach((activityType) => {
+          activityType.Tasks.forEach((task) => {
+            if (task.taskName === taskName) {
+              // Prevents same task name mismatch
+              if (task.days.includes(taskDate) || task.days.includes(day)) {
+                taskDesc = task.taskDescription;
+                taskCat = category.categoryName;
+                taskAct = activityType.activityName;
+                taskDays = task.days;
+              }
+            }
+          });
         });
       });
-    });
+    }
 
     const overlayDesc = document.createElement('div');
     // Class overlays on top of all elements
@@ -151,12 +174,18 @@ function openDetail(id) {
       `;
     });
 
+    let headerText;
+    if (categoryPage.style.display === 'block') {
+      headerText = 'Edit Task';
+    } else {
+      headerText = `${day} (${taskDate})`;
+    }
     // On clicking any of the attributes in the description, give id (name and date) to editDesc
     overlayDesc.innerHTML = `
       <div id="back-n-day">
         <img src="images/back.png" id="back-img" onclick="backFromDesc()">
 
-        <span id="desc-day">${day} (${taskDate})</span>
+        <span id="desc-day">${headerText}</span>
       </div>
 
       <div id="task-desc">
@@ -1005,14 +1034,16 @@ function JsonToCategory() {
 
       activityType.Tasks.forEach((task) => {
         taskCounter += 1;
+        const id = `${catCounter}-${actCounter}-${taskCounter}`;
         const taskDiv = document.createElement('div');
-        taskDiv.setAttribute('id', `task-${catCounter}-${actCounter}-${taskCounter}`);
+        taskDiv.setAttribute('id', `task-${id}`);
         taskDiv.classList.add('task');
 
+        const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
-          <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.taskName}</span>
-          <span id="task-desc-${catCounter}-${actCounter}-${taskCounter}">${task.taskDescription}</span>
-          <span id="task-date-${catCounter}-${actCounter}-${taskCounter}">${task.days}</span>
+          <span onclick="openDetail('${catActTask}')" id="task-name-${id}">${task.taskName}</span>
+          <span onclick="openDetail('${catActTask}')" id="task-desc-${id}">${task.taskDescription}</span>
+          <span onclick="openDetail('${catActTask}')" id="task-date-${id}">${task.days}</span>
         `;
 
         taskContainer.appendChild(taskDiv);
@@ -1053,7 +1084,7 @@ function categoryToJson(category) {
 
   // Disallow duplicate entries
   if (index === -1) {
-    const categoryJSON = { categoryName: category, activityTypes: [] };
+    const categoryJSON = { categoryName: category.trim(), activityTypes: [] };
     if (jsonObj === null) {
       jsonObj = [];
     }
@@ -1070,7 +1101,7 @@ function activityToJson(categoryId, activity) {
   const index = jsonObj.findIndex((cat) => cat.categoryName === catText);
 
   const activityjson = {
-    activityName: activity,
+    activityName: activity.trim(),
     Tasks: [],
   };
 
@@ -1296,26 +1327,24 @@ function prepareFileForConfirmation() {
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
 
-
 // Prevents the No button to be clicked if the name input is empty and saves the name of the user to the Local Storage
-document.getElementById('decline-btn').addEventListener('click', function(event) {
+document.getElementById('decline-btn').addEventListener('click', (event) => {
   const userName = introFormInput.value.trim();
   if (!userName) {
-    alert('Please enter your name.'); 
+    alert('Please enter your name.');
     event.preventDefault();
     event.stopPropagation();
-    return; 
+    return;
   }
 
   localStorage.setItem('name', userName);
 
   introForm.style.display = 'none';
   welcomePage.style.display = 'none';
-  introFormInput.value = ''; 
+  introFormInput.value = '';
   matrix.style.display = 'block';
   header.style.display = 'block';
 });
-
 
 function openSettings() {
   settingsPage.style.display = 'block';
@@ -1342,7 +1371,6 @@ function exportJSON() {
   document.body.removeChild(downloadLink);
 }
 
-
 /* link back to the intro page
 function openIntroPage() {
   checklistPage.style.display = 'none';
@@ -1355,11 +1383,10 @@ function openIntroPage() {
 function resetLocalStorage() {
   if (confirm('Are you sure you want to reset all saved data? This action cannot be undone.')) {
     localStorage.clear();
-    jsonObj = []; 
-    location.reload(); 
+    jsonObj = [];
+    location.reload();
   }
 }
-
 
 // Edit the names on the Category page
 function editCategoryPageDesc(id, elementType) {
@@ -1386,12 +1413,12 @@ function editCategoryPageDesc(id, elementType) {
       break;
     default:
       textBox = '';
-      console.error("Unsupported element type for editing");
+      console.error('Unsupported element type for editing');
       return;
   }
 
   if (!editableElement) {
-    console.error("Element not found for editing:", elementId);
+    console.error('Element not found for editing:', elementId);
     return;
   }
 
@@ -1399,41 +1426,40 @@ function editCategoryPageDesc(id, elementType) {
   const inputBox = document.createElement('input');
   inputBox.type = 'text';
   inputBox.value = editableElement.textContent;
-  inputBox.classList.add('edit-input'); 
+  inputBox.classList.add('edit-input');
 
   // On clicking away from the box, change entry box to text
-  inputBox.addEventListener('blur', function() {
+  inputBox.addEventListener('blur', () => {
     const newValue = inputBox.value;
-    editableElement.textContent = newValue; 
-    inputBox.replaceWith(editableElement);  
+    editableElement.textContent = newValue;
+    inputBox.replaceWith(editableElement);
   });
 
   editableElement.replaceWith(inputBox);
   inputBox.focus();
 }
 
-
 // Function that adds a save button, a cancel button and a delete button to the elements
 function createEditButtons(id) {
   // Create the Save button
   const saveButton = document.createElement('button');
   saveButton.textContent = 'Save';
-  saveButton.addEventListener('click', function() {
-    saveDesc(id); 
+  saveButton.addEventListener('click', () => {
+    saveDesc(id);
   });
 
   // Create the Cancel button
   const cancelButton = document.createElement('button');
   cancelButton.textContent = 'Cancel';
-  cancelButton.addEventListener('click', function() {
-    location.reload(); 
+  cancelButton.addEventListener('click', () => {
+    location.reload();
   });
 
   // Create the Delete button
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
-  deleteButton.addEventListener('click', function() {
-    deleteTask(id); 
+  deleteButton.addEventListener('click', () => {
+    deleteTask(id);
   });
 
   // Append buttons
