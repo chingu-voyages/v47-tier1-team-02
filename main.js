@@ -1427,6 +1427,7 @@ document.getElementById('decline-btn').addEventListener('click', function(event)
   }
 
   localStorage.setItem('name', userName);
+  displayGreeting(); 
 
   introForm.style.display = 'none';
   welcomePage.style.display = 'none';
