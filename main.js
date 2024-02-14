@@ -920,7 +920,18 @@ function submitCategoryName() {
 }
 
 function toggleCategory(categoryId) {
-  console.log(`Toggle category ID: ${categoryId}`);
+  const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
+  const toggleButton = document.querySelector(`#category-${categoryId} > button`);
+
+  if (activitiesContainer.style.display === 'none' || activitiesContainer.classList.contains('collapsed')) {
+    activitiesContainer.style.display = 'block';
+    activitiesContainer.classList.remove('collapsed');
+    toggleButton.innerHTML = '&gt;'; 
+  } else {
+    activitiesContainer.style.display = 'none';
+    activitiesContainer.classList.add('collapsed');
+    toggleButton.innerHTML = '&lt;'; 
+  }
 }
 
 // 2. Adding the activity
@@ -983,7 +994,18 @@ function submitActivityName(categoryId) {
 }
 
 function toggleActivity(activityId) {
-  console.log(`Toggle activity ID: ${activityId}`);
+  const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
+  const toggleButton = document.querySelector(`#activity-${activityId} > button`);
+
+  if (tasksContainer.style.display === 'none' || tasksContainer.classList.contains('collapsed')) {
+    tasksContainer.style.display = 'block';
+    tasksContainer.classList.remove('collapsed');
+    toggleButton.innerHTML = '&gt;'; 
+  } else {
+    tasksContainer.style.display = 'none';
+    tasksContainer.classList.add('collapsed');
+    toggleButton.innerHTML = '&lt;'; 
+  }
 }
 
 // 3. Adding the task
