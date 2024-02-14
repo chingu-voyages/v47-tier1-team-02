@@ -788,6 +788,10 @@ p {
     margin-right: 1rem;
 }
 
+.collapsed {
+    display: none;
+}
+
 /* Media Queries */
 @media (max-width:375px) {
 
