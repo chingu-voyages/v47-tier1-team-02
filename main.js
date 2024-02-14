@@ -115,6 +115,7 @@ function openDetail(id) {
       const catTask = catActTask[2];
       taskName = catTask;
       detailId = id;
+
       jsonObj.forEach((category) => {
         if (category.categoryName === catCat) {
           category.activityTypes.forEach((activityType) => {
@@ -212,7 +213,7 @@ function openDetail(id) {
 
         <div id="button-div" class="desc-item">
           <button id="save-button" onclick="saveDesc('${detailId}')">Save</button>
-          <button id="delete-button" onclick="DeleteTask('${detailId}')">Delete Task</button>
+          <button id="delete-button" onclick="deleteTask('${detailId}')">Delete Task</button>
         <div>
       </div>
     `;
@@ -622,22 +623,106 @@ function strayTaskSubmit(toDate) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function DeleteTask(id) {
-  const taskName = id.slice(11);
+function deleteTask(id) {
+  if (categoryPage.style.display === 'block') {
+    const catActTask = id.split(', ');
+    const catName = catActTask[0];
+    const actName = catActTask[1];
+    const taskName = catActTask[2];
 
-  jsonObj.forEach((category) => {
-    category.activityTypes.forEach((activityType) => {
-      activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
+    jsonObj.forEach((category) => {
+      if (category.categoryName === catName) {
+        category.activityTypes.forEach((activityType) => {
+          if (activityType.activityName === actName) {
+            activityType.Tasks.forEach((task) => {
+              if (task.taskName === taskName) {
+                activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
+              }
+            });
+          }
+        });
+      }
     });
-  });
+    openCategoryPage();
+  } else {
+    const taskName = id.slice(11);
+
+    jsonObj.forEach((category) => {
+      category.activityTypes.forEach((activityType) => {
+        activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
+      });
+    });
+    jsonString = JSON.stringify(jsonObj);
+    localStorage.setItem('taskData', jsonString);
+    loadMatrix(date);
+  }
   jsonString = JSON.stringify(jsonObj);
   localStorage.setItem('taskData', jsonString);
-  loadMatrix(date);
   document.getElementById('detailed-desc').remove();
+}
+
+function saveDescCatPage(id) {
+  const catActTask = id.split(', ');
+  const catName = catActTask[0];
+  const actName = catActTask[1];
+  const taskName = catActTask[2];
+
+  const nameId = `${id}-name`;
+  const categoryId = `${id}-category`;
+  const activityId = `${id}-activity`;
+  const descId = `${id}-description`;
+
+  const updatedName = document.getElementById(nameId).textContent;
+  const updatedCategory = document.getElementById(categoryId).textContent;
+  const updatedActivity = document.getElementById(activityId).textContent;
+  const updatedDesc = document.getElementById(descId).textContent;
+
+  let datesList = [];
+  const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
+  dateWidgets.forEach((element) => {
+    datesList.push(document.getElementById(element.id).textContent);
+  });
+  datesList = [...new Set(datesList)];
+
+  jsonObj.forEach((category) => {
+    if (category.categoryName === catName) {
+      category.activityTypes.forEach((activityType) => {
+        if (activityType.activityName === actName) {
+          activityType.Tasks.forEach((task) => {
+            if (task.taskName === taskName) {
+              task.taskName = updatedName.trim();
+              task.days = datesList;
+              task.taskDescription = updatedDesc.trim();
+              category.categoryName = updatedCategory.trim();
+              activityType.activityName = updatedActivity.trim();
+            }
+          });
+        }
+      });
+    }
+  });
+
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
+  const selectId = `${catName}, ${actName}, ${taskName}`;
+
+  const nameSpan = document.getElementById(`name-${selectId}`);
+  const descSpan = document.getElementById(`desc-${selectId}`);
+  const dateSpan = document.getElementById(`date-${selectId}`);
+
+  const newId = `${updatedCategory}, ${updatedActivity}, ${updatedName}`;
+
+  nameSpan.setAttribute('id', `name-${newId}`);
+  descSpan.setAttribute('id', `desc-${newId}`);
+  dateSpan.setAttribute('id', `date-${newId}`);
+  openCategoryPage();
 }
 
 // eslint-disable-next-line no-unused-vars
 function saveDesc(id) {
+  if (categoryPage.style.display === 'block') {
+    saveDescCatPage(id);
+  }
   const taskDate = id.slice(0, 10);
   const taskName = id.slice(11);
   const day = giveDay(taskDate);
@@ -957,6 +1042,7 @@ function submitTaskName(activityId) {
 
   const catCount = activityId.slice(0, 1) - 1;
   const actCount = activityId.slice(2, 3) - 1;
+
   const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
   // Calculate new task ID based on existing tasks
   // const existingTasks = tasksContainer.getElementsByClassName('task');
@@ -984,6 +1070,7 @@ function submitTaskName(activityId) {
 
   // Remove the input fields after adding the task
   taskNameInput.parentElement.remove();
+  openCategoryPage();
 }
 
 function JsonToCategory() {
@@ -1029,6 +1116,7 @@ function JsonToCategory() {
       const taskContainer = document.createElement('div');
       taskContainer.setAttribute('id', `tasks-container-${catCounter}-${actCounter}`);
 
+      actDiv.appendChild(taskContainer);
       actContainer.appendChild(actDiv);
       catDiv.appendChild(actContainer);
 
@@ -1041,9 +1129,9 @@ function JsonToCategory() {
 
         const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
-          <span onclick="openDetail('${catActTask}')" id="task-name-${id}">${task.taskName}</span>
-          <span onclick="openDetail('${catActTask}')" id="task-desc-${id}">${task.taskDescription}</span>
-          <span onclick="openDetail('${catActTask}')" id="task-date-${id}">${task.days}</span>
+          <span onclick="openDetail('${catActTask}')" id="name-${catActTask}">${task.taskName}</span>
+          <span onclick="openDetail('${catActTask}')" id="desc-${catActTask}">${task.taskDescription}</span>
+          <span onclick="openDetail('${catActTask}')" id="date-${catActTask}">${task.days}</span>
         `;
 
         taskContainer.appendChild(taskDiv);
