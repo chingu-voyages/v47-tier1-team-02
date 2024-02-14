@@ -202,10 +202,10 @@ function openDetail(id) {
           </div>
         </div>
         <div id="category-desc" class="desc-item">Category: 
-            <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')"> ${taskCat}</span>
+            <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')">${taskCat}</span>
         </div>
         <div id="activity-desc" class="desc-item">Activity: 
-            <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')"> ${taskAct}</span>
+            <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')">${taskAct}</span>
         </div>
         <div id="detail-desc" class="desc-item">Description: 
             <span id="${detailId}-description" class="desc-element" onclick="editDesc('${detailId}', 'description')">${taskDesc}</span>
