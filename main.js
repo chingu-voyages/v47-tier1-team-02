@@ -229,7 +229,7 @@ function addDay(id) {
     <input id="date-entry" type="date" class="add-day-element">
     <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
     <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
-    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')" class="add-day-element">Add day</button>
+    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')" class="add-day-element">Choose Day (Weekly)</button>
   `;
 }
 
@@ -248,13 +248,13 @@ function showDayDropDown(id = null) {
   }
   const dropDownHTML = `
     <select id="day-dropdown" class="add-day-element">
-        <option value="Sunday">Sunday</option>
-        <option value="Monday">Monday</option>
-        <option value="Tuesday">Tuesday</option>
-        <option value="Wednesday">Wednesday</option>
-        <option value="Thursday">Thursday</option>
-        <option value="Friday">Friday</option>
-        <option value="Saturday">Saturday</option>
+        <option value="every Sunday">every Sunday</option>
+        <option value="every Monday">every Monday</option>
+        <option value="every Tuesday">every Tuesday</option>
+        <option value="every Wednesday">every Wednesday</option>
+        <option value="every Thursday">every Thursday</option>
+        <option value="every Friday">every Friday</option>
+        <option value="every Saturday">every Saturday</option>
     </select>
   `;
   if (addButton) {
@@ -1034,7 +1034,7 @@ function addTask(activityId) {
             <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
             <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
             <div class="task-input-buttons">
-              <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Add day</button>
+              <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Choose Day (Weekly)</button>
               <button id="new-task-submit" class="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
               <button id="new-task-cancel" class="new-task-cancel" onclick="cancelCategoryAdd('task-input')">Cancel</button>
             </div>
