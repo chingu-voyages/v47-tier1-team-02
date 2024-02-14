@@ -117,11 +117,11 @@ function openDetail(id) {
       detailId = id;
 
       jsonObj.forEach((category) => {
-        if (category.categoryName === catCat) {
+        if (category.categoryName.trim() === catCat) {
           category.activityTypes.forEach((activityType) => {
-            if (activityType.activityName === catAct) {
+            if (activityType.activityName.trim() === catAct) {
               activityType.Tasks.forEach((task) => {
-                if (task.taskName === catTask) {
+                if (task.taskName.trim() === catTask) {
                   taskDesc = task.taskDescription;
                   taskCat = category.categoryName;
                   taskAct = activityType.activityName;
@@ -133,7 +133,6 @@ function openDetail(id) {
         }
       });
     } else {
-      console.log(id);
       taskDate = id.slice(0, 10);
 
       taskName = id.slice(11);
