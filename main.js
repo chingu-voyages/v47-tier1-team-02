@@ -1490,5 +1490,8 @@ function displayGreeting() {
   }
 }
 
-
+// Call displayGreeting on page load to handle page reloads
+document.addEventListener('DOMContentLoaded', () => {
+  displayGreeting();
+});
 
