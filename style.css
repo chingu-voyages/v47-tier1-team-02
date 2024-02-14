@@ -2,13 +2,13 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
+}
 
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
+}
 
 body {
     font-family: "Inter", sans-serif;
@@ -28,7 +28,9 @@ body {
 }
 
 
-#matrix, #category-page, #checklist-page {
+#matrix,
+#category-page,
+#checklist-page {
     width: 100%;
 }
 
@@ -60,7 +62,7 @@ body {
 }
 
 .logo {
- 
+
     border-radius: 50%;
     margin-bottom: 0;
 }
@@ -154,7 +156,8 @@ body {
     justify-content: center;
 }
 
-.file-input-container, .decline-btn-container {
+.file-input-container,
+.decline-btn-container {
     display: flex;
     flex-direction: column;
 }
@@ -197,12 +200,14 @@ body {
     margin: 0rem 0.2rem;
 }
 
-#prev-month, #next-month {
+#prev-month,
+#next-month {
     border: none;
     background: none;
     font-weight: 700;
     color: #000000;
 }
+
 #month-name {
     background: none;
     border: 1px solid #a7fcff;
@@ -214,7 +219,7 @@ body {
 .dropdown {
     position: relative;
     display: inline-block;
- 
+
 }
 
 .dropdown-content {
@@ -230,7 +235,7 @@ body {
 
 
 .dropdown-content a {
-    padding: 10px; 
+    padding: 10px;
     text-decoration: none;
     display: block;
     color: black;
@@ -285,7 +290,7 @@ body {
     justify-content: space-between;
     border-bottom: solid;
     border-width: 0;
-    font-size: 1.2rem;  
+    font-size: 1.2rem;
 }
 
 .checklist-task-element {
@@ -298,12 +303,12 @@ body {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #727272;
-  
+
 }
 
 .checkbox-label {
     width: 95%;
-    color:  #727272;
+    color: #727272;
     padding: 0.5em 0;
 }
 
@@ -329,14 +334,18 @@ body {
     padding: 10px 20px;
     margin-bottom: 20px;
     user-select: none;
-    cursor: pointer;  
-    font-size: 1.3rem;   
-    color: #000000; 
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: #000000;
 }
 
 
-#new-category-name, #category-entry button , .new-activity-name,
-.new-task-name, .new-task-desc, .new-task-date  {
+#new-category-name,
+#category-entry button,
+.new-activity-name,
+.new-task-name,
+.new-task-desc,
+.new-task-date {
     border: 2px solid #000000;
     border-radius: 5px;
     background: none;
@@ -351,17 +360,20 @@ body {
     color: #000000;
 }
 
-#categories-container, #category-entry  {
+#categories-container,
+#category-entry {
     margin-left: 1.5em;
 }
 
 .categories-content {
     padding: 3em 0 0 3em;
-    font-size: 1rem;  
+    font-size: 1rem;
 }
 
 
-.category, .activity, .task {
+.category,
+.activity,
+.task {
     margin-left: 20px;
     margin-top: 10px;
 }
@@ -379,7 +391,15 @@ body {
     margin: 1em;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;      
+    align-items: flex-start;
+}
+
+.task-input-buttons {
+    display: flex;
+}
+
+.new-task-day {
+    margin-right: 5rem;
 }
 
 .new-task-name,
@@ -462,11 +482,11 @@ body {
 
 .task-days {
     display: grid;
-    grid-template-columns: repeat(2, 1fr) ;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .day-widget {
-    border-bottom: 0.5px solid; 
+    border-bottom: 0.5px solid;
     margin: 0.6em 0.4em;
     text-align: center;
     color: #000000;
@@ -476,7 +496,7 @@ body {
     padding: 0.1em 0.3em;
 }
 
-#add-day{
+#add-day {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -485,7 +505,10 @@ body {
     color: #000000;
 }
 
-#add-day-submit, #add-day-cancel, #show-day-dropdrown, #date-entry  {
+#add-day-submit,
+#add-day-cancel,
+#show-day-dropdrown,
+#date-entry {
     border: 2px solid #000000;
     border-radius: 5px;
     background: none;
@@ -495,7 +518,9 @@ body {
 }
 
 
-#add-day-submit, #add-day-cancel, #show-day-dropdrown  {
+#add-day-submit,
+#add-day-cancel,
+#show-day-dropdrown {
     font-weight: 600;
 
 }
@@ -505,13 +530,14 @@ body {
 }
 
 
-#add-day-button, .day-widget button  {
+#add-day-button,
+.day-widget button {
     border: 3px solid #000000;
     border-radius: 5px;
     background: none;
     font-weight: 700;
     font-size: 1.3rem;
-    color: #000000;  
+    color: #000000;
 }
 
 .DateInput {
@@ -531,11 +557,12 @@ body {
     align-items: center;
     justify-content: space-around;
     width: 100%;
-   gap: 1em;
+    gap: 1em;
 }
 
 
-#save-button, #delete-button {
+#save-button,
+#delete-button {
     background: none;
     border: 2px solid #000000;
     color: #000000;
@@ -565,6 +592,7 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
 .day-header .day-name {
     font-size: 1.3rem;
 }
@@ -607,10 +635,10 @@ p {
 }
 
 :root {
-    --primary-color-dark:#000;
-    --secondary-color-dark: #777; 
+    --primary-color-dark: #000;
+    --secondary-color-dark: #777;
     --primary-color-light: #fff;
-    --secondary-color-light:#a7fcff;
+    --secondary-color-light: #a7fcff;
 }
 
 
@@ -620,7 +648,7 @@ p {
     top: 0;
     left: 0;
     right: 0;
-    background-color: var(--primary-color-light);    
+    background-color: var(--primary-color-light);
     z-index: 1;
     border-bottom: 1px solid #000000;
 }
@@ -689,7 +717,9 @@ p {
     transition: all 0.3s ease 0s;
 }
 
-.nav-menu-list li a:hover, .nav-menu-list li a:focus, .nav-menu-list li a:active {
+.nav-menu-list li a:hover,
+.nav-menu-list li a:focus,
+.nav-menu-list li a:active {
     background: none;
     color: var(--secondary-color-dark);
 }
@@ -714,9 +744,10 @@ p {
     display: inline-block;
 }
 
-.search-input-desktop, .search-input-mobile {
+.search-input-desktop,
+.search-input-mobile {
     padding: 8px;
-    padding-left: 30px; 
+    padding-left: 30px;
     margin-left: 4px;
     border-radius: 50px;
     width: 100%;
@@ -725,26 +756,30 @@ p {
 
 .search-input-desktop {
     border: 1px solid #000;
-    width: 50vw; 
+    width: 50vw;
 }
 
 .search-input-mobile {
     border: none;
 }
 
-.search-input-mobile:focus-visible {outline: 0;}
+.search-input-mobile:focus-visible {
+    outline: 0;
+}
 
-.search-icon-desktop, .search-icon-mobile {
+.search-icon-desktop,
+.search-icon-mobile {
     position: absolute;
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    width: 20px; 
+    width: 20px;
     height: 20px;
     cursor: pointer;
 }
 
-#export-json, #reset-storage {
+#export-json,
+#reset-storage {
     display: flex;
     margin: 1rem;
 }
@@ -756,63 +791,72 @@ p {
 /* Media Queries */
 @media (max-width:375px) {
 
-#add-day{
+    #add-day {
         flex-direction: row;
         justify-content: space-around;
         gap: 0.5em;
         margin: 0.8rem 0rem;
         max-width: 300px;
     }
-#add-day-submit, #add-day-cancel, #show-day-dropdrown,
-     #date-entry  {
-    font-size: 0.7rem;
-    padding: 0.5em 0.5em;
-}
-.month-button {
-    font-size: 1.5rem;
-}
 
-.desc-item {
-    flex-direction: column;
-}
+    #add-day-submit,
+    #add-day-cancel,
+    #show-day-dropdrown,
+    #date-entry {
+        font-size: 0.7rem;
+        padding: 0.5em 0.5em;
+    }
 
-.task-days {
-    flex-direction: row;
-    margin: 0.5rem 1rem;
-    gap: 1.8em;
-}
-.day-widget {
-    margin:0;
-  }
-
-.day-widget button {
-    padding: 0.1em 0.1em;
-  }
-}
-
-@media(min-width:376px) and (max-width: 450px){ 
-.task-element {
-        font-size: 1.1rem;
-      }
-.month-button {
+    .month-button {
         font-size: 1.5rem;
-      }
-    
-.task-days {
+    }
+
+    .desc-item {
+        flex-direction: column;
+    }
+
+    .task-days {
+        flex-direction: row;
+        margin: 0.5rem 1rem;
+        gap: 1.8em;
+    }
+
+    .day-widget {
+        margin: 0;
+    }
+
+    .day-widget button {
+        padding: 0.1em 0.1em;
+    }
+}
+
+@media(min-width:376px) and (max-width: 450px) {
+    .task-element {
+        font-size: 1.1rem;
+    }
+
+    .month-button {
+        font-size: 1.5rem;
+    }
+
+    .task-days {
         flex-direction: row;
         margin: 0.5rem 2rem;
-       
+
     }
 
 
-#add-day-submit, #add-day-cancel, #show-day-dropdrown, #date-entry  {
+    #add-day-submit,
+    #add-day-cancel,
+    #show-day-dropdrown,
+    #date-entry {
         font-size: 0.8rem;
         padding: 0.8em 0.8em;
     }
 
 }
 
-@media(max-width: 600px){
+@media(max-width: 600px) {
     #add-day {
         flex-direction: row;
         justify-content: space-around;
@@ -823,40 +867,41 @@ p {
 
     .desc-item {
         flex-direction: column;
-      }
+    }
 
     #deadline-desc {
         text-align: left;
     }
-      .desc-item {
-        margin: 1.5rem 0.5rem;
-      }
 
-      .day-widget button  {   
-        padding: 0 0.2em;  
+    .desc-item {
+        margin: 1.5rem 0.5rem;
+    }
+
+    .day-widget button {
+        padding: 0 0.2em;
     }
 
     #button-div {
         flex-direction: row;
-     }
+    }
 
 }
 
-@media(min-width: 768px){
+@media(min-width: 768px) {
     .nav-search-container {
         display: none;
     }
-        
+
     .nav-menu-list li:nth-child(2) {
         border-top: none;
     }
-    
+
     .search-container {
         display: block;
         margin: 20px;
         text-align: center;
     }
-     
+
     .overlay {
         position: fixed;
         top: 0;
@@ -870,65 +915,68 @@ p {
         border-radius: 5px;
         box-shadow: 0px 0px 6px 2px #666;
     }
-      
+
     .checkbox-label {
         width: 97%;
     }
-    
+
     .checkbox {
         width: 3%;
     }
-    
+
     #task-desc {
         width: 100%;
         height: 100%;
     }
-    
+
     #category-page {
-       height: 100vh;
-       padding: 2em 0 0 2em;
+        height: 100vh;
+        padding: 2em 0 0 2em;
     }
-    
+
     #categories-container {
         margin-left: 2em;
     }
-    
+
     .categories-content {
         padding: 2em 0 0 2em;
         font-size: 1.7rem;
     }
-    
-    
-    #add-category-button {    
+
+
+    #add-category-button {
         font-size: 1.8rem;
     }
-     
-    
+
+
     .category button {
         font-size: 1.5rem;
     }
-    
-    
-    .activity, .category {
+
+
+    .activity,
+    .category {
         margin-top: 1em;
     }
-    
+
     .activity {
         margin-left: 2em;
     }
+
     #back-img {
         height: 60px;
     }
+
     .logo img {
         max-height: 100px;
     }
+
     .checklist-task-element {
-       font-size: 1.3rem;
+        font-size: 1.3rem;
     }
 
     #detailed-desc {
         font-size: 1.3rem;
     }
-   
-    }
-    
+
+}

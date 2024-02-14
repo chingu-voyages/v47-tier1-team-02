@@ -875,6 +875,7 @@ function addCategory() {
   const categoryInputHtml = `
         <input type="text" id='new-category-name' placeholder="Category name"> 
         <button onclick="submitCategoryName()">Add</button>
+        <button onclick="cancelCategoryAdd('category-entry')">Cancel</button>
     `;
   document.getElementById('category-entry').innerHTML = categoryInputHtml;
 }
@@ -933,14 +934,24 @@ function addActivity(categoryId) {
 
   // Create input for new activity name
   const activityInputHtml = `
-        <div class="activity-input">
+        <div id="activity-input" class="activity-input">
             <input type="text" id='new-activity-name-${categoryId}' class="new-activity-name" placeholder="Activity name"> 
             <button onclick="submitActivityName(${categoryId})">Add</button>
+            <button onclick="cancelCategoryAdd('activity-input')">Cancel</button>
         </div>
     `;
 
   // Insert the input field into the category div
   categoryDiv.insertAdjacentHTML('beforeend', activityInputHtml);
+}
+
+function cancelCategoryAdd(id) {
+  const addDiv = document.getElementById(id);
+  if (id === 'category-entry') {
+    addDiv.innerHTML = '';
+  } else {
+    addDiv.remove();
+  }
 }
 
 function submitActivityName(categoryId) {
@@ -1000,8 +1011,11 @@ function addTask(activityId) {
             <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
             <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
             <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
-            <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Add day</button>
-            <button id="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
+            <div class="task-input-buttons">
+              <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Add day</button>
+              <button id="new-task-submit" class="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
+              <button id="new-task-cancel" class="new-task-cancel" onclick="cancelCategoryAdd('task-input')">Cancel</button>
+            </div>
         </div>
     `;
 
