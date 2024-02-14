@@ -51,6 +51,7 @@ introForm.addEventListener('submit', (e) => {
   const inputValue = introFormData.get('user');
 
   localStorage.setItem('name', inputValue);
+  displayGreeting();
 
   introFormInput.value = '';
   intro.style.display = 'none';
@@ -1477,5 +1478,17 @@ function resetLocalStorage() {
     location.reload(); 
   }
 }
+
+// Display hello message
+// Function to display greeting
+function displayGreeting() {
+  const userName = localStorage.getItem('name');
+  if (userName) {
+    const greetingElement = document.getElementById('greeting');
+    greetingElement.textContent = `Hello, ${userName}!`;
+    greetingElement.style.display = 'block';
+  }
+}
+
 
 
