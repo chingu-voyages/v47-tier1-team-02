@@ -756,8 +756,8 @@ function saveDesc(id) {
             task.taskName = updatedName.trim();
             task.days = datesList;
             task.taskDescription = updateddesc;
-            category.categoryName = updatedcategory;
-            activityType.activityName = updatedactivity;
+            category.categoryName = updatedcategory.trim();
+            activityType.activityName = updatedactivity.trim();
             /* eslint-enable no-param-reassign */
           }
         }
