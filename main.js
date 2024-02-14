@@ -133,6 +133,7 @@ function openDetail(id) {
         }
       });
     } else {
+      console.log(id);
       taskDate = id.slice(0, 10);
 
       taskName = id.slice(11);
@@ -405,7 +406,8 @@ function editDesc(id, element) {
 function setListen() {
   document.querySelectorAll('.task-element').forEach((element) => {
     let id = element.id.replace('-ele', '');
-    id = id.replace('ele-checklist', '');
+    id = id.replace('-checklist', '');
+
     element.addEventListener('click', () => openDetail(id));
   });
 }
