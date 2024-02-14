@@ -1,28 +1,56 @@
-# voyage-tasks
 
-Your project's `readme` is as important to success as your code. For 
-this reason you should put as much care into its creation and maintenance
-as you would any other component of the application.
+# On Track Productivity Tool 🚀
 
-If you are unsure of what should go into the `readme` let this article,
-written by an experienced Chingu, be your starting point - 
-[Keys to a well written README](https://tinyurl.com/yk3wubft).
+This is a daily task productivity tool designed to help individuals organize and manage their tasks effectively on a day-to-day basis.
 
-And before we go there's "one more thing"! Once you decide what to include
-in your `readme` feel free to replace the text we've provided here.
+## Features ✨
+- Parse provided JSON file to categorize and structure tasks according to categories, activity types, and individual tasks.
+- Automatically generate a daily checklist for tasks based on a matrix of categories and tasks listed against days of the month.
+- Utilize local storage to persist user data beyond the initial session.
+- Display checkboxes at the intersections of categories/tasks and days, reflecting completion status by checking/unchecking the checkboxes.
+- Click on task name to show additional detailed description in a popup.
 
-> Own it & Make it your Own!
 
-## Team Documents
+## Local Storage 🗄️
+The application uses local storage to persist user data. This means that your tasks will be saved even if you close the browser and reopen it.
 
-You may find these helpful as you work together to organize your project.
+## Technologies 💻
+- HTML
+- CSS
+- JavaScript
 
-- [Team Project Ideas](./docs/team_project_ideas.md)
-- [Team Decision Log](./docs/team_decision_log.md)
+## Getting Started (locally) 🛠️
+1. Clone this repository.
+2. Open the `index.html` file in your browser.
+3. Start adding your tasks!
 
-Meeting Agenda templates (located in the `/docs` directory in this repo):
+## Getting Started (on web) 🌐
+Open our app on [Netlify](#)!
 
-- Meeting - Voyage Kickoff --> ./docs/meeting-voyage_kickoff.docx
-- Meeting - App Vision & Feature Planning --> ./docs/meeting-vision_and_feature_planning.docx
-- Meeting - Sprint Retrospective, Review, and Planning --> ./docs/meeting-sprint_retrospective_review_and_planning.docx
-- Meeting - Sprint Open Topic Session --> ./docs/meeting-sprint_open_topic_session.docx
+## Team Members 👥
+### Product Owner:
+- **Name:**
+- **Bio:**
+- **Spark:**
+
+### Designer: 
+- **Name:**
+- **Bio:**
+- **Spark:**
+
+### Developers: 
+- **Name:**
+- **Bio:**
+- **Spark:**
+<br/>
+
+- **Name:**
+- **Bio:**
+- **Spark:**
+
+## Backlog 📋
+You can find the backlog for this project [here](https://www.notion.so/467e26b8c8a04ac9b6fd34bc3a1d9e84?v=63a82a7b344b4f968836a38e90bc6720&pvs=4).
+
+## Design 🎨
+The Figma design for this project can be found [here](https://www.figma.com/file/g9fgCVgIBv0d05Ldfd6YS8/V47-Team-02-On-Track?type=design&node-id=91%3A50&mode=design&t=WOdBhgb5mIxWbTnC-1).
+
