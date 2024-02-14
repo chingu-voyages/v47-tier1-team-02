@@ -1,6 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 // Follows Airbnb JavaScript style guide
+if ('serviceWorker' in navigator) {
+  // Wait for the 'load' event to not block other work
+  window.addEventListener('load', async () => {
+    try {
+    await navigator.serviceWorker.register('/service-worker.js');
+    console.log('Service worker registered!');
+    }
+    catch(err) {
+      console.log('Service worker registration failed: ', err);
+    }
+
+  });
+}
 
 const intro = document.getElementById('intro');
 const introForm = document.getElementById('intro-form');
