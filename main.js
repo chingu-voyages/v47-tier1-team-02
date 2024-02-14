@@ -918,6 +918,7 @@ function submitCategoryName() {
   document.getElementById('category-entry').innerHTML = '';
 
   categoryIdCounter += 1;
+  openCategoryPage();
 }
 
 function toggleCategory(categoryId) {
@@ -927,11 +928,11 @@ function toggleCategory(categoryId) {
   if (activitiesContainer.style.display === 'none' || activitiesContainer.classList.contains('collapsed')) {
     activitiesContainer.style.display = 'block';
     activitiesContainer.classList.remove('collapsed');
-    toggleButton.innerHTML = '&gt;'; 
+    toggleButton.innerHTML = '&gt;';
   } else {
     activitiesContainer.style.display = 'none';
     activitiesContainer.classList.add('collapsed');
-    toggleButton.innerHTML = '&lt;'; 
+    toggleButton.innerHTML = '&lt;';
   }
 }
 
@@ -1002,6 +1003,8 @@ function submitActivityName(categoryId) {
 
   // Remove the input field after adding the activity
   activityNameInput.parentElement.remove();
+
+  openCategoryPage();
 }
 
 function toggleActivity(activityId) {
@@ -1011,11 +1014,11 @@ function toggleActivity(activityId) {
   if (tasksContainer.style.display === 'none' || tasksContainer.classList.contains('collapsed')) {
     tasksContainer.style.display = 'block';
     tasksContainer.classList.remove('collapsed');
-    toggleButton.innerHTML = '&gt;'; 
+    toggleButton.innerHTML = '&gt;';
   } else {
     tasksContainer.style.display = 'none';
     tasksContainer.classList.add('collapsed');
-    toggleButton.innerHTML = '&lt;'; 
+    toggleButton.innerHTML = '&lt;';
   }
 }
 
