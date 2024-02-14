@@ -1132,6 +1132,7 @@ function JsonToCategory() {
       <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
       <span id="category-text-${catCounter}">${category.categoryName}</span>
       <button input="button" onclick="addActivity(${catCounter})"> + </button>
+      <div id="activities-container-${catCounter}"></div> 
     `;
 
     const actContainer = document.createElement('div');
