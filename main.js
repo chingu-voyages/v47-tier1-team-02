@@ -1267,11 +1267,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Search functionality 
+// Search functionality
 // Perform search and display results
 const performSearch = (query, container) => {
   if (!query.trim()) {
-    document.querySelector(container).style.display = 'none'; 
+    document.querySelector(container).style.display = 'none';
     return;
   }
 
@@ -1279,9 +1279,9 @@ const performSearch = (query, container) => {
   const searchResults = [];
 
   // Search the jsonObj for tasks matching the query
-  jsonObj.forEach(category => {
-    category.activityTypes.forEach(activity => {
-      activity.Tasks.forEach(task => {
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activity) => {
+      activity.Tasks.forEach((task) => {
         if (task.taskName.toLowerCase().includes(searchQuery)) {
           searchResults.push(task);
         }
@@ -1295,29 +1295,29 @@ const performSearch = (query, container) => {
 // Function to display search results
 const displaySearchResults = (results, container) => {
   const resultsContainer = document.querySelector(container);
-  resultsContainer.innerHTML = ''; 
+  resultsContainer.innerHTML = '';
   if (results.length === 0) {
-    resultsContainer.style.display = 'none'; 
+    resultsContainer.style.display = 'none';
     return;
   }
 
-  results.forEach(task => {
+  results.forEach((task) => {
     const resultElement = document.createElement('div');
     resultElement.textContent = task.taskName;
     resultElement.classList.add('search-result-item');
     resultElement.onclick = () => {
       searchDetails(task.taskName);
-    }
+    };
     resultsContainer.appendChild(resultElement);
   });
 
-  resultsContainer.style.display = 'block'; 
+  resultsContainer.style.display = 'block';
 };
 
 // Attach input event listeners to search inputs
 const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
 searchInputs.forEach((input, index) => {
-  const isDesktop = index === 0; 
+  const isDesktop = index === 0;
   let resultsContainerSelector;
   if (isDesktop) {
     resultsContainerSelector = '.search-results-container-desktop';
@@ -1333,21 +1333,17 @@ searchInputs.forEach((input, index) => {
 // Link the tasks from the search results to their respective description pages
 function searchDetails(taskName) {
   let found = false;
-  jsonObj.some(category => {
-    return category.activityTypes.some(activityType => {
-      return activityType.Tasks.some(task => {
-        if (task.taskName === taskName) {
-          const identifier = task.days[0].slice(0, 10) + "-" + taskName;
-          openDetail(identifier);
-          found = true;
-          return true;
-        }
-      });
-    });
-  });
-  
+  jsonObj.some((category) => category.activityTypes.some((activityType) => activityType.Tasks.some((task) => {
+    if (task.taskName === taskName) {
+      const identifier = `${task.days[0].slice(0, 10)}-${taskName}`;
+      openDetail(identifier);
+      found = true;
+      return true;
+    }
+  })));
+
   if (!found) {
-    console.log("Task not found");
+    console.log('Task not found');
   }
 }
 
@@ -1415,27 +1411,29 @@ function prepareFileForConfirmation() {
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
 
+/*
+  Prevents the No button to be clicked if the name input is empty and
+  saves the name of the user to the Local Storage
+*/
 
-// Prevents the No button to be clicked if the name input is empty and saves the name of the user to the Local Storage
-document.getElementById('decline-btn').addEventListener('click', function(event) {
+document.getElementById('decline-btn').addEventListener('click', (event) => {
   const userName = introFormInput.value.trim();
   if (!userName) {
-    alert('Please enter your name.'); 
+    alert('Please enter your name.');
     event.preventDefault();
     event.stopPropagation();
-    return; 
+    return;
   }
 
   localStorage.setItem('name', userName);
-  displayGreeting(); 
+  displayGreeting();
 
   introForm.style.display = 'none';
   welcomePage.style.display = 'none';
-  introFormInput.value = ''; 
+  introFormInput.value = '';
   matrix.style.display = 'block';
   header.style.display = 'block';
 });
-
 
 function openSettings() {
   settingsPage.style.display = 'block';
@@ -1462,7 +1460,6 @@ function exportJSON() {
   document.body.removeChild(downloadLink);
 }
 
-
 /* link back to the intro page
 function openIntroPage() {
   checklistPage.style.display = 'none';
@@ -1475,8 +1472,8 @@ function openIntroPage() {
 function resetLocalStorage() {
   if (confirm('Are you sure you want to reset all saved data? This action cannot be undone.')) {
     localStorage.clear();
-    jsonObj = []; 
-    location.reload(); 
+    jsonObj = [];
+    location.reload();
   }
 }
 
@@ -1495,4 +1492,3 @@ function displayGreeting() {
 document.addEventListener('DOMContentLoaded', () => {
   displayGreeting();
 });
-
