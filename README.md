@@ -39,9 +39,9 @@ Open our app on [Netlify](#)!
 - **Spark:**
 
 ### Developers: 
-- **Name:**
-- **Bio:**
-- **Spark:**
+- **Name:**   Keerthi Kumar
+- **Bio:**    I like collaborating and working in a team to build something we can all take pride in and this voyage gave me just that.
+- **Spark:**  I find that communication and consistency are key to making any project a success.
 <br/>
 
 - **Name:**
