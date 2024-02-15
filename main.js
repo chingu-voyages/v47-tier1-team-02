@@ -1533,6 +1533,8 @@ function handleFile(file) {
 
       // Log a success message
       console.log('JSON data saved to local storage.');
+
+      loadMatrix(date);
     } catch (error) {
       // Handle errors during JSON parsing
       console.error('Error parsing JSON file:', error);
@@ -1564,7 +1566,6 @@ function prepareFileForConfirmation() {
       // Add event listener to the "Confirm" button
       confirmBtn.addEventListener('click', () => {
         handleFile(fileInput.files[0]);
-        deviceLoad(date);
       });
     }
   } else {
