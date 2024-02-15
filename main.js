@@ -248,13 +248,13 @@ function showDayDropDown(id = null) {
   }
   const dropDownHTML = `
     <select id="day-dropdown" class="add-day-element">
-        <option value="every Sunday">every Sunday</option>
-        <option value="every Monday">every Monday</option>
-        <option value="every Tuesday">every Tuesday</option>
-        <option value="every Wednesday">every Wednesday</option>
-        <option value="every Thursday">every Thursday</option>
-        <option value="every Friday">every Friday</option>
-        <option value="every Saturday">every Saturday</option>
+        <option value="Sunday">every Sunday</option>
+        <option value="Monday">every Monday</option>
+        <option value="Tuesday">every Tuesday</option>
+        <option value="Wednesday">every Wednesday</option>
+        <option value="Thursday">every Thursday</option>
+        <option value="Friday">every Friday</option>
+        <option value="Saturday">every Saturday</option>
     </select>
   `;
   if (addButton) {
