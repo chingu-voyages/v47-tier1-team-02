@@ -107,32 +107,56 @@ function giveDay(iDate) {
 function openDetail(id) {
   if (document.getElementById('detailed-desc') == null) {
     // id format -> taskDate-taskName
+    let taskCat; let taskAct; let taskDesc = ''; let taskDays; let detailId; let day; let taskDate; let taskName;
+    if (categoryPage.style.display === 'block') {
+      const catActTask = id.split(', ');
+      const catCat = catActTask[0];
+      const catAct = catActTask[1];
+      const catTask = catActTask[2];
+      taskName = catTask;
+      detailId = id;
 
-    const taskDate = id.slice(0, 10);
-
-    const taskName = id.slice(11);
-    const detailId = `${taskDate}-${taskName}`;
-
-    // To check for due date with day as well
-    const day = giveDay(taskDate);
-
-    let taskCat = ''; let taskAct = ''; let taskDesc = ''; let taskDays = '';
-
-    jsonObj.forEach((category) => {
-      category.activityTypes.forEach((activityType) => {
-        activityType.Tasks.forEach((task) => {
-          if (task.taskName === taskName) {
-            // Prevents same task name mismatch
-            if (task.days.includes(taskDate) || task.days.includes(day)) {
-              taskDesc = task.taskDescription;
-              taskCat = category.categoryName;
-              taskAct = activityType.activityName;
-              taskDays = task.days;
+      jsonObj.forEach((category) => {
+        if (category.categoryName.trim() === catCat) {
+          category.activityTypes.forEach((activityType) => {
+            if (activityType.activityName.trim() === catAct) {
+              activityType.Tasks.forEach((task) => {
+                if (task.taskName.trim() === catTask) {
+                  taskDesc = task.taskDescription;
+                  taskCat = category.categoryName;
+                  taskAct = activityType.activityName;
+                  taskDays = task.days;
+                }
+              });
             }
-          }
+          });
+        }
+      });
+    } else {
+      taskDate = id.slice(0, 10);
+
+      taskName = id.slice(11);
+      detailId = `${taskDate}-${taskName}`;
+
+      // To check for due date with day as well
+      day = giveDay(taskDate);
+
+      jsonObj.forEach((category) => {
+        category.activityTypes.forEach((activityType) => {
+          activityType.Tasks.forEach((task) => {
+            if (task.taskName === taskName) {
+              // Prevents same task name mismatch
+              if (task.days.includes(taskDate) || task.days.includes(day)) {
+                taskDesc = task.taskDescription;
+                taskCat = category.categoryName;
+                taskAct = activityType.activityName;
+                taskDays = task.days;
+              }
+            }
+          });
         });
       });
-    });
+    }
 
     const overlayDesc = document.createElement('div');
     // Class overlays on top of all elements
@@ -151,12 +175,18 @@ function openDetail(id) {
       `;
     });
 
+    let headerText;
+    if (categoryPage.style.display === 'block') {
+      headerText = 'Edit Task';
+    } else {
+      headerText = `${day} (${taskDate})`;
+    }
     // On clicking any of the attributes in the description, give id (name and date) to editDesc
     overlayDesc.innerHTML = `
       <div id="back-n-day">
         <img src="images/back.png" id="back-img" onclick="backFromDesc()">
 
-        <span id="desc-day">${day} (${taskDate})</span>
+        <span id="desc-day">${headerText}</span>
       </div>
 
       <div id="task-desc">
@@ -172,10 +202,10 @@ function openDetail(id) {
           </div>
         </div>
         <div id="category-desc" class="desc-item">Category: 
-            <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')"> ${taskCat}</span>
+            <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')">${taskCat}</span>
         </div>
         <div id="activity-desc" class="desc-item">Activity: 
-            <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')"> ${taskAct}</span>
+            <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')">${taskAct}</span>
         </div>
         <div id="detail-desc" class="desc-item">Description: 
             <span id="${detailId}-description" class="desc-element" onclick="editDesc('${detailId}', 'description')">${taskDesc}</span>
@@ -183,7 +213,7 @@ function openDetail(id) {
 
         <div id="button-div" class="desc-item">
           <button id="save-button" onclick="saveDesc('${detailId}')">Save</button>
-          <button id="delete-button" onclick="DeleteTask('${detailId}')">Delete Task</button>
+          <button id="delete-button" onclick="deleteTask('${detailId}')">Delete Task</button>
         <div>
       </div>
     `;
@@ -199,7 +229,7 @@ function addDay(id) {
     <input id="date-entry" type="date" class="add-day-element">
     <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
     <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
-    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')" class="add-day-element">Add day</button>
+    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')" class="add-day-element">Choose Day (Weekly)</button>
   `;
 }
 
@@ -218,13 +248,13 @@ function showDayDropDown(id = null) {
   }
   const dropDownHTML = `
     <select id="day-dropdown" class="add-day-element">
-        <option value="Sunday">Sunday</option>
-        <option value="Monday">Monday</option>
-        <option value="Tuesday">Tuesday</option>
-        <option value="Wednesday">Wednesday</option>
-        <option value="Thursday">Thursday</option>
-        <option value="Friday">Friday</option>
-        <option value="Saturday">Saturday</option>
+        <option value="every Sunday">every Sunday</option>
+        <option value="every Monday">every Monday</option>
+        <option value="every Tuesday">every Tuesday</option>
+        <option value="every Wednesday">every Wednesday</option>
+        <option value="every Thursday">every Thursday</option>
+        <option value="every Friday">every Friday</option>
+        <option value="every Saturday">every Saturday</option>
     </select>
   `;
   if (addButton) {
@@ -364,13 +394,19 @@ function editDesc(id, element) {
   });
 
   entryBox.focus();
+
+  // Add the editing buttons only on the Category page
+  if (categoryPage.style.display === 'block') {
+    createEditButtons(id, entryBox, textBox);
+  }
 }
 
 // Set onclick functions to each task element
 function setListen() {
   document.querySelectorAll('.task-element').forEach((element) => {
     let id = element.id.replace('-ele', '');
-    id = id.replace('ele-checklist', '');
+    id = id.replace('-checklist', '');
+
     element.addEventListener('click', () => openDetail(id));
   });
 }
@@ -638,22 +674,106 @@ function deviceLoad(newDate) {
   }
 }
 // eslint-disable-next-line no-unused-vars
-function DeleteTask(id) {
-  const taskName = id.slice(11);
+function deleteTask(id) {
+  if (categoryPage.style.display === 'block') {
+    const catActTask = id.split(', ');
+    const catName = catActTask[0];
+    const actName = catActTask[1];
+    const taskName = catActTask[2];
 
-  jsonObj.forEach((category) => {
-    category.activityTypes.forEach((activityType) => {
-      activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
+    jsonObj.forEach((category) => {
+      if (category.categoryName === catName) {
+        category.activityTypes.forEach((activityType) => {
+          if (activityType.activityName === actName) {
+            activityType.Tasks.forEach((task) => {
+              if (task.taskName === taskName) {
+                activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
+              }
+            });
+          }
+        });
+      }
     });
-  });
+    openCategoryPage();
+  } else {
+    const taskName = id.slice(11);
+
+    jsonObj.forEach((category) => {
+      category.activityTypes.forEach((activityType) => {
+        activityType.Tasks = activityType.Tasks.filter((task) => task.taskName !== taskName);
+      });
+    });
+    jsonString = JSON.stringify(jsonObj);
+    localStorage.setItem('taskData', jsonString);
+    deviceLoad(date);
+  }
   jsonString = JSON.stringify(jsonObj);
   localStorage.setItem('taskData', jsonString);
-  deviceLoad(date);
   document.getElementById('detailed-desc').remove();
+}
+
+function saveDescCatPage(id) {
+  const catActTask = id.split(', ');
+  const catName = catActTask[0];
+  const actName = catActTask[1];
+  const taskName = catActTask[2];
+
+  const nameId = `${id}-name`;
+  const categoryId = `${id}-category`;
+  const activityId = `${id}-activity`;
+  const descId = `${id}-description`;
+
+  const updatedName = document.getElementById(nameId).textContent;
+  const updatedCategory = document.getElementById(categoryId).textContent;
+  const updatedActivity = document.getElementById(activityId).textContent;
+  const updatedDesc = document.getElementById(descId).textContent;
+
+  let datesList = [];
+  const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
+  dateWidgets.forEach((element) => {
+    datesList.push(document.getElementById(element.id).textContent);
+  });
+  datesList = [...new Set(datesList)];
+
+  jsonObj.forEach((category) => {
+    if (category.categoryName === catName) {
+      category.activityTypes.forEach((activityType) => {
+        if (activityType.activityName === actName) {
+          activityType.Tasks.forEach((task) => {
+            if (task.taskName === taskName) {
+              task.taskName = updatedName.trim();
+              task.days = datesList;
+              task.taskDescription = updatedDesc.trim();
+              category.categoryName = updatedCategory.trim();
+              activityType.activityName = updatedActivity.trim();
+            }
+          });
+        }
+      });
+    }
+  });
+
+  jsonString = JSON.stringify(jsonObj);
+  localStorage.setItem('taskData', jsonString);
+  const selectId = `${catName}, ${actName}, ${taskName}`;
+
+  const nameSpan = document.getElementById(`name-${selectId}`);
+  const descSpan = document.getElementById(`desc-${selectId}`);
+  const dateSpan = document.getElementById(`date-${selectId}`);
+
+  const newId = `${updatedCategory}, ${updatedActivity}, ${updatedName}`;
+
+  nameSpan.setAttribute('id', `name-${newId}`);
+  descSpan.setAttribute('id', `desc-${newId}`);
+  dateSpan.setAttribute('id', `date-${newId}`);
+  openCategoryPage();
 }
 
 // eslint-disable-next-line no-unused-vars
 function saveDesc(id) {
+  if (categoryPage.style.display === 'block') {
+    saveDescCatPage(id);
+  }
   const taskDate = id.slice(0, 10);
   const taskName = id.slice(11);
   const day = giveDay(taskDate);
@@ -686,8 +806,8 @@ function saveDesc(id) {
             task.taskName = updatedName.trim();
             task.days = datesList;
             task.taskDescription = updateddesc;
-            category.categoryName = updatedcategory;
-            activityType.activityName = updatedactivity;
+            category.categoryName = updatedcategory.trim();
+            activityType.activityName = updatedactivity.trim();
             /* eslint-enable no-param-reassign */
           }
         }
@@ -810,6 +930,7 @@ function addCategory() {
   const categoryInputHtml = `
         <input type="text" id='new-category-name' placeholder="Category name"> 
         <button onclick="submitCategoryName()">Add</button>
+        <button onclick="cancelCategoryAdd('category-entry')">Cancel</button>
     `;
   document.getElementById('category-entry').innerHTML = categoryInputHtml;
 }
@@ -841,7 +962,7 @@ function submitCategoryName() {
   // HTML for new category
   newCategoryDiv.innerHTML = `
         <button input="button" onclick="toggleCategory(${categoryIdCounter})">&gt;</button>
-        <span id="category-text-${categoryIdCounter}">${categoryName}</span>
+        <span id="category-text-${categoryIdCounter}" onclick="editCategoryPageDesc('${categoryIdCounter}', 'categoryName')">${categoryName}</span>
         <button input="button" onclick="addActivity(${categoryIdCounter})"> + </button>
         <div id="activities-container-${categoryIdCounter}"></div> 
     `;
@@ -852,10 +973,22 @@ function submitCategoryName() {
   document.getElementById('category-entry').innerHTML = '';
 
   categoryIdCounter += 1;
+  openCategoryPage();
 }
 
 function toggleCategory(categoryId) {
-  console.log(`Toggle category ID: ${categoryId}`);
+  const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
+  const toggleButton = document.querySelector(`#category-${categoryId} > button`);
+
+  if (activitiesContainer.style.display === 'none' || activitiesContainer.classList.contains('collapsed')) {
+    activitiesContainer.style.display = 'block';
+    activitiesContainer.classList.remove('collapsed');
+    toggleButton.innerHTML = '&gt;';
+  } else {
+    activitiesContainer.style.display = 'none';
+    activitiesContainer.classList.add('collapsed');
+    toggleButton.innerHTML = '&lt;';
+  }
 }
 
 // 2. Adding the activity
@@ -868,14 +1001,24 @@ function addActivity(categoryId) {
 
   // Create input for new activity name
   const activityInputHtml = `
-        <div class="activity-input">
+        <div id="activity-input" class="activity-input">
             <input type="text" id='new-activity-name-${categoryId}' class="new-activity-name" placeholder="Activity name"> 
             <button onclick="submitActivityName(${categoryId})">Add</button>
+            <button onclick="cancelCategoryAdd('activity-input')">Cancel</button>
         </div>
     `;
 
   // Insert the input field into the category div
   categoryDiv.insertAdjacentHTML('beforeend', activityInputHtml);
+}
+
+function cancelCategoryAdd(id) {
+  const addDiv = document.getElementById(id);
+  if (id === 'category-entry') {
+    addDiv.innerHTML = '';
+  } else {
+    addDiv.remove();
+  }
 }
 
 function submitActivityName(categoryId) {
@@ -905,7 +1048,7 @@ function submitActivityName(categoryId) {
   // HTML for new activity
   newActivityDiv.innerHTML = `
         <button input="button" onclick="toggleActivity('${activityId}')">&gt;</button>
-        <span id="activity-text-${activityId}">${activityName}</span>
+        <span id="activity-text-${activityId}" onclick="editCategoryPageDesc('${activityId}', 'activityName')">${activityName}</span>
         <button input="button" onclick="addTask('${activityId}')"> + </button>
         <div id="tasks-container-${activityId}"></div> <!-- This will hold the tasks for this activity -->
     `;
@@ -915,10 +1058,23 @@ function submitActivityName(categoryId) {
 
   // Remove the input field after adding the activity
   activityNameInput.parentElement.remove();
+
+  openCategoryPage();
 }
 
 function toggleActivity(activityId) {
-  console.log(`Toggle activity ID: ${activityId}`);
+  const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
+  const toggleButton = document.querySelector(`#activity-${activityId} > button`);
+
+  if (tasksContainer.style.display === 'none' || tasksContainer.classList.contains('collapsed')) {
+    tasksContainer.style.display = 'block';
+    tasksContainer.classList.remove('collapsed');
+    toggleButton.innerHTML = '&gt;';
+  } else {
+    tasksContainer.style.display = 'none';
+    tasksContainer.classList.add('collapsed');
+    toggleButton.innerHTML = '&lt;';
+  }
 }
 
 // 3. Adding the task
@@ -935,8 +1091,11 @@ function addTask(activityId) {
             <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
             <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
             <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
-            <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Add day</button>
-            <button id="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
+            <div class="task-input-buttons">
+              <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Choose Day (Weekly)</button>
+              <button id="new-task-submit" class="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
+              <button id="new-task-cancel" class="new-task-cancel" onclick="cancelCategoryAdd('task-input')">Cancel</button>
+            </div>
         </div>
     `;
 
@@ -978,6 +1137,7 @@ function submitTaskName(activityId) {
 
   const catCount = activityId.slice(0, 1) - 1;
   const actCount = activityId.slice(2, 3) - 1;
+
   const tasksContainer = document.getElementById(`tasks-container-${activityId}`);
   // Calculate new task ID based on existing tasks
   // const existingTasks = tasksContainer.getElementsByClassName('task');
@@ -992,8 +1152,8 @@ function submitTaskName(activityId) {
 
   // HTML for new task
   newTaskDiv.innerHTML = `
-        <span id="task-name-${taskId}">${taskName}</span>
-        <span id="task-desc-${taskId}">${taskDesc}</span>
+        <span id="task-name-${taskId}" onclick="editCategoryPageDesc('${taskId}', 'taskName')">${taskName}</span>
+        <span id="task-desc-${taskId}" onclick="editCategoryPageDesc('${taskId}', 'taskDesc')">${taskDesc}</span>
         <span id="task-date-${taskId}">${taskDate}</span>
     `;
 
@@ -1005,6 +1165,7 @@ function submitTaskName(activityId) {
 
   // Remove the input fields after adding the task
   taskNameInput.parentElement.remove();
+  openCategoryPage();
 }
 
 function JsonToCategory() {
@@ -1026,6 +1187,7 @@ function JsonToCategory() {
       <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
       <span id="category-text-${catCounter}">${category.categoryName}</span>
       <button input="button" onclick="addActivity(${catCounter})"> + </button>
+      <div id="activities-container-${catCounter}"></div> 
     `;
 
     const actContainer = document.createElement('div');
@@ -1050,19 +1212,22 @@ function JsonToCategory() {
       const taskContainer = document.createElement('div');
       taskContainer.setAttribute('id', `tasks-container-${catCounter}-${actCounter}`);
 
+      actDiv.appendChild(taskContainer);
       actContainer.appendChild(actDiv);
       catDiv.appendChild(actContainer);
 
       activityType.Tasks.forEach((task) => {
         taskCounter += 1;
+        const id = `${catCounter}-${actCounter}-${taskCounter}`;
         const taskDiv = document.createElement('div');
-        taskDiv.setAttribute('id', `task-${catCounter}-${actCounter}-${taskCounter}`);
+        taskDiv.setAttribute('id', `task-${id}`);
         taskDiv.classList.add('task');
 
+        const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
-          <span id="task-name-${catCounter}-${actCounter}-${taskCounter}">${task.taskName}</span>
-          <span id="task-desc-${catCounter}-${actCounter}-${taskCounter}">${task.taskDescription}</span>
-          <span id="task-date-${catCounter}-${actCounter}-${taskCounter}">${task.days}</span>
+          <span onclick="openDetail('${catActTask}')" id="name-${catActTask}">${task.taskName}</span>
+          <span onclick="openDetail('${catActTask}')" id="desc-${catActTask}">${task.taskDescription}</span>
+          <span onclick="openDetail('${catActTask}')" id="date-${catActTask}">${task.days}</span>
         `;
 
         taskContainer.appendChild(taskDiv);
@@ -1103,7 +1268,7 @@ function categoryToJson(category) {
 
   // Disallow duplicate entries
   if (index === -1) {
-    const categoryJSON = { categoryName: category, activityTypes: [] };
+    const categoryJSON = { categoryName: category.trim(), activityTypes: [] };
     if (jsonObj === null) {
       jsonObj = [];
     }
@@ -1120,7 +1285,7 @@ function activityToJson(categoryId, activity) {
   const index = jsonObj.findIndex((cat) => cat.categoryName === catText);
 
   const activityjson = {
-    activityName: activity,
+    activityName: activity.trim(),
     Tasks: [],
   };
 
@@ -1266,11 +1431,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Search functionality 
+// Search functionality
 // Perform search and display results
 const performSearch = (query, container) => {
   if (!query.trim()) {
-    document.querySelector(container).style.display = 'none'; 
+    document.querySelector(container).style.display = 'none';
     return;
   }
 
@@ -1278,9 +1443,9 @@ const performSearch = (query, container) => {
   const searchResults = [];
 
   // Search the jsonObj for tasks matching the query
-  jsonObj.forEach(category => {
-    category.activityTypes.forEach(activity => {
-      activity.Tasks.forEach(task => {
+  jsonObj.forEach((category) => {
+    category.activityTypes.forEach((activity) => {
+      activity.Tasks.forEach((task) => {
         if (task.taskName.toLowerCase().includes(searchQuery)) {
           searchResults.push(task);
         }
@@ -1294,29 +1459,29 @@ const performSearch = (query, container) => {
 // Function to display search results
 const displaySearchResults = (results, container) => {
   const resultsContainer = document.querySelector(container);
-  resultsContainer.innerHTML = ''; 
+  resultsContainer.innerHTML = '';
   if (results.length === 0) {
-    resultsContainer.style.display = 'none'; 
+    resultsContainer.style.display = 'none';
     return;
   }
 
-  results.forEach(task => {
+  results.forEach((task) => {
     const resultElement = document.createElement('div');
     resultElement.textContent = task.taskName;
     resultElement.classList.add('search-result-item');
     resultElement.onclick = () => {
       searchDetails(task.taskName);
-    }
+    };
     resultsContainer.appendChild(resultElement);
   });
 
-  resultsContainer.style.display = 'block'; 
+  resultsContainer.style.display = 'block';
 };
 
 // Attach input event listeners to search inputs
 const searchInputs = [document.getElementById('searchInputDesktop'), document.getElementById('searchInputMobile')];
 searchInputs.forEach((input, index) => {
-  const isDesktop = index === 0; 
+  const isDesktop = index === 0;
   let resultsContainerSelector;
   if (isDesktop) {
     resultsContainerSelector = '.search-results-container-desktop';
@@ -1332,21 +1497,17 @@ searchInputs.forEach((input, index) => {
 // Link the tasks from the search results to their respective description pages
 function searchDetails(taskName) {
   let found = false;
-  jsonObj.some(category => {
-    return category.activityTypes.some(activityType => {
-      return activityType.Tasks.some(task => {
-        if (task.taskName === taskName) {
-          const identifier = task.days[0].slice(0, 10) + "-" + taskName;
-          openDetail(identifier);
-          found = true;
-          return true;
-        }
-      });
-    });
-  });
-  
+  jsonObj.some((category) => category.activityTypes.some((activityType) => activityType.Tasks.some((task) => {
+    if (task.taskName === taskName) {
+      const identifier = `${task.days[0].slice(0, 10)}-${taskName}`;
+      openDetail(identifier);
+      found = true;
+      return true;
+    }
+  })));
+
   if (!found) {
-    console.log("Task not found");
+    console.log('Task not found');
   }
 }
 
@@ -1414,26 +1575,24 @@ function prepareFileForConfirmation() {
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
 
-
 // Prevents the No button to be clicked if the name input is empty and saves the name of the user to the Local Storage
-document.getElementById('decline-btn').addEventListener('click', function(event) {
+document.getElementById('decline-btn').addEventListener('click', (event) => {
   const userName = introFormInput.value.trim();
   if (!userName) {
-    alert('Please enter your name.'); 
+    alert('Please enter your name.');
     event.preventDefault();
     event.stopPropagation();
-    return; 
+    return;
   }
 
   localStorage.setItem('name', userName);
 
   introForm.style.display = 'none';
   welcomePage.style.display = 'none';
-  introFormInput.value = ''; 
+  introFormInput.value = '';
   matrix.style.display = 'block';
   header.style.display = 'block';
 });
-
 
 function openSettings() {
   settingsPage.style.display = 'block';
@@ -1460,7 +1619,6 @@ function exportJSON() {
   document.body.removeChild(downloadLink);
 }
 
-
 /* link back to the intro page
 function openIntroPage() {
   checklistPage.style.display = 'none';
@@ -1473,9 +1631,88 @@ function openIntroPage() {
 function resetLocalStorage() {
   if (confirm('Are you sure you want to reset all saved data? This action cannot be undone.')) {
     localStorage.clear();
-    jsonObj = []; 
-    location.reload(); 
+    jsonObj = [];
+    location.reload();
   }
 }
 
+// Edit the names on the Category page
+function editCategoryPageDesc(id, elementType) {
+  let elementId = id;
+  let editableElement = null;
 
+  // Find the element that was clicked on. The elementId is based on the elementType and the id
+  switch (elementType) {
+    case 'categoryName':
+      elementId = `category-text-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    case 'activityName':
+      elementId = `activity-text-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    case 'taskName':
+      elementId = `task-name-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    case 'taskDesc':
+      elementId = `task-desc-${id}`;
+      editableElement = document.getElementById(elementId);
+      break;
+    default:
+      textBox = '';
+      console.error('Unsupported element type for editing');
+      return;
+  }
+
+  if (!editableElement) {
+    console.error('Element not found for editing:', elementId);
+    return;
+  }
+
+  // Replace the element with an input for editing
+  const inputBox = document.createElement('input');
+  inputBox.type = 'text';
+  inputBox.value = editableElement.textContent;
+  inputBox.classList.add('edit-input');
+
+  // On clicking away from the box, change entry box to text
+  inputBox.addEventListener('blur', () => {
+    const newValue = inputBox.value;
+    editableElement.textContent = newValue;
+    inputBox.replaceWith(editableElement);
+  });
+
+  editableElement.replaceWith(inputBox);
+  inputBox.focus();
+}
+
+// Function that adds a save button, a cancel button and a delete button to the elements
+function createEditButtons(id) {
+  // Create the Save button
+  const saveButton = document.createElement('button');
+  saveButton.textContent = 'Save';
+  saveButton.addEventListener('click', () => {
+    saveDesc(id);
+  });
+
+  // Create the Cancel button
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+  cancelButton.addEventListener('click', () => {
+    location.reload();
+  });
+
+  // Create the Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.addEventListener('click', () => {
+    deleteTask(id);
+  });
+
+  // Append buttons
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.appendChild(saveButton);
+  buttonsContainer.appendChild(cancelButton);
+  buttonsContainer.appendChild(deleteButton);
+}
