@@ -51,6 +51,7 @@ introForm.addEventListener('submit', (e) => {
   const inputValue = introFormData.get('user');
 
   localStorage.setItem('name', inputValue);
+  displayGreeting();
 
   introFormInput.value = '';
   intro.style.display = 'none';
@@ -1575,7 +1576,11 @@ function prepareFileForConfirmation() {
 // Add event listener to the file input
 document.getElementById('fileInput').addEventListener('change', prepareFileForConfirmation);
 
-// Prevents the No button to be clicked if the name input is empty and saves the name of the user to the Local Storage
+/*
+  Prevents the No button to be clicked if the name input is empty and
+  saves the name of the user to the Local Storage
+*/
+
 document.getElementById('decline-btn').addEventListener('click', (event) => {
   const userName = introFormInput.value.trim();
   if (!userName) {
@@ -1586,6 +1591,7 @@ document.getElementById('decline-btn').addEventListener('click', (event) => {
   }
 
   localStorage.setItem('name', userName);
+  displayGreeting();
 
   introForm.style.display = 'none';
   welcomePage.style.display = 'none';
@@ -1715,4 +1721,18 @@ function createEditButtons(id) {
   buttonsContainer.appendChild(saveButton);
   buttonsContainer.appendChild(cancelButton);
   buttonsContainer.appendChild(deleteButton);
+}// Display hello message
+// Function to display greeting
+function displayGreeting() {
+  const userName = localStorage.getItem('name');
+  if (userName) {
+    const greetingElement = document.getElementById('greeting');
+    greetingElement.textContent = `Hello, ${userName}!`;
+    greetingElement.style.display = 'block';
+  }
 }
+
+// Call displayGreeting on page load to handle page reloads
+document.addEventListener('DOMContentLoaded', () => {
+  displayGreeting();
+});
