@@ -977,6 +977,7 @@ function submitCategoryName() {
   openCategoryPage();
 }
 
+
 function toggleCategory(categoryId) {
   const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
   const toggleButton = document.querySelector(`#category-${categoryId} > button`);
@@ -1188,7 +1189,6 @@ function JsonToCategory() {
       <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
       <span id="category-text-${catCounter}">${category.categoryName}</span>
       <button input="button" onclick="addActivity(${catCounter})"> + </button>
-      <div id="activities-container-${catCounter}"></div> 
     `;
 
     const actContainer = document.createElement('div');
