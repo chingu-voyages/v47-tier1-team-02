@@ -85,12 +85,6 @@ introForm.addEventListener('submit', (e) => {
   header.style.display = 'block';
 });
 
-// Remove and added to previous if statement
-// if (localStorage.getItem('taskData')) {
-//   jsonString = localStorage.getItem('taskData');
-//   jsonObj = JSON.parse(jsonString);
-// }
-
 // Convert date object to DD/MM/YYYY string format
 function dateFormat(fDate) {
   const dd = String(fDate.getDate()).padStart(2, '0');
@@ -430,11 +424,6 @@ function editDesc(id, element) {
   });
 
   entryBox.focus();
-
-  // Add the editing buttons only on the Category page
-  // if (categoryPage.style.display === 'block') {
-  //   createEditButtons(id, entryBox, textBox);
-  // }
 }
 
 // Set onclick functions to each task element - to open task description page
