@@ -949,7 +949,11 @@ function deleteTask(id) {
     });
     jsonString = JSON.stringify(jsonObj);
     localStorage.setItem('taskData', jsonString);
-    deviceLoad(date);
+    if (matrix.style.display === 'block') {
+      deviceLoad(date);
+    } else if (checklistPage.style.display === 'block') {
+      openChecklist();
+    }
   }
   jsonString = JSON.stringify(jsonObj);
   localStorage.setItem('taskData', jsonString);
