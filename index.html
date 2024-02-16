@@ -25,31 +25,33 @@
                 <div class="search-container">
                     <div class="search-icon-container">
                         <img src="images/search-icon.png" class="search-icon-desktop" alt="Search">
-                        <input type="text" id="searchInputDesktop" class="search-input-desktop" placeholder="Search tasks...">
-                        <div class="search-results-container-desktop" style="display:none;"></div>                       
+                        <input type="text" id="searchInputDesktop" class="search-input-desktop"
+                            placeholder="Search tasks...">
+                        <div class="search-results-container-desktop" style="display:none;"></div>
                     </div>
                 </div>
                 <div class="logo">
                     <img src="images/ontrack-logo.png" alt="OnTrack">
                 </div>
-            </div> 
-                <div id="nav-menu" class="nav-menu">
-                    <ul class="nav-menu-list">
-                        <li class="nav-search-container">
-                            <div class="search-icon-container">
-                                <img src="images/search-icon.png" class="search-icon-mobile" alt="Search">
-                                <input type="text" id="searchInputMobile" class="search-input-mobile" placeholder="Search tasks...">
-                                <div class="search-results-container-mobile" style="display:none;"></div>                       
-                            </div>
-                        </li>
-                        <li><span onclick="openCategoryPage()">Categories</span></li>
-                        <li><span onclick="openChecklist()">Today's Tasks</span></li>
-                        <li><span onclick="openSettings()">Settings</span></li>
-                    </ul>
-                </div>
+            </div>
+            <div id="nav-menu" class="nav-menu">
+                <ul class="nav-menu-list">
+                    <li class="nav-search-container">
+                        <div class="search-icon-container">
+                            <img src="images/search-icon.png" class="search-icon-mobile" alt="Search">
+                            <input type="text" id="searchInputMobile" class="search-input-mobile"
+                                placeholder="Search tasks...">
+                            <div class="search-results-container-mobile" style="display:none;"></div>
+                        </div>
+                    </li>
+                    <li><span onclick="openCategoryPage()">Categories</span></li>
+                    <li><span onclick="openChecklist()">Today's Tasks</span></li>
+                    <li><span onclick="openSettings()">Settings</span></li>
+                </ul>
+            </div>
         </nav>
         <div id="greeting"></div>
-    </header>    
+    </header>
     <section class="intro" id="intro">
         <div class="welcome-page" id="welcome-page">
             <div class="title">
@@ -124,9 +126,9 @@
         <img src="images/back.png" id="back-img" onclick="backFromCategory()">
         <button id="add-category-button" onclick="addCategory()">Add category</button>
         <div id="category-entry"></div>
-        <div id="categories-container"></div> 
+        <div id="categories-container"></div>
     </section>
-    
+
     <section id="checklist-page">
     </section>
 
@@ -134,9 +136,10 @@
         <div id="settings-back">
             <img src="images/back.png" id="back-img" onclick="backFromSettings()">
         </div>
-        
+
         <div id="export-json">
-            <span class="settings-text">Export all of your saved tasks and their data as a JSON file and share it with anyone</span>
+            <span class="settings-text">Export all of your saved tasks and their data as a JSON file and share it with
+                anyone</span>
             <button onclick="exportJSON()">Export task list</button>
         </div>
 
@@ -176,13 +179,13 @@
                 <li class="member-name">
                     <a href="https://github.com/andreiolteanu555" target="_blank">Andrei</a>
                 </li>
-                <li class="member-name" >
+                <li class="member-name">
                     <a href="https://github.com/Hudamab95" target="_blank">Huda</a>
                 </li>
-                <li class="member-name" >
+                <li class="member-name">
                     <a href="https://github.com/keerthikmr" target="_blank">Keerthi</a>
                 </li>
-                <li class="member-name" >
+                <li class="member-name">
                     <a href="https://github.com/gunstarpro" target="_blank">Alex</a>
                 </li>
             </div>
