@@ -21,6 +21,7 @@ const settingsPage = document.getElementById('settings-page');
 const header = document.querySelector('header');
 const navMenu = document.getElementById('nav-menu');
 const dropdown = document.getElementById('months-dropdown');
+const footer = document.getElementById('footer');
 
 // Handle local storage empty and not empty cases
 if (localStorage.getItem('taskData') === null) {
@@ -29,6 +30,7 @@ if (localStorage.getItem('taskData') === null) {
   categoryPage.style.display = 'none';
   matrix.style.display = 'none';
 } else {
+  footer.style.display = 'none';
   intro.style.display = 'none';
   introForm.style.display = 'none';
   categoryPage.style.display = 'none';
@@ -45,6 +47,7 @@ document.addEventListener('click', (e) => {
     introForm.style.display = 'none';
     welcomePage.style.display = 'none';
     introFormInput.value = '';
+    footer.style.display = 'none';
     matrix.style.display = 'block';
     header.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1574,6 +1577,7 @@ function prepareFileForConfirmation() {
       // Add event listener to the "Confirm" button
       confirmBtn.addEventListener('click', () => {
         handleFile(fileInput.files[0]);
+        footer.style.display = 'none';
       });
     }
   }
