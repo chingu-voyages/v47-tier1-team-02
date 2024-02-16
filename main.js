@@ -1238,18 +1238,22 @@ function submitCategoryName() {
 // Collapse and expand category activity container
 // eslint-disable-next-line no-unused-vars
 function toggleCategory(categoryId) {
-  const activitiesContainer = document.getElementById(`activities-container-${categoryId}`);
-  const toggleButton = document.querySelector(`#category-${categoryId} > button`);
+  const activitiesContainers = document.querySelectorAll(`#activities-container-${categoryId}`);
 
-  if (activitiesContainer.style.display === 'none' || activitiesContainer.classList.contains('collapsed')) {
-    activitiesContainer.style.display = 'block';
-    activitiesContainer.classList.remove('collapsed');
-    toggleButton.innerHTML = '&gt;';
-  } else {
-    activitiesContainer.style.display = 'none';
-    activitiesContainer.classList.add('collapsed');
-    toggleButton.innerHTML = '&lt;';
-  }
+  if (activitiesContainers.length > 1) {
+    const secondActivitiesContainer = activitiesContainers[1];
+    const toggleButton = document.querySelector(`#category-${categoryId} > button`);
+
+    if (secondActivitiesContainer.style.display === 'none' || secondActivitiesContainer.classList.contains('collapsed')) {
+      secondActivitiesContainer.style.display = 'block';
+      secondActivitiesContainer.classList.remove('collapsed');
+      toggleButton.innerHTML = '&gt;';
+    } else {
+      secondActivitiesContainer.style.display = 'none';
+      secondActivitiesContainer.classList.add('collapsed');
+      toggleButton.innerHTML = '&lt;';
+    }
+  } 
 }
 
 // Add input boxes for adding activity
