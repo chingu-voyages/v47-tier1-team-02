@@ -29,10 +29,6 @@ body {
     width: 100%;
 }
 
-#category-page {
-    height: max-content;
-}
-
 .intro a {
     text-decoration: none;
     color: #000000;
@@ -346,29 +342,54 @@ body {
     padding-right: 2em;
 }
 
-#category-page {
-    background: #f0f8ff;
-    height: 100vh;
+/* category page */
+.category-page {
+    background: url('images/background_category_page.jpg') center / cover no-repeat;
+    margin: 0;
+    padding: 1em 0 4em;
+    min-height: 100vh;
 }
 
-#category-page input {
+.categ-back-img {
+    display:block;
+}
+
+.category-page input {
     font-size: 1rem;
 }
 
-#add-category-button {
-    background: none;
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
+.add-category-button {
+    display: block;
+    margin-left: 2.5em;
+    padding: 0.5em 1.5em;
+    font-size: 1.2rem;
+    border: 2px solid #000;
+    color: #000;
     user-select: none;
-    cursor: pointer;
-    font-size: 1.3rem;
-    color: #000000;
+    cursor: pointer;  
+    background: none;
+}
+
+.category-entry, .activity-input {
+    margin: 1.3em;
+}
+
+.category-entry, .activity-input, .task-input-buttons {
+    display: grid;
+    grid-template-rows: auto auto; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; 
+    width: 300px;
+}
+
+.category-entry input, .activity-input input, .new-task-day {
+    grid-column: 1 / -1; 
 }
 
 
 #new-category-name,
-#category-entry button,
+.category-entry button,
+.activity-input button,
 .new-activity-name,
 .new-task-name,
 .new-task-desc,
@@ -381,14 +402,13 @@ body {
 }
 
 .category button {
-    border: 1px solid #000000;
-    background: none;
-    font-size: 1rem;
+    border: 2px solid #000000;
+    background: none;   
     color: #000000;
 }
 
-#categories-container,
-#category-entry {
+
+.categories-container {
     margin-left: 1.5em;
 }
 
@@ -397,7 +417,6 @@ body {
     font-size: 1rem;
 }
 
-
 .category,
 .activity,
 .task {
@@ -405,14 +424,12 @@ body {
     margin-top: 10px;
 }
 
-
-.activity-input {
-    margin: 10px 0;
+.category,
+.activity {
+    text-transform: uppercase;
 }
 
-.new-activity-name {
-    margin-right: 5px;
-}
+
 
 .task-input {
     margin: 1em;
@@ -421,13 +438,11 @@ body {
     align-items: flex-start;
 }
 
+/*
 .task-input-buttons {
     display: flex;
 }
-
-.new-task-day {
-    margin-right: 5rem;
-}
+*/
 
 .new-task-name,
 .new-task-desc,
@@ -441,6 +456,10 @@ body {
     padding: 0.5em 0.2em;
     color: #000000;
     border-radius: 5px;
+}
+
+.task-input input {
+    width: 300px;
 }
 
 .task-element:hover {
@@ -1002,8 +1021,8 @@ p {
         height: 100%;
     }
 
-    #category-page {
-        height: 100vh;
+    .category-page {
+        min-height: 100vh;
         padding: 2em 0 0 2em;
     }
 
