@@ -29,6 +29,10 @@ body {
     width: 100%;
 }
 
+#category-page {
+    height: max-content;
+}
+
 .intro a {
     text-decoration: none;
     color: #000000;
