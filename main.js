@@ -1222,16 +1222,18 @@ function categoryToJson(category) {
 
 // eslint-disable-next-line no-unused-vars
 function submitCategoryName() {
-  const categoryName = document.getElementById('new-category-name').value;
+  const categoryEntry = document.getElementById('new-category-name');
+  const categoryName = categoryEntry.value;
 
   if (categoryName.trim() === '') {
-    // -------------------------------------------------- REMOVE ALERT ---------------------------
-    alert('Category name cannot be empty');
+    categoryEntry.placeholder = "Can't be empty";
     return;
   }
 
   // Push category to json
   categoryToJson(categoryName);
+
+  document.getElementById('category-entry').innerHTML = '';
 
   // Load from json to update changes
   openCategoryPage();
@@ -1313,8 +1315,7 @@ function submitActivityName(categoryId) {
   const activityNameInput = document.getElementById(`new-activity-name-${categoryId}`);
   const activityName = activityNameInput.value;
   if (activityName.trim() === '') {
-    // -------------------------------------------------- REMOVE ALERT ---------------------------
-    alert('Activity name cannot be empty');
+    activityNameInput.placeholder = "Can't be empty";
     return;
   }
 
@@ -1414,10 +1415,12 @@ function submitTaskName(activityId) {
     taskDate = taskDateInput.value;
   }
 
-  if (taskName.trim() === '' || taskDesc.trim() === '' || taskDate.trim() === '') {
-    alert('Task name, description, and due date cannot be empty');
-    // -------------------------------------------------- REMOVE ALERT ---------------------------
-    return;
+  if (taskName.trim() === '') {
+    taskNameInput.placeholder = "Can't be empty";
+  } else if (taskDesc.trim() === '') {
+    taskDescInput.placeholder = "Can't be empty";
+  } else if (taskDate.trim() === '') {
+    taskDateInput.placeholder = "Can't be empty";
   }
 
   // Convert date from yyyy-mm-dd to dd/mm/yyyy format
@@ -1598,8 +1601,7 @@ document.getElementById('fileInput').addEventListener('change', prepareFileForCo
 document.getElementById('decline-btn').addEventListener('click', (event) => {
   const userName = introFormInput.value.trim();
   if (!userName) {
-    alert('Please enter your name.');
-    // -------------------------------------------------- REMOVE ALERT ---------------------------
+    introFormInput.placeholder = 'Please enter a name';
     event.preventDefault();
     event.stopPropagation();
     return;
