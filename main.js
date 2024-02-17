@@ -481,12 +481,12 @@ function loadMatrix(matDate) {
     daysContainer.setAttribute('id', `week-${renderWeek}`);
     daysContainer.classList.add('desktop-days');
 
-    // Display week number on top of week container
-    const weekLabel = document.createElement('div');
-    weekLabel.classList.add('week-label');
-    weekLabel.textContent = `week ${renderWeek}`;
+    // // Display week number on top of week container
+    // const weekLabel = document.createElement('div');
+    // weekLabel.classList.add('week-label');
+    // weekLabel.textContent = `week ${renderWeek}`;
 
-    daysContainer.appendChild(weekLabel);
+    // daysContainer.appendChild(weekLabel);
 
     if (renderWeek === 1) {
       // If the week is not already displayed
