@@ -370,6 +370,14 @@ body {
     padding-right: 2em;
 }
 
+.checkbox-label:hover, .checkbox-box:hover{
+    cursor: pointer;
+}
+
+.checkbox-label:hover, .checkbox-box:hover{
+    cursor: pointer;
+}
+
 /* category page */
 .category-page {
     background: url('images/background_category_page.jpg') center / cover no-repeat;
