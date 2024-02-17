@@ -488,6 +488,11 @@ body {
     background-color: rgb(228, 222, 222);
 }
 
+.category-page .add-day-element {
+    border: 2px solid #000;
+    background: none;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -627,7 +632,9 @@ body {
 
 .add-day-element {
     margin-top: 0.5rem;
+    padding: 0.5rem;
 }
+
 
 #button-div {
     display: flex;
@@ -1065,6 +1072,13 @@ p {
 
     .task-input, .activity-input, .category-entry {
         max-width: 300px;
+    }
+
+    .add-category-button {
+        margin-top: 3em;
+    }
+    .category-page {
+        padding: 2em 2em 4em;
     }
 
 }
