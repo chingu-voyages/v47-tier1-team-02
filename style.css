@@ -214,6 +214,7 @@ body {
 
 .four-week {
     display: flex;
+    margin-top: 2em;
 }
 
 #month {
