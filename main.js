@@ -173,7 +173,6 @@ function openDetail(id) {
           activityType.Tasks.forEach((task) => {
             if (task.taskName === taskName) {
               // Prevents same task name mismatch
-              console.log(day);
               if (task.days.includes(taskDate) || task.days.includes(day)) {
                 taskDesc = task.taskDescription;
                 taskCat = category.categoryName;
