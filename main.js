@@ -511,7 +511,7 @@ function loadMatrix(matDate) {
     const fDate = dateFormat(matDate);
     dayHeader.innerHTML = `
             <div id="add-to-date-${fDate}" class="add-to-date">
-              <button type="button" onclick="addToDate('${fDate}')">+</button>
+              <button type="button" onclick="addToDate('${fDate}')" title="Add new task">+</button>
             </div>
             <span class="day-name">${day} (${fDate})</span>
         `;
@@ -540,10 +540,10 @@ function loadMatrix(matDate) {
                   taskList.innerHTML += `
                     <div class="name-and-checkbox">
                       <div id="${id}-ele" class="task-element checkbox-label">
-                        <p class="checkbox-label"> ${task.taskName} </label>
+                        <p class="checkbox-label" title="Show details"> ${task.taskName} </label>
                       </div>
                       <div class="checkbox">
-                        <input type="checkbox" id="${id}-checkbox" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')">
+                        <input type="checkbox" id="${id}-checkbox" class="checkbox-box" name="task-checkbox" value="checked" onchange="checkboxStore('${id}')" title="Mark as done">
                       </div>
                     <div>
                   `;
@@ -649,7 +649,7 @@ function renderTaskToChecklist(todayDate, taskName, boxToTick) {
             <p class="checkbox-label">${taskName}</p>
         </div>   
         <div class="checkbox">
-          <input type="checkbox" id="${id}-checkbox-checklist" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')">
+          <input type="checkbox" id="${id}-checkbox-checklist" class="checkbox-box" name="task-checkbox" value="checked" onchange="checkboxStore('${id}-checkbox')" title="Mark as done">
         </div>
       </div> 
     </div>
@@ -693,7 +693,7 @@ function setDayHeader(todayDay, todayDate) {
   const dayHeader = document.getElementById('day-header');
   dayHeader.innerHTML = `
     <div id="add-to-date-${todayDate}-checklist" class="add-to-date">
-      <button type="button" onclick="addToDate('${todayDate}')">+</button>
+      <button type="button" onclick="addToDate('${todayDate}')" title="Add new task">+</button>
     </div>
     <span class="day-name">${todayDay} (${todayDate})</span>
   `;
@@ -851,7 +851,7 @@ function JsonToCategory() {
     catDiv.setAttribute('id', `category-${catCounter}`);
 
     catDiv.innerHTML = `
-      <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
+      <button input="button" onclick="toggleCategory(${catCounter})" title="Collapse/Expand activities"> &gt </button>
       <span id="category-text-${catCounter}">${category.categoryName}</span>
       <button input="button" onclick="addActivity(${catCounter})"> + </button>
       <div id="activities-container-${catCounter}"></div> 
@@ -871,7 +871,7 @@ function JsonToCategory() {
       actDiv.classList.add('activity');
 
       actDiv.innerHTML = `
-      <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
+      <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')" title="Collapse/Expand tasks"> &gt </button>
       <span id="activity-text-${catCounter}-${actCounter}">${activityType.activityName}</span>
       <button input="button" onclick="addTask('${catCounter}-${actCounter}')"> + </button>
       `;
@@ -892,9 +892,9 @@ function JsonToCategory() {
 
         const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
-          <span onclick="openDetail('${catActTask}')" id="name-${catActTask}">${task.taskName}</span>
-          <span onclick="openDetail('${catActTask}')" id="desc-${catActTask}">${task.taskDescription}</span>
-          <span onclick="openDetail('${catActTask}')" id="date-${catActTask}">${task.days}</span>
+          <span onclick="openDetail('${catActTask}')" id="name-${catActTask}" title="Click to edit">${task.taskName}</span>
+          <span onclick="openDetail('${catActTask}')" id="desc-${catActTask}" title="Click to edit">${task.taskDescription}</span>
+          <span onclick="openDetail('${catActTask}')" id="date-${catActTask}" title="Click to edit">${task.days}</span>
         `;
 
         taskContainer.appendChild(taskDiv);

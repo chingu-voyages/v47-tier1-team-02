@@ -372,6 +372,10 @@ body {
     padding-right: 2em;
 }
 
+.checkbox-label:hover, .checkbox-box:hover{
+    cursor: pointer;
+}
+
 #category-page {
     background: #f0f8ff;
     height: 100vh;
