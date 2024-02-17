@@ -30,11 +30,7 @@ body {
 }
 
 #checklist-page {
-    height: 100vh;
-}
-
-#category-page {
-    height: max-content;
+    min-height: 100vh;
 }
 
 .intro-logo {
@@ -372,105 +368,155 @@ body {
     padding-right: 2em;
 }
 
-#category-page {
-    background: #f0f8ff;
-    height: 100vh;
+/* category page */
+.category-page {
+    background: url('images/background_category_page.jpg') center / cover no-repeat;
+    margin: 0;
+    padding: 1em 0 4em;
+    min-height: 100vh;
 }
 
-#category-page input {
+.categ-back-img {
+    display:block;
+}
+
+.add-category-button {
+    display: block;
+    margin: 1em 0 0 2.5em;
+    padding: 0.5em 1.5em;
+    font-size: 1.2rem;
+    border: 2px solid #000;
+    color: #000;
+    user-select: none;
+    cursor: pointer;  
+    background: none;
+}
+
+.category-page input {
     font-size: 1rem;
 }
 
-#add-category-button {
-    background: none;
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    user-select: none;
-    cursor: pointer;
-    font-size: 1.3rem;
-    color: #000000;
+.category-page input::placeholder {
+    color: #000;
 }
 
+.add-activity-container, .add-task-container {
+    position: relative;
+    display: inline-block;
+}
 
-#new-category-name,
-#category-entry button,
-.new-activity-name,
-.new-task-name,
-.new-task-desc,
-.new-task-date {
+.hover-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: #00FFD1;
+    color: #000;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: -5%;
+    margin-left: 10px; 
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.add-activity-container:hover .hover-text, .add-task-container:hover .hover-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.category-entry, .activity-input, .task-input {
+    margin: 1.2em;
+}
+
+.categories-container, .activities-container, .task-container {
+    padding-left: 1.5em;
+    overflow: hidden;
+}
+
+.cat-page-text-input{
     border: 2px solid #000000;
     border-radius: 5px;
     background: none;
     color: #000000;
     padding: 0.8em 1.4em;
+    margin-bottom: 0.6em;
 }
 
-.category button {
-    border: 1px solid #000000;
+.cat-page-buttons, .task-input-date-div {
+    display: flex;
+    gap:0.6em;
+    justify-content: center;
+}
+
+.cat-page-buttons button {
     background: none;
-    font-size: 1rem;
+    border: 2px solid #000;
+    padding: 0.4em 0.5em;
+    color: #000000;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.cat-page-plus-btn, .cat-page-toggle-btn {
+    border: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    background: transparent;
+}
+
+.cat-page-toggle-btn {
+    background: transparent;   
     color: #000000;
 }
-
-#categories-container,
-#category-entry {
-    margin-left: 1.5em;
-}
-
-.categories-content {
-    padding: 3em 0 0 3em;
-    font-size: 1rem;
-}
-
 
 .category,
 .activity,
 .task {
-    margin-left: 20px;
-    margin-top: 10px;
+    margin-top: 0.6em;
+}
+
+.category,
+.activity {
+    text-transform: uppercase;
+}
+
+.task {
+    display: flex;
+    flex-direction: column;
+}
+
+.task span {
+    display: block;
+}
+
+.task span:nth-child(2), .task span:nth-child(3) {
+    text-transform: none;
+    font-style: italic;
+}
+
+.task span:nth-child(3) {
+    overflow:hidden;
 }
 
 
-.activity-input {
-    margin: 10px 0;
-}
-
-.new-activity-name {
-    margin-right: 5px;
+.category-entry, .activity-input, .task-input-buttons {
+    text-align:center;
 }
 
 .task-input {
-    margin: 1em;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-}
-
-.task-input-buttons {
-    display: flex;
-}
-
-.new-task-day {
-    margin-right: 5rem;
-}
-
-.new-task-name,
-.new-task-desc,
-.new-task-date {
-    margin: 0.5em 0;
-}
-
-.task-input button {
-    background: none;
-    border: 2px solid #000000;
-    padding: 0.5em 0.2em;
-    color: #000000;
-    border-radius: 5px;
 }
 
 .task-element:hover {
     background-color: rgb(228, 222, 222);
+}
+
+.category-page .add-day-element {
+    border: 2px solid #000;
+    background: none;
 }
 
 .overlay {
@@ -478,7 +524,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: fit-content;
     background-color: white;
     z-index: 2;
     display: flex;
@@ -513,6 +559,15 @@ body {
     width: 100%;
     height: 80%;
     background-color: rgba(0, 255, 209, 0.32);
+    padding: 1em 2em;
+}
+
+.desc-item {
+    font-weight: 500;
+}
+
+.desc-element {
+    font-weight: 400;
 }
 
 .desc-item {
@@ -521,7 +576,7 @@ body {
 
 #deadline-desc {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -603,7 +658,9 @@ body {
 
 .add-day-element {
     margin-top: 0.5rem;
+    padding: 0.5rem;
 }
+
 
 #button-div {
     display: flex;
@@ -611,20 +668,23 @@ body {
     justify-content: space-around;
     width: 100%;
     gap: 1em;
+    margin-top: 5em;
 }
 
 
 #save-button,
 #delete-button {
     background: none;
-    border: 2px solid #000000;
+    border: 2px solid #0029FF;
     color: #000000;
     border-radius: 15px;
     padding: 0.5em 1.5em;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 400;
     width: 100%;
     max-width: 150px;
     margin: 0 auto;
+    text-transform: uppercase;
 }
 
 /* checklist layout */
@@ -948,14 +1008,6 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
         max-width: 300px;
     }
 
-    #add-day-submit,
-    #add-day-cancel,
-    #show-day-dropdrown,
-    #date-entry {
-        font-size: 0.7rem;
-        padding: 0.5em 0.5em;
-    }
-
     .month-button {
         font-size: 1.5rem;
     }
@@ -1104,7 +1156,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
         right: 0;
         left: 0;
         margin: auto;
-        height: 650px;
+        height: fit-content;
         width: 80%;
         max-width: 800px;
         border-radius: 5px;
@@ -1124,41 +1176,8 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
         height: 100%;
     }
 
-    #category-page {
-        height: 100vh;
-        padding: 2em 0 0 2em;
-    }
 
-    #categories-container {
-        margin-left: 2em;
-    }
-
-    .categories-content {
-        padding: 2em 0 0 2em;
-        font-size: 1.7rem;
-    }
-
-
-    #add-category-button {
-        font-size: 1.8rem;
-    }
-
-
-    .category button {
-        font-size: 1.5rem;
-    }
-
-
-    .activity,
-    .category {
-        margin-top: 1em;
-    }
-
-    .activity {
-        margin-left: 2em;
-    }
-
-    .back-img {
+    #back-img {
         height: 60px;
     }
 
@@ -1172,6 +1191,17 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
     #detailed-desc {
         font-size: 1.3rem;
+    }
+
+    .task-input, .activity-input, .category-entry {
+        max-width: 300px;
+    }
+
+    .add-category-button {
+        margin-top: 3em;
+    }
+    .category-page {
+        padding: 2em 2em 4em;
     }
 
 }
