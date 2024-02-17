@@ -3,13 +3,11 @@ if ('serviceWorker' in navigator) {
   // Wait for the 'load' event to not block other work
   window.addEventListener('load', async () => {
     try {
-    await navigator.serviceWorker.register('/service-worker.js');
-    console.log('Service worker registered!');
+      await navigator.serviceWorker.register('/service-worker.js');
+    } catch (err) {
+      return null;
     }
-    catch(err) {
-      console.log('Service worker registration failed: ', err);
-    }
-
+    return null;
   });
 }
 
