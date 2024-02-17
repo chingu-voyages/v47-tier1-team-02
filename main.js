@@ -257,9 +257,9 @@ function addDay(id) {
   const addDayDiv = document.getElementById('add-day');
   addDayDiv.innerHTML = `
     <input id="date-entry" type="date" class="add-day-element">
+    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')" class="add-day-element">Repeat Weekly</button>
     <button id="add-day-submit" onclick="addDaySubmit('${id}')" class="add-day-element">Add</button>
     <button id="add-day-cancel" onclick="addDayCancel('${id}')" class="add-day-element">Cancel</button>
-    <button id="show-day-dropdrown" onclick="showDayDropDown('${id}')" class="add-day-element">Choose Day (Weekly)</button>
   `;
 }
 
@@ -849,10 +849,10 @@ function JsonToCategory() {
     catDiv.setAttribute('id', `category-${catCounter}`);
 
     catDiv.innerHTML = `
-      <button input="button" onclick="toggleCategory(${catCounter})"> &gt </button>
+      <button input="button" class="cat-page-toggle-btn" onclick="toggleCategory(${catCounter})"> &gt </button>
       <span id="category-text-${catCounter}">${category.categoryName}</span>
       <div class="add-activity-container">
-        <button input="button" onclick="addActivity(${catCounter})" class="add-activity-btn"> + </button>
+        <button input="button" onclick="addActivity(${catCounter})" class="add-activity-btn cat-page-plus-btn"> + </button>
         <span class="hover-text">Add activity</span>
       </div>
       <div id="activities-container-${catCounter}"></div> 
@@ -873,10 +873,10 @@ function JsonToCategory() {
       actDiv.classList.add('activity');
 
       actDiv.innerHTML = `
-      <button input="button" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
+      <button input="button" class="cat-page-toggle-btn" onclick="toggleActivity('${catCounter}-${actCounter}')"> &gt </button>
       <span id="activity-text-${catCounter}-${actCounter}">${activityType.activityName}</span>
       <div class="add-task-container">
-        <button input="button" onclick="addTask('${catCounter}-${actCounter}')" class="add-task-btn"> + </button>
+        <button input="button" onclick="addTask('${catCounter}-${actCounter}')" class="add-task-btn cat-page-plus-btn"> + </button>
         <span class="hover-text">Add task</span>
       </div>
       `;
@@ -1199,9 +1199,11 @@ function goToMonth(month) {
 function addCategory() {
   // Create input for new category name
   const categoryInputHtml = `
-        <input type="text" id='new-category-name' placeholder="Category name"> 
-        <button onclick="submitCategoryName()">Add</button>
-        <button onclick="cancelCategoryAdd('category-entry')">Cancel</button>
+        <input type="text" id='new-category-name' placeholder="Category name" class="cat-page-text-input"> 
+        <div class="category-input-buttons cat-page-buttons">  
+          <button class="new-category-submit cat-page-add-btn" onclick="submitCategoryName()">Add</button>
+          <button class="new-category-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('category-entry')">Cancel</button>
+        <div>  
     `;
   document.getElementById('category-entry').innerHTML = categoryInputHtml;
 }
@@ -1276,9 +1278,11 @@ function addActivity(categoryId) {
   // Create input for new activity name
   const activityInputHtml = `
         <div id="activity-input" class="activity-input">
-            <input type="text" id='new-activity-name-${categoryId}' class="new-activity-name" placeholder="Activity name"> 
-            <button onclick="submitActivityName(${categoryId})">Add</button>
-            <button onclick="cancelCategoryAdd('activity-input')">Cancel</button>
+            <input type="text" id='new-activity-name-${categoryId}' class="new-activity-name cat-page-text-input" placeholder="Activity name"> 
+            <div class="activity-input-buttons cat-page-buttons">  
+              <button class="new-activity-submit cat-page-add-btn" onclick="submitActivityName(${categoryId})">Add</button>
+              <button class="new-activity-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('activity-input')">Cancel</button>
+            <div>  
         </div>
     `;
 
@@ -1365,13 +1369,15 @@ function addTask(activityId) {
   // Create input fields for new task
   const taskInputHtml = `
          <div id="task-input" class="task-input">
-            <input type="text" id='new-task-name-${activityId}' class="new-task-name" placeholder="Task name">
-            <input type="text" id='new-task-desc-${activityId}' class="new-task-desc" placeholder="Description">
-            <input type="date" id='new-task-date-${activityId}' class="new-task-date" placeholder="Due dates">
-            <div class="task-input-buttons">
-              <button id="new-task-day-${activityId}" class="new-task-day" onclick="showDayDropDown()">Choose Day (Weekly)</button>
-              <button id="new-task-submit" class="new-task-submit" onclick="submitTaskName('${activityId}')">Add</button>
-              <button id="new-task-cancel" class="new-task-cancel" onclick="cancelCategoryAdd('task-input')">Cancel</button>
+            <input type="text" id='new-task-name-${activityId}' class="new-task-name cat-page-text-input" placeholder="Task name">
+            <input type="text" id='new-task-desc-${activityId}' class="new-task-desc cat-page-text-input" placeholder="Description">
+            <div class="task-input-date-div">
+              <input type="date" id='new-task-date-${activityId}' class="new-task-date cat-page-text-input" placeholder="Due dates">
+              <button id="new-task-day-${activityId}" class="new-task-day cat-page-text-input" onclick="showDayDropDown()">Repeat Weekly</button>
+            </div>
+            <div class="task-input-buttons cat-page-buttons">       
+              <button id="new-task-submit" class="new-task-submit cat-page-add-btn" onclick="submitTaskName('${activityId}')">Add</button>
+              <button id="new-task-cancel" class="new-task-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('task-input')">Cancel</button>
             </div>
         </div>
     `;

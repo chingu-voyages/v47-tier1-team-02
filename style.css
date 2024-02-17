@@ -354,17 +354,9 @@ body {
     display:block;
 }
 
-.category-page input {
-    font-size: 1rem;
-}
-
-.category-page input::placeholder {
-    color: #000;
-}
-
 .add-category-button {
     display: block;
-    margin-left: 2.5em;
+    margin: 1em 0 0 2.5em;
     padding: 0.5em 1.5em;
     font-size: 1.2rem;
     border: 2px solid #000;
@@ -374,56 +366,12 @@ body {
     background: none;
 }
 
-.category-entry, .activity-input {
-    margin: 1.3em;
-}
-
-.category-entry, .activity-input, .task-input-buttons {
-    display: grid;
-    grid-template-rows: auto auto; 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 10px; 
-    max-width: 300px;
-}
-
-.category-entry input, .activity-input input, .new-task-day {
-    grid-column: 1 / -1; 
-}
-
-
-#new-category-name,
-.category-entry button,
-.activity-input button,
-.new-activity-name,
-.new-task-name,
-.new-task-desc,
-.new-task-date {
-    border: 2px solid #000000;
-    border-radius: 5px;
-    background: none;
-    color: #000000;
-    padding: 0.8em 1.4em;
-}
-
-.category button {
-    background: transparent;   
-    color: #000000;
-}
-
-.add-activity-btn, .add-task-btn {
-    border: none;
-    font-weight: 700;
+.category-page input {
     font-size: 1rem;
 }
 
-
-.categories-container, .activities-container, .task-container {
-    padding-left: 1.5em;
-}
-
-.categories-content {
-    padding: 3em 0 0 3em;
-    font-size: 1rem;
+.category-page input::placeholder {
+    color: #000;
 }
 
 .add-activity-container, .add-task-container {
@@ -452,11 +400,55 @@ body {
     opacity: 1;
 }
 
+.category-entry, .activity-input, .task-input {
+    margin: 1.2em;
+}
+
+.categories-container, .activities-container, .task-container {
+    padding-left: 1.5em;
+    overflow: hidden;
+}
+
+.cat-page-text-input{
+    border: 2px solid #000000;
+    border-radius: 5px;
+    background: none;
+    color: #000000;
+    padding: 0.8em 1.4em;
+    margin-bottom: 0.6em;
+}
+
+.cat-page-buttons, .task-input-date-div {
+    display: flex;
+    gap:0.6em;
+    justify-content: center;
+}
+
+.cat-page-buttons button {
+    background: none;
+    border: 2px solid #000;
+    padding: 0.4em 0.5em;
+    color: #000000;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.cat-page-plus-btn, .cat-page-toggle-btn {
+    border: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    background: transparent;
+}
+
+.cat-page-toggle-btn {
+    background: transparent;   
+    color: #000000;
+}
 
 .category,
 .activity,
 .task {
-    margin-top: 10px;
+    margin-top: 0.6em;
 }
 
 .category,
@@ -469,35 +461,27 @@ body {
     flex-direction: column;
 }
 
+.task span {
+    display: block;
+}
+
+.task span:nth-child(2), .task span:nth-child(3) {
+    text-transform: none;
+    font-style: italic;
+}
+
+.task span:nth-child(3) {
+    overflow:hidden;
+}
+
+
+.category-entry, .activity-input, .task-input-buttons {
+    text-align:center;
+}
+
 .task-input {
-    margin: 1em;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-}
-
-/*
-.task-input-buttons {
-    display: flex;
-}
-*/
-
-.new-task-name,
-.new-task-desc,
-.new-task-date {
-    margin: 0.5em 0;
-}
-
-.task-input button {
-    background: none;
-    border: 2px solid #000000;
-    padding: 0.5em 0.2em;
-    color: #000000;
-    border-radius: 5px;
-}
-
-.task-input input {
-    max-width: 300px;
 }
 
 .task-element:hover {
@@ -1065,6 +1049,10 @@ p {
 
     #detailed-desc {
         font-size: 1.3rem;
+    }
+
+    .task-input, .activity-input, .category-entry {
+        max-width: 300px;
     }
 
 }
