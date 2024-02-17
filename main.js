@@ -243,7 +243,7 @@ function openDetail(id) {
 
         <div id="button-div" class="desc-item">
           <button id="save-button" onclick="saveDesc('${detailId}')">Save</button>
-          <button id="delete-button" onclick="deleteTask('${detailId}')">Delete Task</button>
+          <button id="delete-button" onclick="deleteTask('${detailId}')">Delete</button>
         <div>
       </div>
     `;

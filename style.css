@@ -493,7 +493,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: fit-content;
     background-color: white;
     z-index: 2;
     display: flex;
@@ -528,6 +528,15 @@ body {
     width: 100%;
     height: 80%;
     background-color: rgba(0, 255, 209, 0.32);
+    padding: 1em 2em;
+}
+
+.desc-item {
+    font-weight: 500;
+}
+
+.desc-element {
+    font-weight: 400;
 }
 
 .desc-item {
@@ -536,7 +545,7 @@ body {
 
 #deadline-desc {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -626,20 +635,23 @@ body {
     justify-content: space-around;
     width: 100%;
     gap: 1em;
+    margin-top: 5em;
 }
 
 
 #save-button,
 #delete-button {
     background: none;
-    border: 2px solid #000000;
+    border: 2px solid #0029FF;
     color: #000000;
     border-radius: 15px;
     padding: 0.5em 1.5em;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 400;
     width: 100%;
     max-width: 150px;
     margin: 0 auto;
+    text-transform: uppercase;
 }
 
 /* checklist layout */
@@ -1015,7 +1027,7 @@ p {
         right: 0;
         left: 0;
         margin: auto;
-        height: 650px;
+        height: fit-content;
         width: 80%;
         max-width: 800px;
         border-radius: 5px;
