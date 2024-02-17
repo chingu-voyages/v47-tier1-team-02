@@ -1,4 +1,15 @@
 // Follows Airbnb JavaScript style guide
+if ('serviceWorker' in navigator) {
+  // Wait for the 'load' event to not block other work
+  window.addEventListener('load', async () => {
+    try {
+      await navigator.serviceWorker.register('/service-worker.js');
+    } catch (err) {
+      return null;
+    }
+    return null;
+  });
+}
 
 // Date object with today's date.
 const date = new Date();
@@ -22,6 +33,7 @@ const header = document.querySelector('header');
 const navMenu = document.getElementById('nav-menu');
 const dropdown = document.getElementById('months-dropdown');
 const footer = document.getElementById('footer');
+const body = document.querySelector('body');
 
 // Handle local storage empty and not empty cases
 if (localStorage.getItem('taskData') === null) {
@@ -214,7 +226,7 @@ function openDetail(id) {
     // On clicking any of the attributes in the description, give id (name and date) to editDesc
     overlayDesc.innerHTML = `
       <div id="back-n-day">
-        <img src="images/back.png" id="back-img" onclick="backFromDesc()">
+        <img src="images/back.png" id="back-img" class="back-img" onclick="backFromDesc()" rel="Go back">
 
         <span id="desc-day">${headerText}</span>
       </div>
@@ -445,6 +457,7 @@ function backFromDesc() {
   const descWin = document.getElementById('detailed-desc');
   navMenu.classList.remove('active');
   dropdown.style.display = 'none';
+  body.classList.remove('blur');
   descWin.remove();
 }
 
@@ -726,7 +739,7 @@ function openChecklist() {
   header.style.display = 'none';
   checklistPage.style.display = 'block';
   checklistPage.innerHTML = `
-    <img src="images/back.png" id="back-img-checklist" onclick="backFromChecklist()">
+    <img src="images/back.png" id="back-img-checklist" class="back-img" onclick="backFromChecklist()" rel="Go back">
     <h1 id="checklist-title" class="checklist-title">Today's Tasks</h1>
     <div class="day-header" id="day-header">
     </div>  
@@ -1263,7 +1276,7 @@ function toggleCategory(categoryId) {
       secondActivitiesContainer.classList.add('collapsed');
       toggleButton.innerHTML = '&lt;';
     }
-  } 
+  }
 }
 
 // Add input boxes for adding activity
@@ -1468,15 +1481,39 @@ document.addEventListener('DOMContentLoaded', () => {
   navToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
     dropdown.style.display = 'none';
+    body.classList.toggle('blur');
   });
+});
+
+// To close elements when clicking outside of them
+document.addEventListener('click', (e) => {
+  if (!dropdown.contains(e.target) && !document.getElementById('month-name').contains(e.target)) {
+    dropdown.style.display = 'none';
+  }
+  if (!navMenu.contains(e.target) && !document.querySelector('.nav-toggle').contains(e.target)) {
+    navMenu.classList.remove('active');
+    body.classList.remove('blur');
+  }
 });
 
 // Link the tasks from the search results to their respective description pages
 function searchDetails(taskName) {
   jsonObj.some(
     (category) => category.activityTypes.some((activityType) => activityType.Tasks.some((task) => {
+      // If task's ID has week day instead of date, get the closest date of that day and set as ID
       if (task.taskName === taskName) {
-        const identifier = `${task.days[0].slice(0, 10)}-${taskName}`;
+        let taskDay = task.days[0];
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const index = daysOfWeek.indexOf(taskDay);
+        if (index !== -1) {
+          const today = giveToday();
+          // Reset to sunday and add the index to get to the desired date
+          today.setDate(today.getDate() - today.getDay() + index);
+          taskDay = dateFormat(today);
+        } else {
+          taskDay = task.days[0].slice(0, 10);
+        }
+        const identifier = `${taskDay}-${taskName}`;
         openDetail(identifier);
       }
       return null;
@@ -1636,11 +1673,13 @@ document.getElementById('decline-btn').addEventListener('click', (event) => {
 // eslint-disable-next-line no-unused-vars
 function openSettings() {
   settingsPage.style.display = 'block';
+  navMenu.classList.remove('active');
 }
 
 // eslint-disable-next-line no-unused-vars
 function backFromSettings() {
   settingsPage.style.display = 'none';
+  body.classList.remove('blur');
 }
 
 // eslint-disable-next-line no-unused-vars

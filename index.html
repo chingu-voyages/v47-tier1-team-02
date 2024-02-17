@@ -31,6 +31,7 @@
                     </div>
                 </div>
                 <div class="logo">
+                    <div id="greeting"></div>
                     <img src="images/ontrack-logo.png" alt="OnTrack">
                 </div>
             </div>
@@ -54,37 +55,43 @@
     </header>
     <section class="intro" id="intro">
         <div class="welcome-page" id="welcome-page">
-            <div class="title">
-                <img class="title-img" src="images/check.png">
-                <h2><a href="index.html">n Track</a></h2>
-            </div>
-            <h1>Welcome</h1>
-            <img class="logo" src="images/logo.png">
-            <h2><span>On Track</span></h2>
-
-            <div class="description">
-                <h3>The task manager you've been waiting for to help take your productivity to the next level and
-                    beyond.</h3>
-            </div>
-            <div class="intro-btn">
-                <button class="start-btn" id="start-btn" type="submit">let's start</button>
+            <img src="images/intro-logo.png" class="intro-logo">
+            <div class="welcome-page-container">
+                <div class="welcome-img-container">
+                    <img class="intro-main-img " src="images/intro-img.png">
+                </div>
+                <div class="welcome-text-container">
+                    <h1>Welcome</h1>
+                    <div class="description">
+                        <h3>Take your productivity to the next level and
+                           <span>beyond</span>.</h3>
+                    </div>
+                    <div class="intro-btn">
+                        <button class="start-btn" id="start-btn" type="submit">let's start</button>
+                    </div>
+                </div> 
             </div>
         </div>
-        <form class="intro-form" id="intro-form" action="#">
-            <img class="logo form-img" src="images/logo.png">
-
-            <h2 class="form-title">First we want to know a few things about you</h2>
-            <input type="text" name="user" placeholder="Name" id="introForm-input" maxlength="12" minlength="3"
-                required />
-            <h2 class="form-choice">Do you want to use a template?</h2>
-
-            <div class="form-choice-btns" id="form-choice-btns">
-                <div class="file-input-container" id="file-input-container">
-                    <input type="file" id="fileInput" name="importData" class="choice-field" accept=".json" hidden>
-                    <label for="fileInput" class="intro-file-upload">Upload JSON file</label>
+        <form class="intro-form" id="intro-form" action="#"><img src="images/intro-logo.png" class="intro-logo">
+            <div class="form-container">
+                <div class="form-img-container">
+                    <img class="form-main-img" src="images/intro-form-img.png">
                 </div>
-                <div class="decline-btn-container" id="decline-btn-container">
-                    <button class="choice-btn" id="decline-btn" type="reset">No</button>
+                <div class="form-text-container">
+                    <h2 class="form-title">First we want to know a few things about you</h2>
+                    <input type="text" name="user" placeholder="Name" id="introForm-input" maxlength="12" minlength="3"
+                        required />
+                    <h2 class="form-choice">Do you want to use a template?</h2>
+
+                    <div class="form-choice-btns" id="form-choice-btns">
+                        <div class="file-input-container" id="file-input-container">
+                            <input type="file" id="fileInput" name="importData" class="choice-field" accept=".json" hidden>
+                            <label for="fileInput" class="intro-file-upload">Upload JSON file</label>
+                        </div>
+                        <div class="decline-btn-container" id="decline-btn-container">
+                            <button class="choice-btn" id="decline-btn" type="reset">No</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -123,18 +130,19 @@
     </section>
 
     <section id="category-page" class="category-page">
-        <img src="images/back.png" id="back-img" class="categ-back-img" onclick="backFromCategory()">
+        <img src="images/back.png" id="back-img" class="categ-back-img back-img" onclick="backFromCategory()">
         <button id="add-category-button" class="add-category-button" onclick="addCategory()">Add category</button>
         <div id="category-entry" class="category-entry"></div>
         <div id="categories-container" class="categories-container"></div>
+
     </section>
 
-    <section id="checklist-page">
+     <section id="checklist-page" class="checklist-page">
     </section>
 
     <section id="settings-page" class="overlay">
         <div id="settings-back">
-            <img src="images/back.png" id="back-img" onclick="backFromSettings()">
+            <img src="images/back.png" id="back-img" class="back-img" onclick="backFromSettings()" alt="Go back">
         </div>
 
         <div id="export-json">
@@ -159,41 +167,41 @@
         </div>
         <div id="footer-content-div">
             <div id="product-owner" class="footer-content">
-                <span class="footer-content-head">
-                    <b><u>Product Owner</u></b>
-                </span>
-                <a class="member-name" href="https://github.com/Petre4488" target="_blank">Petre</a>
+                <div class="footer-content-head">
+                    <img src = "images/product-owner-icon.svg" class="member-icon title-icon" alt="product owner icon"/>
+                    <b>Product Owner</b>
+                </div>
+                <a class="member-name" href="https://github.com/Petre4488" target="_blank"><img src = "images/github-icon.svg" class="member-icon" alt="github icon"/>Petre</a>
             </div>
 
             <div id="ui-designer" class="footer-content">
-                <span class="footer-content-head">
-                    <b><u>UI/UX designer</u></b>
-                </span>
-                <a class="member-name" href="https://github.com/Bianca371">Bianca</a>
+                <div class="footer-content-head">
+                    <img src = "images/designer-icon.svg" class="member-icon" alt="designer icon"/>
+                    <b>UI/UX designer</b>
+                </div>
+                <a class="member-name" href="https://github.com/Bianca371"><img src = "images/github-icon.svg" class="member-icon" alt="github icon"/>Bianca</a>
             </div>
 
             <div id="developers" class="footer-content">
-                <span class="footer-content-head">
-                    <b><u>Developers</u></b>
-                </span>
-                <li class="member-name">
-                    <a href="https://github.com/andreiolteanu555" target="_blank">Andrei</a>
-                </li>
-                <li class="member-name">
-                    <a href="https://github.com/Hudamab95" target="_blank">Huda</a>
-                </li>
-                <li class="member-name">
-                    <a href="https://github.com/keerthikmr" target="_blank">Keerthi</a>
-                </li>
-                <li class="member-name">
-                    <a href="https://github.com/gunstarpro" target="_blank">Alex</a>
-                </li>
-            </div>
+                <div class="footer-content-head">
+                    <img src = "images/Developers-icon.svg" class="member-icon" alt="developers icon"/>
+                    <b>Developers</b>
+                </div>
+                <div class="developers-div">
+                    <a class="member-name" href="https://github.com/andreiolteanu555" target="_blank"><img src = "images/github-icon.svg" class="member-icon" alt="github icon"/>Andrei</a>
+                    <a class="member-name" href="https://github.com/Hudamab95" target="_blank"><img src = "images/github-icon.svg" class="member-icon" alt="github icon"/>Huda</a>
+                    <a class="member-name" href="https://github.com/keerthikmr" target="_blank"><img src = "images/github-icon.svg" class="member-icon" alt="github icon"/>Keerthi</a>
+                    <a class="member-name" href="https://github.com/gunstarpro" target="_blank"><img src = "images/github-icon.svg" class="member-icon" alt="github icon"/>Alex</a>
+                </div>
+                </div>
         </div>
 
         <div id="footer-about">
+            <div class="chingu-icon-div">
+            <img src = "images/chingu-icon.png" class="chingu-icon" alt="chingu icon"/> 
             <p>Made as a <a href="https://www.chingu.io/">Chingu</a> voyage project</p>
-            <a href="https://github.com/chingu-voyages/v47-tier1-team-02">Github</a>
+            </div>
+            <a  class="member-name" href="https://github.com/chingu-voyages/v47-tier1-team-02"><img src = "images/github-icon.svg" class="main-github-icon" alt="github icon"/>Project repository</a>
         </div>
     </footer>
 
