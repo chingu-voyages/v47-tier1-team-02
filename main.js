@@ -1,4 +1,17 @@
 // Follows Airbnb JavaScript style guide
+if ('serviceWorker' in navigator) {
+  // Wait for the 'load' event to not block other work
+  window.addEventListener('load', async () => {
+    try {
+    await navigator.serviceWorker.register('/service-worker.js');
+    console.log('Service worker registered!');
+    }
+    catch(err) {
+      console.log('Service worker registration failed: ', err);
+    }
+
+  });
+}
 
 // Date object with today's date.
 const date = new Date();
