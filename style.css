@@ -14,7 +14,9 @@ body {
 
 button:hover { 
     cursor: pointer;
+    background-color: #d1c3c3;
 }
+
 /* intro layout */
 .intro {
     letter-spacing: 2px;
