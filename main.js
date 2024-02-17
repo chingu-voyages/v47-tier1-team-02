@@ -1460,7 +1460,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// To clsoe elements when clicking outside of them
+// To close elements when clicking outside of them
 document.addEventListener('click', (e) => {
   if (!dropdown.contains(e.target) && !document.getElementById('month-name').contains(e.target)) {
     dropdown.style.display = 'none';
@@ -1475,8 +1475,20 @@ document.addEventListener('click', (e) => {
 function searchDetails(taskName) {
   jsonObj.some(
     (category) => category.activityTypes.some((activityType) => activityType.Tasks.some((task) => {
+      // If task's ID has week day instead of date, get the closest date of that day and set as ID
       if (task.taskName === taskName) {
-        const identifier = `${task.days[0].slice(0, 10)}-${taskName}`;
+        let taskDay = task.days[0];
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const index = daysOfWeek.indexOf(taskDay);
+        if (index !== -1) {
+          const today = giveToday();
+          // Reset to sunday and add the index to get to the desired date
+          today.setDate(today.getDate() - today.getDay() + index);
+          taskDay = dateFormat(today);
+        } else {
+          taskDay = task.days[0].slice(0, 10);
+        }
+        const identifier = `${taskDay}-${taskName}`;
         openDetail(identifier);
       }
       return null;
