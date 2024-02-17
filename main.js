@@ -860,6 +860,7 @@ function JsonToCategory() {
 
     const actContainer = document.createElement('div');
     actContainer.setAttribute('id', `activities-container-${catCounter}`);
+    actContainer.classList.add('activities-container');
 
     catContainer.appendChild(catDiv);
 
@@ -882,6 +883,7 @@ function JsonToCategory() {
 
       const taskContainer = document.createElement('div');
       taskContainer.setAttribute('id', `tasks-container-${catCounter}-${actCounter}`);
+      taskContainer.classList.add('task-container');
 
       actDiv.appendChild(taskContainer);
       actContainer.appendChild(actDiv);

@@ -383,7 +383,7 @@ body {
     grid-template-rows: auto auto; 
     grid-template-columns: repeat(2, 1fr); 
     gap: 10px; 
-    width: 300px;
+    max-width: 300px;
 }
 
 .category-entry input, .activity-input input, .new-task-day {
@@ -417,8 +417,8 @@ body {
 }
 
 
-.categories-container {
-    margin-left: 1.5em;
+.categories-container, .activities-container, .task-container {
+    padding-left: 1.5em;
 }
 
 .categories-content {
@@ -456,7 +456,6 @@ body {
 .category,
 .activity,
 .task {
-    margin-left: 20px;
     margin-top: 10px;
 }
 
@@ -498,7 +497,7 @@ body {
 }
 
 .task-input input {
-    width: 300px;
+    max-width: 300px;
 }
 
 .task-element:hover {
@@ -930,14 +929,6 @@ p {
         max-width: 300px;
     }
 
-    #add-day-submit,
-    #add-day-cancel,
-    #show-day-dropdrown,
-    #date-entry {
-        font-size: 0.7rem;
-        padding: 0.5em 0.5em;
-    }
-
     .month-button {
         font-size: 1.5rem;
     }
@@ -1058,40 +1049,6 @@ p {
     #task-desc {
         width: 100%;
         height: 100%;
-    }
-
-    .category-page {
-        min-height: 100vh;
-        padding: 2em 0 0 2em;
-    }
-
-    #categories-container {
-        margin-left: 2em;
-    }
-
-    .categories-content {
-        padding: 2em 0 0 2em;
-        font-size: 1.7rem;
-    }
-
-
-    #add-category-button {
-        font-size: 1.8rem;
-    }
-
-
-    .category button {
-        font-size: 1.5rem;
-    }
-
-
-    .activity,
-    .category {
-        margin-top: 1em;
-    }
-
-    .activity {
-        margin-left: 2em;
     }
 
     #back-img {
