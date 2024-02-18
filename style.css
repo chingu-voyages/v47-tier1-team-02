@@ -1220,8 +1220,8 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
 
     #deadline-desc {
-        text-align: left;
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .desc-item {
