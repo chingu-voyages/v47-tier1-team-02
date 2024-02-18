@@ -216,6 +216,7 @@ body {
 #month {
     display: flex;
     justify-content: center;
+    align-items: center;
     padding-top: 1.5rem;
 }
 
@@ -279,6 +280,7 @@ body {
     justify-content: center;
     width: 100%;
     font-size: 20px;
+    user-select: none;
 }
 
 #matrix {
@@ -321,13 +323,27 @@ body {
 
 
 .day-header button {
-    border: 3px solid #000000;
-    border-radius: 5px;
+    border: none;
     background: none;
-    font-weight: 700;
-    font-size: 1rem;
     color: #000000;
-    padding: 0.1em 0.4em;
+}
+
+.stray-task-overlay {
+    display: flex;
+    flex-direction: column;
+}
+
+.stray-task-entry {
+    display: flex;
+    flex-direction: column;
+}
+
+.stray-task-entry input{
+    margin-top: 0.5em;
+}
+
+.stray-task-overlay button {
+    margin-top: 0.5em;
 }
 
 .task-list {
@@ -380,9 +396,7 @@ body {
 
 /* category page */
 .category-page {
-    background: url('images/background_category_page.jpg') center / cover no-repeat;
     margin: 0;
-    padding: 1em 0 4em;
     min-height: 100vh;
 }
 
@@ -390,16 +404,41 @@ body {
     display:block;
 }
 
+.add-category-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #d9d9d9;
+    padding: 1.5em 0;
+    margin-top: 1em;
+}
+
+.add-category-div h1 {
+    font-size: 2em;
+    font-weight: 400;
+    text-decoration: underline;
+    text-decoration-color: #00FFD1;
+}
+
 .add-category-button {
     display: block;
-    margin: 1em 0 0 2.5em;
-    padding: 0.5em 1.5em;
-    font-size: 1.2rem;
-    border: 2px solid #000;
+    padding: 0.8em 2.6em;
+    font-size: 1rem;
+    border: 1px solid #000000;
+    border-radius: 5px;
     color: #000;
     user-select: none;
     cursor: pointer;  
     background: none;
+}
+
+.category-input-html {
+    margin-top: 1em;
+}
+
+.category-icon {
+    padding-right: 0.5em;
 }
 
 .category-page input {
@@ -441,17 +480,35 @@ body {
 }
 
 .categories-container, .activities-container, .task-container {
-    padding-left: 1.5em;
     overflow: hidden;
 }
 
+.activities-container, .task-container  {
+    padding-left: 1.5em;
+}
+
+.category-text {
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.activity-text {
+    font-weight: 600;
+}
+
+.activity-text:hover, .category-text:hover {
+    font-size: 1.1rem;
+    border-bottom: 1px solid #00FFD1;
+ }
+
 .cat-page-text-input{
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     border-radius: 5px;
     background: none;
     color: #000000;
     padding: 0.8em 1.4em;
     margin-bottom: 0.6em;
+    text-align: center;
 }
 
 .cat-page-buttons, .task-input-date-div {
@@ -462,7 +519,7 @@ body {
 
 .cat-page-buttons button {
     background: none;
-    border: 2px solid #000;
+    border: none;
     padding: 0.4em 0.5em;
     color: #000000;
     border-radius: 5px;
@@ -484,26 +541,44 @@ body {
 .category,
 .activity,
 .task {
-    margin-top: 0.6em;
+    margin: 1.5em 0;
+    user-select: none;
 }
 
-.category,
-.activity {
-    text-transform: uppercase;
+.task:last-child {
+    margin-bottom: 0;
 }
 
-.task {
-    display: flex;
-    flex-direction: column;
+.category {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 1.5em 0 1.5em 1.5em;
+}
+
+.category:last-child {
+    border-bottom: none;
 }
 
 .task span {
     display: block;
 }
 
+.tasks-div {
+    display: flex;
+    margin-bottom: 0.5em;
+}
+
+
+.tasks-div p, .tasks-div img  {
+   font-weight: 700;
+   margin-right: 0.5em;
+}
+
+.tasks-div p:hover {
+    border-bottom: 2px solid #00FFD1;
+}
+
 .task span:nth-child(2), .task span:nth-child(3) {
     text-transform: none;
-    font-style: italic;
 }
 
 .task span:nth-child(3) {
@@ -540,6 +615,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
 }
 
 #detailed-desc {
@@ -574,6 +650,7 @@ body {
 
 .desc-item {
     font-weight: 500;
+    display: flex;
 }
 
 .desc-element {
@@ -584,9 +661,22 @@ body {
     margin: 1.5rem 0.5rem;
 }
 
+.task-desc-text {
+    font-weight: 700;
+}
+
+.task-desc-text, .task-desc-text span {
+    margin-left: 0.5em;
+}
+
+.deadline-desc-div {
+    display: flex;
+}
+
 #deadline-desc {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .desc-element:hover {
@@ -649,11 +739,8 @@ body {
 
 #add-day-button,
 .day-widget button {
-    border: 3px solid #000000;
-    border-radius: 5px;
+    border: none;
     background: none;
-    font-weight: 700;
-    font-size: 1.3rem;
     color: #000000;
 }
 
@@ -684,7 +771,7 @@ body {
 #save-button,
 #delete-button {
     background: none;
-    border: 2px solid #0029FF;
+    border: 2px solid #000000;
     color: #000000;
     border-radius: 15px;
     padding: 0.5em 1.5em;
@@ -703,6 +790,9 @@ body {
     text-align: center;
     font-size: 2em;
     font-weight: 300;
+    text-decoration: underline;
+    text-decoration-color: #00FFD1;
+    
 }
 
 .checklist-day-display {
@@ -781,6 +871,10 @@ p {
     font-size: 1.5em;
     margin-right: 1.5em;
 }
+
+.user-underline {
+    border-bottom: 1px solid #00FFD1;
+}
 .userName {
     border-bottom: 3px solid #a7fcff;
 }
@@ -832,6 +926,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
     margin: 0;
     padding: 1rem 0.5em;
     list-style: none;
+    user-select: none;
 }
 
 .nav-menu-list li:nth-child(3s) {
@@ -848,11 +943,12 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
     transition: all 0.3s ease 0s;
 }
 
-.nav-menu-list li a:hover,
-.nav-menu-list li a:focus,
-.nav-menu-list li a:active {
+.nav-menu-list li span:hover,
+.nav-menu-list li span:focus,
+.nav-menu-list li span:active {
     background: none;
-    color: var(--secondary-color-dark);
+    font-weight: 700;
+    border-bottom: 1px solid #00FFD1;
 }
 
 .nav-menu {
@@ -861,7 +957,17 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
 .logo img {
     max-height: 50px;
-    padding: 0.8em 0.5em 0 0;
+    padding: 0.8em 0.5em 0.8em 0;
+}
+
+.icons {
+    width: 100%;
+    max-width: 30px;
+    margin: 1em 0 0 1em;
+}
+
+#back-n-day .icons {
+    margin-left: 1em;
 }
 
 
@@ -960,8 +1066,9 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
     flex-direction: column;
     margin: 3em 0;
     padding: 1em 0;
-    border: 3px solid #000000;
+    border: 2px solid #000000;
     text-align: center;
+    background-color: #d9d9d9;
 }
 
 #export-json button, #reset-storage button {
@@ -1075,7 +1182,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
         max-width: 400px;
     }
 
-    #deadline-desc{
+    .desc-item {
         flex-direction: column;
     }
 
@@ -1185,11 +1292,6 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
         height: 100%;
     }
 
-
-    #back-img {
-        height: 60px;
-    }
-
     .logo img {
         max-height: 80px;
     }
@@ -1204,13 +1306,6 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
     .task-input, .activity-input, .category-entry {
         max-width: 300px;
-    }
-
-    .add-category-button {
-        margin-top: 3em;
-    }
-    .category-page {
-        padding: 2em 2em 4em;
     }
 
 }
@@ -1236,11 +1331,11 @@ a:hover {
     color: rgb(110, 15, 173);
 }
 
-.main-github-icon, .chingu-icon {
+.chingu-icon {
     width: 25px;
 }
 
-.member-icon {
+.member-icon, .main-github-icon {
     width: 20px;
 }
 
