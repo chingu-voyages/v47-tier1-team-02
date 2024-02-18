@@ -614,6 +614,10 @@ body {
     gap: 1em;
 }
 
+.deadline-main:not(span) {
+    font-weight: 600;
+}
+
 .overlay {
     position: fixed;
     top: 0;
