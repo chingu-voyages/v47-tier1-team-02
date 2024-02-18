@@ -815,13 +815,15 @@ function strayTaskSubmit(toDate) {
   const strayName = taskNameEntry.value;
   const strayDesc = strayDescEntry.value;
 
+  const modifiedStrayName = strayName.replace(/[^a-zA-Z0-9]/g, '').trim();
+
   if (strayName === '') {
     taskNameEntry.placeholder = 'can\'t be empty';
     return;
   }
 
   const strayTask = {
-    taskName: strayName.trim(),
+    taskName: modifiedStrayName,
     taskDescription: strayDesc,
     days: [`${toDate}`],
     completion: [],
@@ -1052,10 +1054,17 @@ function saveDescCatPage(id) {
   const activityId = `${id}-activity`;
   const descId = `${id}-description`;
 
-  const updatedName = document.getElementById(nameId).textContent;
-  const updatedCategory = document.getElementById(categoryId).textContent;
-  const updatedActivity = document.getElementById(activityId).textContent;
-  const updatedDesc = document.getElementById(descId).textContent;
+  let updatedName = document.getElementById(nameId).textContent;
+  updatedName = updatedName.replace(/[^a-zA-Z0-9]/g, '');
+
+  let updatedCategory = document.getElementById(categoryId).textContent.replace(/[^a-zA-Z0-9]/g, '');
+  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9]/g, '');
+
+  let updatedActivity = document.getElementById(activityId).textContent.replace(/[^a-zA-Z0-9]/g, '');
+  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9]/g, '');
+
+  let updatedDesc = document.getElementById(descId).textContent.replace(/[^a-zA-Z0-9]/g, '');
+  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9]/g, '');
 
   let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
@@ -1284,9 +1293,11 @@ function addCategory() {
 function categoryToJson(category) {
   const index = jsonObj.findIndex((cat) => cat.categoryName === category);
 
+  const modifiedCategory = category.replace(/[^a-zA-Z0-9]/g, '').trim();
+
   // Disallow duplicate entries
   if (index === -1) {
-    const categoryJSON = { categoryName: category.trim(), activityTypes: [] };
+    const categoryJSON = { categoryName: modifiedCategory, activityTypes: [] };
     if (jsonObj === null) {
       jsonObj = [];
     }
@@ -1384,8 +1395,10 @@ function activityToJson(categoryId, activity) {
 
   const index = jsonObj.findIndex((cat) => cat.categoryName === catText);
 
+  const modifiedActivity = activity.replace(/[^a-zA-Z0-9]/g, '').trim();
+
   const activityjson = {
-    activityName: activity.trim(),
+    activityName: modifiedActivity,
     Tasks: [],
   };
 
@@ -1462,10 +1475,13 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
   const actText = document.getElementById(`activity-text-${activityId}`).textContent;
   const taskDateList = [taskDate];
 
+  // Remove special characters
+  const modifiedTaskName = taskName.replace(/[^a-zA-Z0-9]/g, '').trim();
+
   if (!isDuplicateTask(taskDate, taskName)) {
     // Push task details to json
     const tasksJson = {
-      taskName: taskName.trim(),
+      taskName: modifiedTaskName,
       taskDescription: taskDesc,
       days: [],
       completion: [],
