@@ -619,6 +619,7 @@ function loadMatrix(matDate) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  matrix.style.display = 'block';
   loadMatrix(date);
 });
 
