@@ -932,22 +932,22 @@ function JsonToCategory() {
         const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
           <div class="taskDiv-div">
-          <div onclick="openDetail('${catActTask}')" class="tasks-div">
-          <img src = "images/task-icon.svg" width="15" alt="task icon"/>
+          <div onclick="openDetail('${catActTask}')"><img src = "images/edit.svg" width="20" alt="edit icon"/></div>
+          <div>
+          <div class="tasks-div">
           <p>Task:</p>
-          <span onclick="openDetail('${catActTask}')" id="name-${catActTask}" title="Click to edit">${task.taskName}</span>
+          <span id="name-${catActTask}" title="Click to edit">${task.taskName}</span>
           </div>
-          <div onclick="openDetail('${catActTask}')" class="tasks-div">
-          <img src = "images/description.svg" width="15" alt="description icon"/>
+          <div class="tasks-div">
           <p>description:</p>
-          <span onclick="openDetail('${catActTask}')" id="desc-${catActTask}" title="Click to edit">${task.taskDescription}</span>
+          <span id="desc-${catActTask}" title="Click to edit">${task.taskDescription}</span>
           </div>
-          <div onclick="openDetail('${catActTask}')" class="deadline-div">
+          <div class="deadline-div">
           <div class="deadline-main">
-          <img src = "images/deadline.svg" width="15" alt="deadline icon"/>
           <p>Deadline:</p>
           </div>
-          <span class="deadline-span" onclick="openDetail('${catActTask}')" id="date-${catActTask}" title="Click to edit">${task.days}</span>
+          <span class="deadline-span" id="date-${catActTask}" title="Click to edit">${task.days}</span>
+          </div>
           </div>
           </div>
           `;
