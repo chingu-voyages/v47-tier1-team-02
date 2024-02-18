@@ -224,6 +224,9 @@ function openDetail(id) {
       headerText = `${day} (${taskDate})`;
     }
 
+    if (taskDesc === '') {
+      taskDesc = 'No Description';
+    }
     // On clicking any of the attributes in the description, give id (name and date) to editDesc
     overlayDesc.innerHTML = `
       <div id="back-n-day">
@@ -1065,7 +1068,7 @@ function saveDescCatPage(id) {
   updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedDesc = document.getElementById(descId).textContent;
-  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+  updatedDesc = updatedDesc.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
@@ -1144,7 +1147,7 @@ function saveDesc(id) {
   updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedDesc = document.getElementById(descId).textContent;
-  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
+  updatedDesc = updatedDesc.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
