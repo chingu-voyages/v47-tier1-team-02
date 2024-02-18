@@ -617,6 +617,8 @@ body {
     display: flex;
     align-items: center;
     gap: 1em;
+    border-left: 8px ridge;
+    padding-left: 1rem;
 }
 
 .deadline-main:not(span) {
