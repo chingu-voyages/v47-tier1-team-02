@@ -880,21 +880,13 @@ p {
     padding: 0 0.2em;
 }
 
-:root {
-    --primary-color-dark: #000;
-    --secondary-color-dark: #777;
-    --primary-color-light: #fff;
-    --secondary-color-light: #a7fcff;
-}
-
-
 /* Header and navigation menu */
 .header {
     position: sticky;
     top: 0;
     left: 0;
     right: 0;
-    background-color: var(--primary-color-light);
+    background-color: #fff;
     z-index: 1;
     border-bottom: 1px solid #000000;
 }
@@ -933,7 +925,7 @@ p {
     display: block;
     width: 25px;
     height: 3px;
-    background-color: var(--primary-color-dark);
+    background-color: #000;
     margin: 0.33rem 0;
 }
 
@@ -950,8 +942,8 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
 .nav-menu ul {
     padding: 0;
-    background-color: var(--primary-color-light);
-    border: 1px solid var(--primary-color-dark);
+    background-color: #fff;
+    border: 1px solid #000;
     width: 200px;
     border-radius: 15px;
     text-align: left;
@@ -973,12 +965,12 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 }
 
 .nav-menu-list li:nth-child(3s) {
-    border-top: 1px solid var(--primary-color-dark);
-    border-bottom: 1px solid var(--primary-color-dark);
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
 
 .nav-menu-list li a {
-    color: var(--primary-color-dark);
+    color: #000;
     border: none;
     font-size: 1.4rem;
     text-decoration: none;
@@ -1035,7 +1027,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 }
 
 .search-input-desktop {
-    border: 1px solid var(--primary-color-dark);
+    border: 1px solid #000;
     width: 40vw; 
     max-width: 500px;
 }
@@ -1061,7 +1053,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
 .search-results-container-desktop, .search-results-container-mobile {
     position: absolute;
-    background-color: var(--primary-color-light);;
+    background-color: #fff;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 100; 
@@ -1082,7 +1074,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
 .search-results-container-desktop, .search-results-container-mobile {
     position: absolute;
-    background-color: var(--primary-color-light);;
+    background-color: #fff;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 100; 
