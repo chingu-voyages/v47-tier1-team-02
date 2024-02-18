@@ -942,10 +942,12 @@ function JsonToCategory() {
           <p>description:</p>
           <span onclick="openDetail('${catActTask}')" id="desc-${catActTask}" title="Click to edit">${task.taskDescription}</span>
           </div>
-          <div onclick="openDetail('${catActTask}')" class="tasks-div">
+          <div onclick="openDetail('${catActTask}')" class="deadline-div">
+          <div class="deadline-main">
           <img src = "images/deadline.svg" width="15" alt="deadline icon"/>
           <p>Deadline:</p>
-          <span onclick="openDetail('${catActTask}')" id="date-${catActTask}" title="Click to edit">${task.days}</span>
+          </div>
+          <span class="deadline-span" onclick="openDetail('${catActTask}')" id="date-${catActTask}" title="Click to edit">${task.days}</span>
           </div>
           </div>
           `;
