@@ -79,7 +79,7 @@ function displayGreeting() {
   const userName = localStorage.getItem('name');
   if (userName) {
     const greetingElement = document.getElementById('greeting');
-    greetingElement.textContent = `Hello, ${userName}!`;
+    greetingElement.innerHTML = `Hello, <span class="user-underline">${userName}<span>!`;
     greetingElement.style.display = 'block';
   }
 }
@@ -208,7 +208,7 @@ function openDetail(id) {
       htmlAdd += `
           <div id="${detailId}-deadline-${taskDay}-div" class="day-widget">
             <span id="${detailId}-deadline-${taskDay}" class="desc-element date-widget">${taskDay}</span>
-            <button id="${detailId}-deadline-${taskDay}-button" onclick="deleteDate('${detailId}-deadline-${taskDay}-div')">x</button>
+            <button id="${detailId}-deadline-${taskDay}-button" onclick="deleteDate('${detailId}-deadline-${taskDay}-div')"><img src = "images/circle-xmark-regular.svg" alt="xmark icon" width="20"/></button>
           </div>
       `;
     });
@@ -226,31 +226,47 @@ function openDetail(id) {
     // On clicking any of the attributes in the description, give id (name and date) to editDesc
     overlayDesc.innerHTML = `
       <div id="back-n-day">
-        <img src="images/back.png" id="back-img" class="back-img" onclick="backFromDesc()" rel="Go back">
+      <img src="images/circle-xmark-regular.svg" class="icons" onclick="backFromDesc()" rel="Go back">
 
         <span id="desc-day">${headerText}</span>
       </div>
 
       <div id="task-desc">
-        <div id="name-desc" class="desc-item">Task name: 
-          <span id="${detailId}-name" class="desc-element" onclick="editDesc('${detailId}', 'name')"> ${taskName}</span>
+        <div id="name-desc" class="desc-item">
+          <img src = "images/task-icon.svg" width="15" alt="task icon"/>
+          <p class="task-desc-text">Task name:
+            <span id="${detailId}-name" class="desc-element" onclick="editDesc('${detailId}', 'name')"> ${taskName}</span>
+          </p>
         </div>
-        <div id="deadline-desc" class="desc-item">Deadline: 
+        <div id="deadline-desc" class="desc-item">
+          <div class="deadline-desc-div">
+            <img src = "images/deadline.svg" width="15" alt="deadline icon"/>
+            <p class="task-desc-text">Deadline: </p>
+          </div>
           <div id="task-days" class="task-days">
-            ${htmlAdd}
-          </div>
-          <div id="add-day">
-            <button id="add-day-button" onclick="addDay('${detailId}')"> + </button>
-          </div>
+              ${htmlAdd}
+            </div>
+            <div id="add-day">
+              <button id="add-day-button" onclick="addDay('${detailId}')"><img src = "images/add-icon.svg" class="icons" alt="plus icon"/></button>
+            </div>
+         </div>
+        <div id="category-desc" class="desc-item">
+          <img src = "images/category-icon.svg" width="20" alt="category icon"/>
+          <p class="task-desc-text">Category:
+              <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')">${taskCat}</span>
+          </p>
         </div>
-        <div id="category-desc" class="desc-item">Category: 
-            <span id="${detailId}-category" class="desc-element" onclick="editDesc('${detailId}', 'category')">${taskCat}</span>
+        <div id="activity-desc" class="desc-item">
+          <img src = "images/list-solid.svg" width="15" alt="activity icon"/>
+          <p class="task-desc-text">Activity:
+              <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')">${taskAct}</span>
+          </p>
         </div>
-        <div id="activity-desc" class="desc-item">Activity: 
-            <span id="${detailId}-activity" class="desc-element" onclick="editDesc('${detailId}', 'activity')">${taskAct}</span>
-        </div>
-        <div id="detail-desc" class="desc-item">Description: 
-            <span id="${detailId}-description" class="desc-element" onclick="editDesc('${detailId}', 'description')">${taskDesc}</span>
+        <div id="detail-desc" class="desc-item">
+          <img src = "images/description.svg" width="15" alt="description icon"/>
+          <p class="task-desc-text">Description:
+              <span id="${detailId}-description" class="desc-element" onclick="editDesc('${detailId}', 'description')">${taskDesc}</span>
+          </p>
         </div>
 
         <div id="button-div" class="desc-item">
@@ -325,7 +341,7 @@ function showDayDropDown(id = null) {
 function addDayCancel(id) {
   const addDayDiv = document.getElementById('add-day');
   addDayDiv.innerHTML = `
-    <button id="add-day-button" onclick="addDay('${id}')"> + </button>  
+    <button id="add-day-button" onclick="addDay('${id}')"><img src = "images/add-icon.svg" class="icons" alt="plus icon"/></button>  
   `;
 }
 
@@ -363,12 +379,12 @@ function addDaySubmit(id) {
 
   dayDiv.innerHTML = `
     <span id="${id}-deadline-${addedDate}" class="desc-element date-widget">${addedDate}</span>
-    <button id="${id}-deadline-${addedDate}-button" onclick="deleteDate('${id}-deadline-${addedDate}-div')">x</button>
+    <button id="${id}-deadline-${addedDate}-button" onclick="deleteDate('${id}-deadline-${addedDate}-div')"><img src = "images/circle-xmark-regular.svg" alt="xmark icon" width="20"/></button>
   `;
 
   // Delete entry boxes and refresh + button
   addDayDiv.innerHTML = `
-    <button id="add-day-button" onclick="addDay('${id}')"> + </button>  
+    <button id="add-day-button" onclick="addDay('${id}')"> <img src = "images/add-icon.svg" class="icons" alt="plus icon"/></button>  
   `;
 
   deadlineDiv.appendChild(dayDiv);
@@ -522,7 +538,7 @@ function loadMatrix(matDate) {
     const fDate = dateFormat(matDate);
     dayHeader.innerHTML = `
             <div id="add-to-date-${fDate}" class="add-to-date">
-              <button type="button" onclick="addToDate('${fDate}')" title="Add new task">+</button>
+              <button type="button" onclick="addToDate('${fDate}')" title="Add new task"><img src = "images/add-icon.svg" width="20" alt="plus icon"/></button>
             </div>
             <span class="day-name">${day} (${fDate})</span>
         `;
@@ -633,11 +649,15 @@ function addToDate(toDate) {
   strayTaskWin.classList.add('stray-task-overlay');
 
   strayTaskWin.innerHTML = `
+      <div class="stray-task-entry">
       <input id="stray-task-entry" class="stray-task-entry" type="text" placeholder="Name">
       <input id="stray-desc-entry" class="stray-task-entry" type="text" placeholder="Description">
-      <button onclick="strayTaskSubmit('${toDate}')"> Add </button>
-      <button onclick="closeStray()"> x </button>
-  `;
+      </div>
+      <div>
+      <button onclick="strayTaskSubmit('${toDate}')"><img src = "images/square-plus-solid.svg" width="20" alt="plus icon"/></button>
+      <button onclick="closeStray()"><img src = "images/square-minus-regular.svg" width="20" alt="xmark icon"/></button>
+      </div>
+      `;
   dayHeader.appendChild(strayTaskWin);
 }
 
@@ -704,7 +724,7 @@ function setDayHeader(todayDay, todayDate) {
   const dayHeader = document.getElementById('day-header');
   dayHeader.innerHTML = `
     <div id="add-to-date-${todayDate}-checklist" class="add-to-date">
-      <button type="button" onclick="addToDate('${todayDate}')" title="Add new task">+</button>
+      <button type="button" onclick="addToDate('${todayDate}')" title="Add new task"><img src = "images/add-icon.svg" width="20" alt="plus icon"/></button>
     </div>
     <span class="day-name">${todayDay} (${todayDate})</span>
   `;
@@ -739,7 +759,7 @@ function openChecklist() {
   header.style.display = 'none';
   checklistPage.style.display = 'block';
   checklistPage.innerHTML = `
-    <img src="images/back.png" id="back-img-checklist" class="back-img" onclick="backFromChecklist()" rel="Go back">
+    <img src="images/circle-xmark-regular.svg" class="icons" onclick="backFromChecklist()" rel="Go back">
     <h1 id="checklist-title" class="checklist-title">Today's Tasks</h1>
     <div class="day-header" id="day-header">
     </div>  
@@ -862,10 +882,10 @@ function JsonToCategory() {
     catDiv.setAttribute('id', `category-${catCounter}`);
 
     catDiv.innerHTML = `
-      <button input="button" class="cat-page-toggle-btn" onclick="toggleCategory(${catCounter})" title="Collapse/Expand activitiies"> &gt </button>
-      <span id="category-text-${catCounter}">${category.categoryName}</span>
+      <button input="button" class="cat-page-toggle-btn" onclick="toggleCategory(${catCounter})" title="Collapse/Expand activitiies"><img src="images/chevron-right-icon.svg" alt="arrow left icon" width="10"/></button>
+      <span id="category-text-${catCounter}" class="category-text">${category.categoryName}</span>
       <div class="add-activity-container">
-        <button input="button" onclick="addActivity(${catCounter})" class="add-activity-btn cat-page-plus-btn"> + </button>
+        <button input="button" onclick="addActivity(${catCounter})" class="add-activity-btn cat-page-plus-btn">+</button>
         <span class="hover-text">Add activity</span>
       </div>
       <div id="activities-container-${catCounter}"></div> 
@@ -886,10 +906,10 @@ function JsonToCategory() {
       actDiv.classList.add('activity');
 
       actDiv.innerHTML = `
-      <button input="button" class="cat-page-toggle-btn" onclick="toggleActivity('${catCounter}-${actCounter}')" title="Collapse/Expand tasks"> &gt </button>
-      <span id="activity-text-${catCounter}-${actCounter}">${activityType.activityName}</span>
+      <button input="button" class="cat-page-toggle-btn" onclick="toggleActivity('${catCounter}-${actCounter}')" title="Collapse/Expand tasks"><img src="images/chevron-right-icon.svg" alt="chevron right icon" width="10"/></button>
+      <span id="activity-text-${catCounter}-${actCounter}" class="activity-text">${activityType.activityName}</span>
       <div class="add-task-container">
-        <button input="button" onclick="addTask('${catCounter}-${actCounter}')" class="add-task-btn cat-page-plus-btn"> + </button>
+        <button input="button" onclick="addTask('${catCounter}-${actCounter}')" class="add-task-btn cat-page-plus-btn">+</button>
         <span class="hover-text">Add task</span>
       </div>
       `;
@@ -911,10 +931,24 @@ function JsonToCategory() {
 
         const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
+          <div class="taskDiv-div">
+          <div onclick="openDetail('${catActTask}')" class="tasks-div">
+          <img src = "images/task-icon.svg" width="15" alt="task icon"/>
+          <p>Task:</p>
           <span onclick="openDetail('${catActTask}')" id="name-${catActTask}" title="Click to edit">${task.taskName}</span>
+          </div>
+          <div onclick="openDetail('${catActTask}')" class="tasks-div">
+          <img src = "images/description.svg" width="15" alt="description icon"/>
+          <p>description:</p>
           <span onclick="openDetail('${catActTask}')" id="desc-${catActTask}" title="Click to edit">${task.taskDescription}</span>
+          </div>
+          <div onclick="openDetail('${catActTask}')" class="tasks-div">
+          <img src = "images/deadline.svg" width="15" alt="deadline icon"/>
+          <p>Deadline:</p>
           <span onclick="openDetail('${catActTask}')" id="date-${catActTask}" title="Click to edit">${task.days}</span>
-        `;
+          </div>
+          </div>
+          `;
 
         taskContainer.appendChild(taskDiv);
         actDiv.appendChild(taskContainer);
@@ -1214,11 +1248,11 @@ function addCategory() {
   const categoryInputHtml = `
         <input type="text" id='new-category-name' placeholder="Category name" class="cat-page-text-input"> 
         <div class="category-input-buttons cat-page-buttons">  
-          <button class="new-category-submit cat-page-add-btn" onclick="submitCategoryName()">Add</button>
-          <button class="new-category-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('category-entry')">Cancel</button>
+          <button class="new-category-submit cat-page-add-btn" onclick="submitCategoryName()"><img src = "images/square-plus-solid.svg" width="20" alt="plus icon"/></button>
+          <button class="new-category-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('category-input-html')"><img src = "images/square-minus-regular.svg" alt="xmark icon" width="20"/></button>
         <div>  
     `;
-  document.getElementById('category-entry').innerHTML = categoryInputHtml;
+  document.getElementById("category-input-html").innerHTML = categoryInputHtml;
 }
 
 // Get data submitted in category page to json
@@ -1251,8 +1285,8 @@ function submitCategoryName() {
 
   // Push category to json
   categoryToJson(categoryName);
-
-  document.getElementById('category-entry').innerHTML = '';
+ // clear input after adding category
+  categoryEntry.value = ""
 
   // Load from json to update changes
   openCategoryPage();
@@ -1270,11 +1304,11 @@ function toggleCategory(categoryId) {
     if (secondActivitiesContainer.style.display === 'none' || secondActivitiesContainer.classList.contains('collapsed')) {
       secondActivitiesContainer.style.display = 'block';
       secondActivitiesContainer.classList.remove('collapsed');
-      toggleButton.innerHTML = '&gt;';
+      toggleButton.innerHTML = ' <img src="images/chevron-right-icon.svg" alt="arrow left icon" width="10"/>';
     } else {
       secondActivitiesContainer.style.display = 'none';
       secondActivitiesContainer.classList.add('collapsed');
-      toggleButton.innerHTML = '&lt;';
+      toggleButton.innerHTML = ' <img src="images/chevron-left-icon.svg" alt="arrow left icon" width="10"/>';
     }
   }
 }
@@ -1293,8 +1327,8 @@ function addActivity(categoryId) {
         <div id="activity-input" class="activity-input">
             <input type="text" id='new-activity-name-${categoryId}' class="new-activity-name cat-page-text-input" placeholder="Activity name"> 
             <div class="activity-input-buttons cat-page-buttons">  
-              <button class="new-activity-submit cat-page-add-btn" onclick="submitActivityName(${categoryId})">Add</button>
-              <button class="new-activity-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('activity-input')">Cancel</button>
+              <button class="new-activity-submit cat-page-add-btn" onclick="submitActivityName(${categoryId})"><img src = "images/add-icon.svg" width="20" alt="plus icon"/></button>
+              <button class="new-activity-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('activity-input')"><img src = "images/remove-icon.svg" width="20" alt="xmark icon"/></button>
             <div>  
         </div>
     `;
@@ -1313,7 +1347,7 @@ function cancelCategoryAdd(id) {
     Removing that will cause error when new categories are addeed later
   */
 
-  if (id === 'category-entry') {
+  if (id === 'category-input-html') {
     addDiv.innerHTML = '';
   } else {
     addDiv.remove();
@@ -1360,11 +1394,11 @@ function toggleActivity(activityId) {
   if (tasksContainer.style.display === 'none' || tasksContainer.classList.contains('collapsed')) {
     tasksContainer.style.display = 'block';
     tasksContainer.classList.remove('collapsed');
-    toggleButton.innerHTML = '&gt;';
+    toggleButton.innerHTML = '<img src="images/chevron-right-icon.svg" alt="chevron right icon" width="10"/>';
   } else {
     tasksContainer.style.display = 'none';
     tasksContainer.classList.add('collapsed');
-    toggleButton.innerHTML = '&lt;';
+    toggleButton.innerHTML = '<img src="images/chevron-left-icon.svg" alt="chevron left icon" width="10"/>';
   }
 }
 
@@ -1389,8 +1423,8 @@ function addTask(activityId) {
               <button id="new-task-day-${activityId}" class="new-task-day cat-page-text-input" onclick="showDayDropDown()">Repeat Weekly</button>
             </div>
             <div class="task-input-buttons cat-page-buttons">       
-              <button id="new-task-submit" class="new-task-submit cat-page-add-btn" onclick="submitTaskName('${activityId}')">Add</button>
-              <button id="new-task-cancel" class="new-task-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('task-input')">Cancel</button>
+              <button id="new-task-submit" class="new-task-submit cat-page-add-btn" onclick="submitTaskName('${activityId}')"><img src = "images/add-icon.svg" width="20" alt="plus icon"/></button>
+              <button id="new-task-cancel" class="new-task-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('task-input')"><img src = "images/remove-icon.svg" width="20" alt="xmark icon"/></button>
             </div>
         </div>
     `;
@@ -1482,6 +1516,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navMenu.classList.toggle('active');
     dropdown.style.display = 'none';
     body.classList.toggle('blur');
+    document.getElementById('stray-task-div').remove();
   });
 });
 
@@ -1493,6 +1528,9 @@ document.addEventListener('click', (e) => {
   if (!navMenu.contains(e.target) && !document.querySelector('.nav-toggle').contains(e.target)) {
     navMenu.classList.remove('active');
     body.classList.remove('blur');
+  }
+  if (!document.getElementById('add-category-button').contains(e.target) && !document.querySelector('.category-input-html').contains(e.target)) {
+    cancelCategoryAdd('category-input-html')
   }
 });
 
