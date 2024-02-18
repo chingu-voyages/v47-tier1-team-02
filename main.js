@@ -1254,7 +1254,7 @@ function addCategory() {
           <button class="new-category-cancel cat-page-cancel-btn" onclick="cancelCategoryAdd('category-input-html')"><img src = "images/square-minus-regular.svg" alt="xmark icon" width="20"/></button>
         <div>  
     `;
-  document.getElementById("category-input-html").innerHTML = categoryInputHtml;
+  document.getElementById('category-input-html').innerHTML = categoryInputHtml;
 }
 
 // Get data submitted in category page to json
@@ -1287,8 +1287,8 @@ function submitCategoryName() {
 
   // Push category to json
   categoryToJson(categoryName);
- // clear input after adding category
-  categoryEntry.value = ""
+  // clear input after adding category
+  categoryEntry.value = '';
 
   // Load from json to update changes
   openCategoryPage();
@@ -1518,7 +1518,10 @@ document.addEventListener('DOMContentLoaded', () => {
     navMenu.classList.toggle('active');
     dropdown.style.display = 'none';
     body.classList.toggle('blur');
-    document.getElementById('stray-task-div').remove();
+    const strayTaskBox = document.getElementById('stray-task-div');
+    if (strayTaskBox) {
+      document.getElementById('stray-task-div').remove();
+    }
   });
 });
 
@@ -1532,7 +1535,7 @@ document.addEventListener('click', (e) => {
     body.classList.remove('blur');
   }
   if (!document.getElementById('add-category-button').contains(e.target) && !document.querySelector('.category-input-html').contains(e.target)) {
-    cancelCategoryAdd('category-input-html')
+    cancelCategoryAdd('category-input-html');
   }
 });
 
