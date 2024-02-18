@@ -676,10 +676,11 @@ button:hover {
 }
 
 #task-desc {
-    width: 100%;
     height: 80%;
     background-color: rgba(0, 255, 209, 0.32);
     padding: 1em 2em;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .desc-item {
