@@ -47,6 +47,11 @@ Open our app on [Netlify](https://chingu-voyages.github.io/v47-tier1-team-02/)!
 
 
 - **Name:**   Huda Mabkhoot
+- **Bio:**   I’m a really passionate person about all my interests and working on projects like this one is one of them. This voyage took me out of my comfort zone and gave me the chance to share that passion with likeminded people which will be an experience for a lifetime.
+- **Spark:** I truly believe teamwork indeed makes the dream work in any project. 
+<br/>
+
+
 - **Name:**   Alex
 
 
