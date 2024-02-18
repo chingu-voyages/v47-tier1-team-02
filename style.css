@@ -1186,7 +1186,8 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
         max-width: 400px;
     }
 
-      #deadline-desc {
+
+    #deadline-desc {
         text-align: left;
         flex-direction: column;
     }
@@ -1201,6 +1202,10 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
     #button-div {
         flex-direction: row;
+    }
+
+    .deadline-main {
+        display: flex;
     }
 
 }
@@ -1225,6 +1230,19 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
         font-size: 1.2rem;
         margin-right: 1em;
     }
+
+    .deadline-div, .deadline-main {
+        display: flex;
+    }
+
+    .deadline-main img {
+        margin-right: 0.5em;
+    }
+
+    .deadline-main {
+        margin-right: 0.5em;
+    }
+
 }
 
 
