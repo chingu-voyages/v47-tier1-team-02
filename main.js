@@ -940,26 +940,30 @@ function JsonToCategory() {
         const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
           <div class="taskDiv-div">
-          <div onclick="openDetail('${catActTask}')"><img src = "images/edit.svg" width="20" alt="edit icon"/ title="Click to edit task"></div>
-          <div>
-          <div class="tasks-div">
-          <div class="element-main">
-            <p>Task:</p>
-          </div>
-          <span id="name-${catActTask}" class="element-span">${task.taskName}</span>
-          </div>
-          <div class="tasks-div">
-          <div class="element-main">
-            <p>description:</p>
-          </div>
-          <span id="desc-${catActTask}" class="element-span">${task.taskDescription}</span>
-          </div>
-          <div class="deadline-div">
-          <div class="deadline-main">
-          <p>Deadline:</p>
-          </div>
-          <span class="deadline-span element-span" id="date-${catActTask}"></span>
-          </div>
+            <div onclick="openDetail('${catActTask}')"><img src = "images/edit.svg" width="20" alt="edit icon"/ title="Click to edit task">
+            </div>
+
+            <div>
+              <div class="tasks-div">
+                <div class="element-main">
+                  <p>Task:</p>
+                </div>
+                <span id="name-${catActTask}" class="element-span">${task.taskName}</span>
+              </div>
+
+              <div class="tasks-div">
+                <div class="element-main">
+                  <p>description:</p>
+                </div>
+              <span id="desc-${catActTask}" class="element-span">${task.taskDescription}</span>
+              </div>
+              
+              <div class="deadline-div">
+                <div class="deadline-main">
+                  <p>Deadline:</p>
+                </div>
+                <span class="deadline-span element-span" id="date-${catActTask}"></span>
+              </div>
           </div>
           </div>
           `;
