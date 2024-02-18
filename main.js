@@ -1055,16 +1055,16 @@ function saveDescCatPage(id) {
   const descId = `${id}-description`;
 
   let updatedName = document.getElementById(nameId).textContent;
-  updatedName = updatedName.replace(/[^a-zA-Z0-9]/g, '');
+  updatedName = updatedName.replace(/[^a-zA-Z0-9]/g, '').trim();
 
-  let updatedCategory = document.getElementById(categoryId).textContent.replace(/[^a-zA-Z0-9]/g, '');
-  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9]/g, '');
+  let updatedCategory = document.getElementById(categoryId).textContent;
+  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9]/g, '').trim();
 
-  let updatedActivity = document.getElementById(activityId).textContent.replace(/[^a-zA-Z0-9]/g, '');
-  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9]/g, '');
+  let updatedActivity = document.getElementById(activityId).textContent;
+  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
 
-  let updatedDesc = document.getElementById(descId).textContent.replace(/[^a-zA-Z0-9]/g, '');
-  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9]/g, '');
+  let updatedDesc = document.getElementById(descId).textContent;
+  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
 
   let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
@@ -1133,10 +1133,17 @@ function saveDesc(id) {
   const activityId = `${id}-activity`;
   const descId = `${id}-description`;
 
-  const updatedName = document.getElementById(nameId).textContent;
-  const updatedcategory = document.getElementById(categoryId).textContent;
-  const updatedactivity = document.getElementById(activityId).textContent;
-  const updateddesc = document.getElementById(descId).textContent;
+  let updatedName = document.getElementById(nameId).textContent;
+  updatedName = updatedName.replace(/[^a-zA-Z0-9]/g, '').trim();
+
+  let updatedCategory = document.getElementById(categoryId).textContent;
+  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9]/g, '').trim();
+
+  let updatedActivity = document.getElementById(activityId).textContent;
+  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
+
+  let updatedDesc = document.getElementById(descId).textContent;
+  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
 
   let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
@@ -1152,11 +1159,11 @@ function saveDesc(id) {
           // Prevents same task name mismatch
           if (task.days.includes(taskDate) || task.days.includes(day)) {
             /* eslint-disable no-param-reassign */
-            task.taskName = updatedName.trim();
+            task.taskName = updatedName;
             task.days = datesList;
-            task.taskDescription = updateddesc;
-            category.categoryName = updatedcategory.trim();
-            activityType.activityName = updatedactivity.trim();
+            task.taskDescription = updatedDesc;
+            category.categoryName = updatedCategory;
+            activityType.activityName = updatedActivity;
             /* eslint-enable no-param-reassign */
           }
         }
