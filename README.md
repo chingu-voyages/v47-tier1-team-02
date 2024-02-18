@@ -25,7 +25,7 @@ The application uses local storage to persist user data. This means that your ta
 3. Start adding your tasks!
 
 ## Getting Started (on web) 🌐
-Open our app on [Netlify](#)!
+Open our app on [Netlify](https://chingu-voyages.github.io/v47-tier1-team-02/)!
 
 ## Team Members 👥
 ### Product Owner: 
