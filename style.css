@@ -1252,6 +1252,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
     .deadline-div, .deadline-main {
         display: flex;
+        flex-direction: column;
     }
 
     .deadline-main img {
