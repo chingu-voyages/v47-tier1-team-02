@@ -976,7 +976,7 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
 .icons {
     width: 100%;
-    max-width: 30px;
+    width: 30px;
     margin: 1em 0 0 1em;
 }
 
