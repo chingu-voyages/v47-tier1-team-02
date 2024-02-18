@@ -542,6 +542,11 @@ body {
     color: #000000;
 }
 
+.tasks-div {
+    display: flex;
+    flex-direction: column;
+}
+
 .category,
 .activity,
 .task {
@@ -618,7 +623,7 @@ body {
     font-weight: 600;
 }
 
-.deadline-span {
+.element-span {
     margin-left: 2rem;
 }
 
