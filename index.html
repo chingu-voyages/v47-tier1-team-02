@@ -99,7 +99,7 @@
 
     <section id="matrix">
         <div id="month">
-            <button type="button" id="prev-month" class="month-button" onclick="prevMonth()" title="Previous month"> &lt; </button>
+            <button type="button" id="prev-month" class="month-button" onclick="prevMonth()" title="Previous month"><img src = "images/arrow-left-icon.svg" width="30" alt="<"/></button>
 
             <div class="dropdown">
                 <button type="button" id="month-name" class="month-button" onclick="changeMonth()" title="Change month">January</button>
@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <button type="button" id="next-month" class="month-button" onclick="nextMonth()" title="Next month"> &gt; </button>
+            <button type="button" id="next-month" class="month-button" onclick="nextMonth()" title="Next month"><img src = "images/arrow-right-icon.svg" width="30" alt=">"/></button>
         </div>
 
         <div id="mobile-table" class="mobile-table">
@@ -130,8 +130,12 @@
     </section>
 
     <section id="category-page" class="category-page">
-        <img src="images/back.png" id="back-img" class="categ-back-img back-img" onclick="backFromCategory()" title="Go back">
-        <button id="add-category-button" class="add-category-button" onclick="addCategory()">Add category</button>
+        <img src="images/circle-xmark-regular.svg" class="icons" onclick="backFromCategory()" title="Go back">
+        <div class="add-category-div" id="add-category-div">
+            <h1>Categories</h1>
+        <button id="add-category-button" class="add-category-button" onclick="addCategory()"><img src = "images/category-icon.svg" width="20" alt="plus icon" class="category-icon"/>Add a category</button>
+        <div id="category-input-html" class="category-input-html"></div> 
+        </div>
         <div id="category-entry" class="category-entry"></div>
         <div id="categories-container" class="categories-container"></div>
 
@@ -139,10 +143,9 @@
 
      <section id="checklist-page" class="checklist-page">
     </section>
-
     <section id="settings-page" class="overlay">
         <div id="settings-back">
-            <img src="images/back.png" id="back-img" class="back-img" onclick="backFromSettings()" alt="Go back">
+            <img src="images/circle-xmark-regular.svg" id="back-img" class="icons" onclick="backFromSettings()" alt="Go back">
         </div>
 
         <div id="export-json">
