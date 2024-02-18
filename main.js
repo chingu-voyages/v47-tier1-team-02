@@ -1444,10 +1444,14 @@ function submitTaskName(activityId) {
 
   if (taskName.trim() === '') {
     taskNameInput.placeholder = "Can't be empty";
-  } else if (taskDesc.trim() === '') {
+    return;
+  }
+  if (taskDesc.trim() === '') {
     taskDescInput.placeholder = "Can't be empty";
-  } else if (taskDate.trim() === '') {
-    taskDateInput.placeholder = "Can't be empty";
+    return;
+  }
+  if (taskDate.trim() === '') {
+    return;
   }
 
   // Convert date from yyyy-mm-dd to dd/mm/yyyy format
