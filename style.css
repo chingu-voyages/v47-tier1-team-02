@@ -12,6 +12,11 @@ body {
     position: relative;
 }
 
+button:hover { 
+    cursor: pointer;
+    background-color: #d1c3c3;
+}
+
 /* intro layout */
 .intro {
     letter-spacing: 2px;
@@ -561,6 +566,10 @@ body {
     margin: 0.5rem;
 }
 
+.back-img:hover {
+    cursor: pointer;
+}
+
 #desc-day {
     margin: 0.5rem;
 }
@@ -578,6 +587,10 @@ body {
 
 .desc-element {
     font-weight: 400;
+}
+
+.desc-element:hover {
+    cursor: pointer;
 }
 
 .desc-item {
@@ -825,6 +838,11 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
     border-radius: 15px;
     text-align: left;
     margin-top: 0;
+}
+
+.nav-menu-item:hover {
+    background-color: #e9e0e0;
+    cursor: pointer;
 }
 
 .nav-menu-list li {
