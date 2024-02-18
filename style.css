@@ -608,6 +608,12 @@ body {
     background: none;
 }
 
+.taskDiv-div {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -1207,14 +1213,6 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
     .deadline-main {
         display: flex;
     }
-    
-    .deadline-main img {
-        margin-right: 0.5em;
-    }
-
-    .deadline-main {
-        margin-right: 0.5em;
-    }
 
 }
 
@@ -1241,6 +1239,14 @@ body.blur > *:not(.header):not(#category-page):not(#checklist-page):not(#setting
 
     .deadline-div, .deadline-main {
         display: flex;
+    }
+
+    .deadline-main img {
+        margin-right: 0.5em;
+    }
+
+    .deadline-main {
+        margin-right: 0.5em;
     }
 
 }
