@@ -815,7 +815,7 @@ function strayTaskSubmit(toDate) {
   const strayName = taskNameEntry.value;
   const strayDesc = strayDescEntry.value;
 
-  const modifiedStrayName = strayName.replace(/[^a-zA-Z0-9]/g, '').trim();
+  const modifiedStrayName = strayName.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   if (strayName === '') {
     taskNameEntry.placeholder = 'can\'t be empty';
@@ -1055,16 +1055,16 @@ function saveDescCatPage(id) {
   const descId = `${id}-description`;
 
   let updatedName = document.getElementById(nameId).textContent;
-  updatedName = updatedName.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedName = updatedName.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedCategory = document.getElementById(categoryId).textContent;
-  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedActivity = document.getElementById(activityId).textContent;
-  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedDesc = document.getElementById(descId).textContent;
-  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
@@ -1080,11 +1080,11 @@ function saveDescCatPage(id) {
           activityType.Tasks.forEach((task) => {
             if (task.taskName === taskName) {
               /* eslint-disable no-param-reassign */
-              task.taskName = updatedName.trim();
+              task.taskName = updatedName;
               task.days = datesList;
-              task.taskDescription = updatedDesc.trim();
-              category.categoryName = updatedCategory.trim();
-              activityType.activityName = updatedActivity.trim();
+              task.taskDescription = updatedDesc;
+              category.categoryName = updatedCategory;
+              activityType.activityName = updatedActivity;
               /* eslint-enable no-param-reassign */
             }
           });
@@ -1134,16 +1134,16 @@ function saveDesc(id) {
   const descId = `${id}-description`;
 
   let updatedName = document.getElementById(nameId).textContent;
-  updatedName = updatedName.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedName = updatedName.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedCategory = document.getElementById(categoryId).textContent;
-  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedCategory = updatedCategory.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedActivity = document.getElementById(activityId).textContent;
-  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedActivity = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let updatedDesc = document.getElementById(descId).textContent;
-  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9]/g, '').trim();
+  updatedDesc = updatedActivity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   let datesList = [];
   const dateWidgets = Array.from(document.querySelectorAll('.date-widget'));
@@ -1300,7 +1300,7 @@ function addCategory() {
 function categoryToJson(category) {
   const index = jsonObj.findIndex((cat) => cat.categoryName === category);
 
-  const modifiedCategory = category.replace(/[^a-zA-Z0-9]/g, '').trim();
+  const modifiedCategory = category.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   // Disallow duplicate entries
   if (index === -1) {
@@ -1402,7 +1402,7 @@ function activityToJson(categoryId, activity) {
 
   const index = jsonObj.findIndex((cat) => cat.categoryName === catText);
 
-  const modifiedActivity = activity.replace(/[^a-zA-Z0-9]/g, '').trim();
+  const modifiedActivity = activity.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   const activityjson = {
     activityName: modifiedActivity,
@@ -1483,7 +1483,7 @@ function taskToJson(activityId, taskName, taskDate, taskDesc) {
   const taskDateList = [taskDate];
 
   // Remove special characters
-  const modifiedTaskName = taskName.replace(/[^a-zA-Z0-9]/g, '').trim();
+  const modifiedTaskName = taskName.replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
   if (!isDuplicateTask(taskDate, taskName)) {
     // Push task details to json
