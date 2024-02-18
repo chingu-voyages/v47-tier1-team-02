@@ -247,7 +247,7 @@ function openDetail(id) {
               ${htmlAdd}
             </div>
             <div id="add-day">
-              <button id="add-day-button" onclick="addDay('${detailId}')"><img src = "images/add-icon.svg"  class="add-day-button-img" alt="plus icon"/></button>
+              <button id="add-day-button" onclick="addDay('${detailId}')"><img src = "images/add-icon.svg"  class="icons" alt="plus icon"/></button>
             </div>
          </div>
         <div id="category-desc" class="desc-item">
