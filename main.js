@@ -1275,6 +1275,23 @@ function categoryToJson(category) {
   }
 }
 
+// Cancel button for removing add divisions from category page
+// eslint-disable-next-line no-unused-vars
+function cancelCategoryAdd(id) {
+  const addDiv = document.getElementById(id);
+
+  /*
+    Entry box for category must always be displayed on top so it is set in index.html.
+    Removing that will cause error when new categories are addeed later
+  */
+
+  if (id === 'category-input-html') {
+    addDiv.innerHTML = '';
+  } else {
+    addDiv.remove();
+  }
+}
+
 // eslint-disable-next-line no-unused-vars
 function submitCategoryName() {
   const categoryEntry = document.getElementById('new-category-name');
@@ -1289,7 +1306,7 @@ function submitCategoryName() {
   categoryToJson(categoryName);
   // clear input after adding category
   categoryEntry.value = '';
-
+  cancelCategoryAdd('category-input-html');
   // Load from json to update changes
   openCategoryPage();
 }
@@ -1337,23 +1354,6 @@ function addActivity(categoryId) {
 
   // Insert the input field into the category div
   categoryDiv.insertAdjacentHTML('beforeend', activityInputHtml);
-}
-
-// Cancel button for removing add divisions from category page
-// eslint-disable-next-line no-unused-vars
-function cancelCategoryAdd(id) {
-  const addDiv = document.getElementById(id);
-
-  /*
-    Entry box for category must always be displayed on top so it is set in index.html.
-    Removing that will cause error when new categories are addeed later
-  */
-
-  if (id === 'category-input-html') {
-    addDiv.innerHTML = '';
-  } else {
-    addDiv.remove();
-  }
 }
 
 function activityToJson(categoryId, activity) {
