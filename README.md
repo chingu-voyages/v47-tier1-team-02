@@ -28,15 +28,11 @@ The application uses local storage to persist user data. This means that your ta
 Open our app on [Netlify](#)!
 
 ## Team Members 👥
-### Product Owner:
-- **Name:**
-- **Bio:**
-- **Spark:**
+### Product Owner: 
+- **Name:**  Petre Circeag
 
 ### Designer: 
-- **Name:**
-- **Bio:**
-- **Spark:**
+- **Name:**  Bianca
 
 ### Developers: 
 - **Name:**   Keerthi Kumar
@@ -47,6 +43,10 @@ Open our app on [Netlify](#)!
 - **Name:**  Andrei Olteanu
 - **Bio:**   I love traveling and challenges. And I found a Chingu voyage to be a nice and enjoyable trip. Like in any journey, you start going and enjoy the experience, step by step. In the end, you learn some valuable lessons and come out stronger and more confident.
 - **Spark:** I think strategic thinking and focus on the 'big picture' are crucial. They guide us through challenges and align our actions with our goals.
+<br/>
+- **Name:**   Huda Mabkhoot
+<br/>
+- **Name:**   Alex
 
 ## Backlog 📋
 You can find the backlog for this project [here](https://www.notion.so/467e26b8c8a04ac9b6fd34bc3a1d9e84?v=63a82a7b344b4f968836a38e90bc6720&pvs=4).
