@@ -936,17 +936,17 @@ function JsonToCategory() {
           <div>
           <div class="tasks-div">
           <p>Task:</p>
-          <span id="name-${catActTask}" title="Click to edit">${task.taskName}</span>
+          <span id="name-${catActTask}">${task.taskName}</span>
           </div>
           <div class="tasks-div">
           <p>description:</p>
-          <span id="desc-${catActTask}" title="Click to edit">${task.taskDescription}</span>
+          <span id="desc-${catActTask}">${task.taskDescription}</span>
           </div>
           <div class="deadline-div">
           <div class="deadline-main">
           <p>Deadline:</p>
           </div>
-          <span class="deadline-span" id="date-${catActTask}" title="Click to edit">${task.days}</span>
+          <span class="deadline-span" id="date-${catActTask}">${task.days}</span>
           </div>
           </div>
           </div>
