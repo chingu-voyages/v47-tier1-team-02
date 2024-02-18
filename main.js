@@ -46,6 +46,7 @@ if (localStorage.getItem('taskData') === null) {
   intro.style.display = 'none';
   introForm.style.display = 'none';
   categoryPage.style.display = 'none';
+  matrix.style.display = 'block';
   jsonString = localStorage.getItem('taskData');
   jsonObj = JSON.parse(jsonString);
 }
@@ -619,7 +620,6 @@ function loadMatrix(matDate) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  matrix.style.display = 'block';
   loadMatrix(date);
 });
 
