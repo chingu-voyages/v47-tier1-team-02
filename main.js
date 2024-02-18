@@ -1103,14 +1103,18 @@ function saveDesc(id) {
   jsonString = JSON.stringify(jsonObj);
   localStorage.setItem('taskData', jsonString);
 
-  // Place matrix on the task that was clicked on
-  const dateComponents = taskDate.split('/');
+  if (matrix.style.display === 'block') {
+    // Place matrix on the task that was clicked on
+    const dateComponents = taskDate.split('/');
 
-  const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
-  const d = new Date(formattedDate);
-
-  deviceLoad(d);
-
+    const formattedDate = `${dateComponents[1]}/${dateComponents[0]}/${dateComponents[2]}`;
+    const d = new Date(formattedDate);
+    deviceLoad(d);
+  } else if (checklistPage.style.display === 'block') {
+    openChecklist();
+  } else if (categoryPage.style.display === 'block') {
+    openCategoryPage();
+  }
   document.getElementById('detailed-desc').remove();
 }
 
