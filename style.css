@@ -618,6 +618,10 @@ body {
     font-weight: 600;
 }
 
+.deadline-span {
+    margin-left: 2rem;
+}
+
 .overlay {
     position: fixed;
     top: 0;

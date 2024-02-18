@@ -929,10 +929,18 @@ function JsonToCategory() {
         taskDiv.setAttribute('id', `task-${id}`);
         taskDiv.classList.add('task');
 
+        let taskDayGroup = '';
+        if (task.days !== null) {
+          task.days.forEach((taskDay) => {
+            taskDayGroup += `
+              <span class="task-day-element">${taskDay}</span>
+            `;
+          });
+        }
         const catActTask = `${category.categoryName.trim()}, ${activityType.activityName.trim()}, ${task.taskName.trim()}`;
         taskDiv.innerHTML = `
           <div class="taskDiv-div">
-          <div onclick="openDetail('${catActTask}')"><img src = "images/edit.svg" width="20" alt="edit icon"/></div>
+          <div onclick="openDetail('${catActTask}')"><img src = "images/edit.svg" width="20" alt="edit icon"/ title="Click to edit task"></div>
           <div>
           <div class="tasks-div">
           <p>Task:</p>
@@ -946,7 +954,7 @@ function JsonToCategory() {
           <div class="deadline-main">
           <p>Deadline:</p>
           </div>
-          <span class="deadline-span" id="date-${catActTask}">${task.days}</span>
+          <span class="deadline-span" id="date-${catActTask}"></span>
           </div>
           </div>
           </div>
@@ -954,6 +962,9 @@ function JsonToCategory() {
 
         taskContainer.appendChild(taskDiv);
         actDiv.appendChild(taskContainer);
+
+        const deadlineSpan = document.getElementById(`date-${catActTask}`);
+        deadlineSpan.innerHTML = taskDayGroup;
       });
     });
   });
